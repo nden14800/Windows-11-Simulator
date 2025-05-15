@@ -1,0 +1,3122 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Windows 11 Simulator</title>
+    <style>
+        /*
+        * See: https://fonts.google.com/license/googlerestricted
+        */
+        /* armenian */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 400;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQkr74vqeMXtoTN.woff2) format('woff2');
+        unicode-range: U+0308, U+0530-058F, U+2010, U+2024, U+25CC, U+FB13-FB17;
+        }
+        /* bengali */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 400;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQkrb4vqeMXtoTN.woff2) format('woff2');
+        unicode-range: U+0951-0952, U+0964-0965, U+0980-09FE, U+1CD0, U+1CD2, U+1CD5-1CD6, U+1CD8, U+1CE1, U+1CEA, U+1CED, U+1CF2, U+1CF5-1CF7, U+200C-200D, U+20B9, U+25CC, U+A8F1;
+        }
+        /* canadian-aboriginal */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 400;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQkkL4vqeMXtoTN.woff2) format('woff2');
+        unicode-range: U+02C7, U+02D8-02D9, U+02DB, U+0307, U+1400-167F, U+18B0-18F5, U+25CC, U+11AB0-11ABF;
+        }
+        /* cyrillic-ext */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 400;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQksr4vqeMXtoTN.woff2) format('woff2');
+        unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+        }
+        /* cyrillic */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 400;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQku74vqeMXtoTN.woff2) format('woff2');
+        unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+        }
+        /* devanagari */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 400;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQkvr4vqeMXtoTN.woff2) format('woff2');
+        unicode-range: U+0900-097F, U+1CD0-1CF9, U+200C-200D, U+20A8, U+20B9, U+20F0, U+25CC, U+A830-A839, U+A8E0-A8FF, U+11B00-11B09;
+        }
+        /* ethiopic */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 400;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQkrr4vqeMXtoTN.woff2) format('woff2');
+        unicode-range: U+030E, U+1200-1399, U+2D80-2DDE, U+AB01-AB2E, U+1E7E0-1E7E6, U+1E7E8-1E7EB, U+1E7ED-1E7EE, U+1E7F0-1E7FE;
+        }
+        /* georgian */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 400;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQkoL4vqeMXtoTN.woff2) format('woff2');
+        unicode-range: U+0589, U+10A0-10FF, U+1C90-1CBA, U+1CBD-1CBF, U+205A, U+2D00-2D2F, U+2E31;
+        }
+        /* greek-ext */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 400;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQks74vqeMXtoTN.woff2) format('woff2');
+        unicode-range: U+1F00-1FFF;
+        }
+        /* greek */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 400;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQkvL4vqeMXtoTN.woff2) format('woff2');
+        unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+        }
+        /* gujarati */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 400;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQkpL4vqeMXtoTN.woff2) format('woff2');
+        unicode-range: U+0951-0952, U+0964-0965, U+0A80-0AFF, U+200C-200D, U+20B9, U+25CC, U+A830-A839;
+        }
+        /* gurmukhi */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 400;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQknL4vqeMXtoTN.woff2) format('woff2');
+        unicode-range: U+0951-0952, U+0964-0965, U+0A01-0A76, U+200C-200D, U+20B9, U+25CC, U+262C, U+A830-A839;
+        }
+        /* hebrew */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 400;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQkvb4vqeMXtoTN.woff2) format('woff2');
+        unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F;
+        }
+        /* khmer */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 400;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQktL4vqeMXtoTN.woff2) format('woff2');
+        unicode-range: U+1780-17FF, U+19E0-19FF, U+200C-200D, U+25CC;
+        }
+        /* lao */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 400;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQktr4vqeMXtoTN.woff2) format('woff2');
+        unicode-range: U+0E81-0EDF, U+200C-200D, U+25CC;
+        }
+        /* malayalam */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 400;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQkp74vqeMXtoTN.woff2) format('woff2');
+        unicode-range: U+0307, U+0323, U+0951-0952, U+0964-0965, U+0D00-0D7F, U+1CDA, U+1CF2, U+200C-200D, U+20B9, U+25CC, U+A830-A832;
+        }
+        /* oriya */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 400;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQkpr4vqeMXtoTN.woff2) format('woff2');
+        unicode-range: U+0951-0952, U+0964-0965, U+0B01-0B77, U+1CDA, U+1CF2, U+200C-200D, U+20B9, U+25CC;
+        }
+        /* sinhala */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 400;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQkor4vqeMXtoTN.woff2) format('woff2');
+        unicode-range: U+0964-0965, U+0D81-0DF4, U+1CF2, U+200C-200D, U+25CC, U+111E1-111F4;
+        }
+        /* symbols */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 400;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQk0b4vqeMXtoTN.woff2) format('woff2');
+        unicode-range: U+0001-000C, U+000E-001F, U+007F-009F, U+20DD-20E0, U+20E2-20E4, U+2150-218F, U+2190, U+2192, U+2194-2199, U+21AF, U+21E6-21F0, U+21F3, U+2218-2219, U+2299, U+22C4-22C6, U+2300-243F, U+2440-244A, U+2460-24FF, U+25A0-27BF, U+2800-28FF, U+2921-2922, U+2981, U+29BF, U+29EB, U+2B00-2BFF, U+4DC0-4DFF, U+FFF9-FFFB, U+10140-1018E, U+10190-1019C, U+101A0, U+101D0-101FD, U+102E0-102FB, U+10E60-10E7E, U+1D2C0-1D2D3, U+1D2E0-1D37F, U+1F000-1F0FF, U+1F100-1F1AD, U+1F1E6-1F1FF, U+1F30D-1F30F, U+1F315, U+1F31C, U+1F31E, U+1F320-1F32C, U+1F336, U+1F378, U+1F37D, U+1F382, U+1F393-1F39F, U+1F3A7-1F3A8, U+1F3AC-1F3AF, U+1F3C2, U+1F3C4-1F3C6, U+1F3CA-1F3CE, U+1F3D4-1F3E0, U+1F3ED, U+1F3F1-1F3F3, U+1F3F5-1F3F7, U+1F408, U+1F415, U+1F41F, U+1F426, U+1F43F, U+1F441-1F442, U+1F444, U+1F446-1F449, U+1F44C-1F44E, U+1F453, U+1F46A, U+1F47D, U+1F4A3, U+1F4B0, U+1F4B3, U+1F4B9, U+1F4BB, U+1F4BF, U+1F4C8-1F4CB, U+1F4D6, U+1F4DA, U+1F4DF, U+1F4E3-1F4E6, U+1F4EA-1F4ED, U+1F4F7, U+1F4F9-1F4FB, U+1F4FD-1F4FE, U+1F503, U+1F507-1F50B, U+1F50D, U+1F512-1F513, U+1F53E-1F54A, U+1F54F-1F5FA, U+1F610, U+1F650-1F67F, U+1F687, U+1F68D, U+1F691, U+1F694, U+1F698, U+1F6AD, U+1F6B2, U+1F6B9-1F6BA, U+1F6BC, U+1F6C6-1F6CF, U+1F6D3-1F6D7, U+1F6E0-1F6EA, U+1F6F0-1F6F3, U+1F6F7-1F6FC, U+1F700-1F7FF, U+1F800-1F80B, U+1F810-1F847, U+1F850-1F859, U+1F860-1F887, U+1F890-1F8AD, U+1F8B0-1F8BB, U+1F8C0-1F8C1, U+1F900-1F90B, U+1F93B, U+1F946, U+1F984, U+1F996, U+1F9E9, U+1FA00-1FA6F, U+1FA70-1FA7C, U+1FA80-1FA89, U+1FA8F-1FAC6, U+1FACE-1FADC, U+1FADF-1FAE9, U+1FAF0-1FAF8, U+1FB00-1FBFF;
+        }
+        /* tamil */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 400;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQkqb4vqeMXtoTN.woff2) format('woff2');
+        unicode-range: U+0964-0965, U+0B82-0BFA, U+200C-200D, U+20B9, U+25CC;
+        }
+        /* telugu */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 400;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQko74vqeMXtoTN.woff2) format('woff2');
+        unicode-range: U+0951-0952, U+0964-0965, U+0C00-0C7F, U+1CDA, U+1CF2, U+200C-200D, U+25CC;
+        }
+        /* thai */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 400;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQkq74vqeMXtoTN.woff2) format('woff2');
+        unicode-range: U+02D7, U+0303, U+0331, U+0E01-0E5B, U+200C-200D, U+25CC;
+        }
+        /* vietnamese */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 400;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQksL4vqeMXtoTN.woff2) format('woff2');
+        unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+        }
+        /* latin-ext */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 400;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQksb4vqeMXtoTN.woff2) format('woff2');
+        unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+        }
+        /* latin */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 400;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQkv74vqeMXtg.woff2) format('woff2');
+        unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+        /* armenian */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 500;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQkr74vqeMXtoTN.woff2) format('woff2');
+        unicode-range: U+0308, U+0530-058F, U+2010, U+2024, U+25CC, U+FB13-FB17;
+        }
+        /* bengali */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 500;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQkrb4vqeMXtoTN.woff2) format('woff2');
+        unicode-range: U+0951-0952, U+0964-0965, U+0980-09FE, U+1CD0, U+1CD2, U+1CD5-1CD6, U+1CD8, U+1CE1, U+1CEA, U+1CED, U+1CF2, U+1CF5-1CF7, U+200C-200D, U+20B9, U+25CC, U+A8F1;
+        }
+        /* canadian-aboriginal */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 500;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQkkL4vqeMXtoTN.woff2) format('woff2');
+        unicode-range: U+02C7, U+02D8-02D9, U+02DB, U+0307, U+1400-167F, U+18B0-18F5, U+25CC, U+11AB0-11ABF;
+        }
+        /* cyrillic-ext */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 500;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQksr4vqeMXtoTN.woff2) format('woff2');
+        unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+        }
+        /* cyrillic */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 500;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQku74vqeMXtoTN.woff2) format('woff2');
+        unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+        }
+        /* devanagari */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 500;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQkvr4vqeMXtoTN.woff2) format('woff2');
+        unicode-range: U+0900-097F, U+1CD0-1CF9, U+200C-200D, U+20A8, U+20B9, U+20F0, U+25CC, U+A830-A839, U+A8E0-A8FF, U+11B00-11B09;
+        }
+        /* ethiopic */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 500;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQkrr4vqeMXtoTN.woff2) format('woff2');
+        unicode-range: U+030E, U+1200-1399, U+2D80-2DDE, U+AB01-AB2E, U+1E7E0-1E7E6, U+1E7E8-1E7EB, U+1E7ED-1E7EE, U+1E7F0-1E7FE;
+        }
+        /* georgian */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 500;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQkoL4vqeMXtoTN.woff2) format('woff2');
+        unicode-range: U+0589, U+10A0-10FF, U+1C90-1CBA, U+1CBD-1CBF, U+205A, U+2D00-2D2F, U+2E31;
+        }
+        /* greek-ext */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 500;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQks74vqeMXtoTN.woff2) format('woff2');
+        unicode-range: U+1F00-1FFF;
+        }
+        /* greek */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 500;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQkvL4vqeMXtoTN.woff2) format('woff2');
+        unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+        }
+        /* gujarati */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 500;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQkpL4vqeMXtoTN.woff2) format('woff2');
+        unicode-range: U+0951-0952, U+0964-0965, U+0A80-0AFF, U+200C-200D, U+20B9, U+25CC, U+A830-A839;
+        }
+        /* gurmukhi */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 500;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQknL4vqeMXtoTN.woff2) format('woff2');
+        unicode-range: U+0951-0952, U+0964-0965, U+0A01-0A76, U+200C-200D, U+20B9, U+25CC, U+262C, U+A830-A839;
+        }
+        /* hebrew */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 500;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQkvb4vqeMXtoTN.woff2) format('woff2');
+        unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F;
+        }
+        /* khmer */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 500;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQktL4vqeMXtoTN.woff2) format('woff2');
+        unicode-range: U+1780-17FF, U+19E0-19FF, U+200C-200D, U+25CC;
+        }
+        /* lao */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 500;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQktr4vqeMXtoTN.woff2) format('woff2');
+        unicode-range: U+0E81-0EDF, U+200C-200D, U+25CC;
+        }
+        /* malayalam */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 500;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQkp74vqeMXtoTN.woff2) format('woff2');
+        unicode-range: U+0307, U+0323, U+0951-0952, U+0964-0965, U+0D00-0D7F, U+1CDA, U+1CF2, U+200C-200D, U+20B9, U+25CC, U+A830-A832;
+        }
+        /* oriya */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 500;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQkpr4vqeMXtoTN.woff2) format('woff2');
+        unicode-range: U+0951-0952, U+0964-0965, U+0B01-0B77, U+1CDA, U+1CF2, U+200C-200D, U+20B9, U+25CC;
+        }
+        /* sinhala */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 500;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQkor4vqeMXtoTN.woff2) format('woff2');
+        unicode-range: U+0964-0965, U+0D81-0DF4, U+1CF2, U+200C-200D, U+25CC, U+111E1-111F4;
+        }
+        /* symbols */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 500;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQk0b4vqeMXtoTN.woff2) format('woff2');
+        unicode-range: U+0001-000C, U+000E-001F, U+007F-009F, U+20DD-20E0, U+20E2-20E4, U+2150-218F, U+2190, U+2192, U+2194-2199, U+21AF, U+21E6-21F0, U+21F3, U+2218-2219, U+2299, U+22C4-22C6, U+2300-243F, U+2440-244A, U+2460-24FF, U+25A0-27BF, U+2800-28FF, U+2921-2922, U+2981, U+29BF, U+29EB, U+2B00-2BFF, U+4DC0-4DFF, U+FFF9-FFFB, U+10140-1018E, U+10190-1019C, U+101A0, U+101D0-101FD, U+102E0-102FB, U+10E60-10E7E, U+1D2C0-1D2D3, U+1D2E0-1D37F, U+1F000-1F0FF, U+1F100-1F1AD, U+1F1E6-1F1FF, U+1F30D-1F30F, U+1F315, U+1F31C, U+1F31E, U+1F320-1F32C, U+1F336, U+1F378, U+1F37D, U+1F382, U+1F393-1F39F, U+1F3A7-1F3A8, U+1F3AC-1F3AF, U+1F3C2, U+1F3C4-1F3C6, U+1F3CA-1F3CE, U+1F3D4-1F3E0, U+1F3ED, U+1F3F1-1F3F3, U+1F3F5-1F3F7, U+1F408, U+1F415, U+1F41F, U+1F426, U+1F43F, U+1F441-1F442, U+1F444, U+1F446-1F449, U+1F44C-1F44E, U+1F453, U+1F46A, U+1F47D, U+1F4A3, U+1F4B0, U+1F4B3, U+1F4B9, U+1F4BB, U+1F4BF, U+1F4C8-1F4CB, U+1F4D6, U+1F4DA, U+1F4DF, U+1F4E3-1F4E6, U+1F4EA-1F4ED, U+1F4F7, U+1F4F9-1F4FB, U+1F4FD-1F4FE, U+1F503, U+1F507-1F50B, U+1F50D, U+1F512-1F513, U+1F53E-1F54A, U+1F54F-1F5FA, U+1F610, U+1F650-1F67F, U+1F687, U+1F68D, U+1F691, U+1F694, U+1F698, U+1F6AD, U+1F6B2, U+1F6B9-1F6BA, U+1F6BC, U+1F6C6-1F6CF, U+1F6D3-1F6D7, U+1F6E0-1F6EA, U+1F6F0-1F6F3, U+1F6F7-1F6FC, U+1F700-1F7FF, U+1F800-1F80B, U+1F810-1F847, U+1F850-1F859, U+1F860-1F887, U+1F890-1F8AD, U+1F8B0-1F8BB, U+1F8C0-1F8C1, U+1F900-1F90B, U+1F93B, U+1F946, U+1F984, U+1F996, U+1F9E9, U+1FA00-1FA6F, U+1FA70-1FA7C, U+1FA80-1FA89, U+1FA8F-1FAC6, U+1FACE-1FADC, U+1FADF-1FAE9, U+1FAF0-1FAF8, U+1FB00-1FBFF;
+        }
+        /* tamil */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 500;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQkqb4vqeMXtoTN.woff2) format('woff2');
+        unicode-range: U+0964-0965, U+0B82-0BFA, U+200C-200D, U+20B9, U+25CC;
+        }
+        /* telugu */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 500;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQko74vqeMXtoTN.woff2) format('woff2');
+        unicode-range: U+0951-0952, U+0964-0965, U+0C00-0C7F, U+1CDA, U+1CF2, U+200C-200D, U+25CC;
+        }
+        /* thai */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 500;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQkq74vqeMXtoTN.woff2) format('woff2');
+        unicode-range: U+02D7, U+0303, U+0331, U+0E01-0E5B, U+200C-200D, U+25CC;
+        }
+        /* vietnamese */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 500;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQksL4vqeMXtoTN.woff2) format('woff2');
+        unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+        }
+        /* latin-ext */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 500;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQksb4vqeMXtoTN.woff2) format('woff2');
+        unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+        }
+        /* latin */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 500;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQkv74vqeMXtg.woff2) format('woff2');
+        unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+        /* armenian */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 700;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQkr74vqeMXtoTN.woff2) format('woff2');
+        unicode-range: U+0308, U+0530-058F, U+2010, U+2024, U+25CC, U+FB13-FB17;
+        }
+        /* bengali */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 700;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQkrb4vqeMXtoTN.woff2) format('woff2');
+        unicode-range: U+0951-0952, U+0964-0965, U+0980-09FE, U+1CD0, U+1CD2, U+1CD5-1CD6, U+1CD8, U+1CE1, U+1CEA, U+1CED, U+1CF2, U+1CF5-1CF7, U+200C-200D, U+20B9, U+25CC, U+A8F1;
+        }
+        /* canadian-aboriginal */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 700;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQkkL4vqeMXtoTN.woff2) format('woff2');
+        unicode-range: U+02C7, U+02D8-02D9, U+02DB, U+0307, U+1400-167F, U+18B0-18F5, U+25CC, U+11AB0-11ABF;
+        }
+        /* cyrillic-ext */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 700;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQksr4vqeMXtoTN.woff2) format('woff2');
+        unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+        }
+        /* cyrillic */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 700;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQku74vqeMXtoTN.woff2) format('woff2');
+        unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+        }
+        /* devanagari */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 700;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQkvr4vqeMXtoTN.woff2) format('woff2');
+        unicode-range: U+0900-097F, U+1CD0-1CF9, U+200C-200D, U+20A8, U+20B9, U+20F0, U+25CC, U+A830-A839, U+A8E0-A8FF, U+11B00-11B09;
+        }
+        /* ethiopic */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 700;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQkrr4vqeMXtoTN.woff2) format('woff2');
+        unicode-range: U+030E, U+1200-1399, U+2D80-2DDE, U+AB01-AB2E, U+1E7E0-1E7E6, U+1E7E8-1E7EB, U+1E7ED-1E7EE, U+1E7F0-1E7FE;
+        }
+        /* georgian */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 700;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQkoL4vqeMXtoTN.woff2) format('woff2');
+        unicode-range: U+0589, U+10A0-10FF, U+1C90-1CBA, U+1CBD-1CBF, U+205A, U+2D00-2D2F, U+2E31;
+        }
+        /* greek-ext */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 700;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQks74vqeMXtoTN.woff2) format('woff2');
+        unicode-range: U+1F00-1FFF;
+        }
+        /* greek */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 700;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQkvL4vqeMXtoTN.woff2) format('woff2');
+        unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+        }
+        /* gujarati */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 700;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQkpL4vqeMXtoTN.woff2) format('woff2');
+        unicode-range: U+0951-0952, U+0964-0965, U+0A80-0AFF, U+200C-200D, U+20B9, U+25CC, U+A830-A839;
+        }
+        /* gurmukhi */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 700;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQknL4vqeMXtoTN.woff2) format('woff2');
+        unicode-range: U+0951-0952, U+0964-0965, U+0A01-0A76, U+200C-200D, U+20B9, U+25CC, U+262C, U+A830-A839;
+        }
+        /* hebrew */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 700;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQkvb4vqeMXtoTN.woff2) format('woff2');
+        unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F;
+        }
+        /* khmer */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 700;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQktL4vqeMXtoTN.woff2) format('woff2');
+        unicode-range: U+1780-17FF, U+19E0-19FF, U+200C-200D, U+25CC;
+        }
+        /* lao */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 700;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQktr4vqeMXtoTN.woff2) format('woff2');
+        unicode-range: U+0E81-0EDF, U+200C-200D, U+25CC;
+        }
+        /* malayalam */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 700;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQkp74vqeMXtoTN.woff2) format('woff2');
+        unicode-range: U+0307, U+0323, U+0951-0952, U+0964-0965, U+0D00-0D7F, U+1CDA, U+1CF2, U+200C-200D, U+20B9, U+25CC, U+A830-A832;
+        }
+        /* oriya */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 700;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQkpr4vqeMXtoTN.woff2) format('woff2');
+        unicode-range: U+0951-0952, U+0964-0965, U+0B01-0B77, U+1CDA, U+1CF2, U+200C-200D, U+20B9, U+25CC;
+        }
+        /* sinhala */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 700;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQkor4vqeMXtoTN.woff2) format('woff2');
+        unicode-range: U+0964-0965, U+0D81-0DF4, U+1CF2, U+200C-200D, U+25CC, U+111E1-111F4;
+        }
+        /* symbols */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 700;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQk0b4vqeMXtoTN.woff2) format('woff2');
+        unicode-range: U+0001-000C, U+000E-001F, U+007F-009F, U+20DD-20E0, U+20E2-20E4, U+2150-218F, U+2190, U+2192, U+2194-2199, U+21AF, U+21E6-21F0, U+21F3, U+2218-2219, U+2299, U+22C4-22C6, U+2300-243F, U+2440-244A, U+2460-24FF, U+25A0-27BF, U+2800-28FF, U+2921-2922, U+2981, U+29BF, U+29EB, U+2B00-2BFF, U+4DC0-4DFF, U+FFF9-FFFB, U+10140-1018E, U+10190-1019C, U+101A0, U+101D0-101FD, U+102E0-102FB, U+10E60-10E7E, U+1D2C0-1D2D3, U+1D2E0-1D37F, U+1F000-1F0FF, U+1F100-1F1AD, U+1F1E6-1F1FF, U+1F30D-1F30F, U+1F315, U+1F31C, U+1F31E, U+1F320-1F32C, U+1F336, U+1F378, U+1F37D, U+1F382, U+1F393-1F39F, U+1F3A7-1F3A8, U+1F3AC-1F3AF, U+1F3C2, U+1F3C4-1F3C6, U+1F3CA-1F3CE, U+1F3D4-1F3E0, U+1F3ED, U+1F3F1-1F3F3, U+1F3F5-1F3F7, U+1F408, U+1F415, U+1F41F, U+1F426, U+1F43F, U+1F441-1F442, U+1F444, U+1F446-1F449, U+1F44C-1F44E, U+1F453, U+1F46A, U+1F47D, U+1F4A3, U+1F4B0, U+1F4B3, U+1F4B9, U+1F4BB, U+1F4BF, U+1F4C8-1F4CB, U+1F4D6, U+1F4DA, U+1F4DF, U+1F4E3-1F4E6, U+1F4EA-1F4ED, U+1F4F7, U+1F4F9-1F4FB, U+1F4FD-1F4FE, U+1F503, U+1F507-1F50B, U+1F50D, U+1F512-1F513, U+1F53E-1F54A, U+1F54F-1F5FA, U+1F610, U+1F650-1F67F, U+1F687, U+1F68D, U+1F691, U+1F694, U+1F698, U+1F6AD, U+1F6B2, U+1F6B9-1F6BA, U+1F6BC, U+1F6C6-1F6CF, U+1F6D3-1F6D7, U+1F6E0-1F6EA, U+1F6F0-1F6F3, U+1F6F7-1F6FC, U+1F700-1F7FF, U+1F800-1F80B, U+1F810-1F847, U+1F850-1F859, U+1F860-1F887, U+1F890-1F8AD, U+1F8B0-1F8BB, U+1F8C0-1F8C1, U+1F900-1F90B, U+1F93B, U+1F946, U+1F984, U+1F996, U+1F9E9, U+1FA00-1FA6F, U+1FA70-1FA7C, U+1FA80-1FA89, U+1FA8F-1FAC6, U+1FACE-1FADC, U+1FADF-1FAE9, U+1FAF0-1FAF8, U+1FB00-1FBFF;
+        }
+        /* tamil */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 700;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQkqb4vqeMXtoTN.woff2) format('woff2');
+        unicode-range: U+0964-0965, U+0B82-0BFA, U+200C-200D, U+20B9, U+25CC;
+        }
+        /* telugu */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 700;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQko74vqeMXtoTN.woff2) format('woff2');
+        unicode-range: U+0951-0952, U+0964-0965, U+0C00-0C7F, U+1CDA, U+1CF2, U+200C-200D, U+25CC;
+        }
+        /* thai */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 700;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQkq74vqeMXtoTN.woff2) format('woff2');
+        unicode-range: U+02D7, U+0303, U+0331, U+0E01-0E5B, U+200C-200D, U+25CC;
+        }
+        /* vietnamese */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 700;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQksL4vqeMXtoTN.woff2) format('woff2');
+        unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+        }
+        /* latin-ext */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 700;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQksb4vqeMXtoTN.woff2) format('woff2');
+        unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+        }
+        /* latin */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: italic;
+        font-weight: 700;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UairENHsxJlGDuGo1OIlL3L2JB874GPhFI9_IqmuRqGpjeaLi42kO8QvnQkv74vqeMXtg.woff2) format('woff2');
+        unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+        /* armenian */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 400;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPiIUvbQoi-Entw.woff2) format('woff2');
+        unicode-range: U+0308, U+0530-058F, U+2010, U+2024, U+25CC, U+FB13-FB17;
+        }
+        /* bengali */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 400;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPiAUvbQoi-Entw.woff2) format('woff2');
+        unicode-range: U+0951-0952, U+0964-0965, U+0980-09FE, U+1CD0, U+1CD2, U+1CD5-1CD6, U+1CD8, U+1CE1, U+1CEA, U+1CED, U+1CF2, U+1CF5-1CF7, U+200C-200D, U+20B9, U+25CC, U+A8F1;
+        }
+        /* canadian-aboriginal */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 400;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPh0UvbQoi-Entw.woff2) format('woff2');
+        unicode-range: U+02C7, U+02D8-02D9, U+02DB, U+0307, U+1400-167F, U+18B0-18F5, U+25CC, U+11AB0-11ABF;
+        }
+        /* cyrillic-ext */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 400;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPj8UvbQoi-Entw.woff2) format('woff2');
+        unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+        }
+        /* cyrillic */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 400;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPjYUvbQoi-Entw.woff2) format('woff2');
+        unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+        }
+        /* devanagari */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 400;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPjMUvbQoi-Entw.woff2) format('woff2');
+        unicode-range: U+0900-097F, U+1CD0-1CF9, U+200C-200D, U+20A8, U+20B9, U+20F0, U+25CC, U+A830-A839, U+A8E0-A8FF, U+11B00-11B09;
+        }
+        /* ethiopic */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 400;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPiMUvbQoi-Entw.woff2) format('woff2');
+        unicode-range: U+030E, U+1200-1399, U+2D80-2DDE, U+AB01-AB2E, U+1E7E0-1E7E6, U+1E7E8-1E7EB, U+1E7ED-1E7EE, U+1E7F0-1E7FE;
+        }
+        /* georgian */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 400;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPi0UvbQoi-Entw.woff2) format('woff2');
+        unicode-range: U+0589, U+10A0-10FF, U+1C90-1CBA, U+1CBD-1CBF, U+205A, U+2D00-2D2F, U+2E31;
+        }
+        /* greek-ext */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 400;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPj4UvbQoi-Entw.woff2) format('woff2');
+        unicode-range: U+1F00-1FFF;
+        }
+        /* greek */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 400;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPjEUvbQoi-Entw.woff2) format('woff2');
+        unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+        }
+        /* gujarati */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 400;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPikUvbQoi-Entw.woff2) format('woff2');
+        unicode-range: U+0951-0952, U+0964-0965, U+0A80-0AFF, U+200C-200D, U+20B9, U+25CC, U+A830-A839;
+        }
+        /* gurmukhi */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 400;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPhEUvbQoi-Entw.woff2) format('woff2');
+        unicode-range: U+0951-0952, U+0964-0965, U+0A01-0A76, U+200C-200D, U+20B9, U+25CC, U+262C, U+A830-A839;
+        }
+        /* hebrew */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 400;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPjAUvbQoi-Entw.woff2) format('woff2');
+        unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F;
+        }
+        /* khmer */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 400;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPjkUvbQoi-Entw.woff2) format('woff2');
+        unicode-range: U+1780-17FF, U+19E0-19FF, U+200C-200D, U+25CC;
+        }
+        /* lao */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 400;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPjsUvbQoi-Entw.woff2) format('woff2');
+        unicode-range: U+0E81-0EDF, U+200C-200D, U+25CC;
+        }
+        /* malayalam */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 400;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPioUvbQoi-Entw.woff2) format('woff2');
+        unicode-range: U+0307, U+0323, U+0951-0952, U+0964-0965, U+0D00-0D7F, U+1CDA, U+1CF2, U+200C-200D, U+20B9, U+25CC, U+A830-A832;
+        }
+        /* oriya */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 400;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPisUvbQoi-Entw.woff2) format('woff2');
+        unicode-range: U+0951-0952, U+0964-0965, U+0B01-0B77, U+1CDA, U+1CF2, U+200C-200D, U+20B9, U+25CC;
+        }
+        /* sinhala */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 400;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPi8UvbQoi-Entw.woff2) format('woff2');
+        unicode-range: U+0964-0965, U+0D81-0DF4, U+1CF2, U+200C-200D, U+25CC, U+111E1-111F4;
+        }
+        /* symbols */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 400;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPlwUvbQoi-Entw.woff2) format('woff2');
+        unicode-range: U+0001-000C, U+000E-001F, U+007F-009F, U+20DD-20E0, U+20E2-20E4, U+2150-218F, U+2190, U+2192, U+2194-2199, U+21AF, U+21E6-21F0, U+21F3, U+2218-2219, U+2299, U+22C4-22C6, U+2300-243F, U+2440-244A, U+2460-24FF, U+25A0-27BF, U+2800-28FF, U+2921-2922, U+2981, U+29BF, U+29EB, U+2B00-2BFF, U+4DC0-4DFF, U+FFF9-FFFB, U+10140-1018E, U+10190-1019C, U+101A0, U+101D0-101FD, U+102E0-102FB, U+10E60-10E7E, U+1D2C0-1D2D3, U+1D2E0-1D37F, U+1F000-1F0FF, U+1F100-1F1AD, U+1F1E6-1F1FF, U+1F30D-1F30F, U+1F315, U+1F31C, U+1F31E, U+1F320-1F32C, U+1F336, U+1F378, U+1F37D, U+1F382, U+1F393-1F39F, U+1F3A7-1F3A8, U+1F3AC-1F3AF, U+1F3C2, U+1F3C4-1F3C6, U+1F3CA-1F3CE, U+1F3D4-1F3E0, U+1F3ED, U+1F3F1-1F3F3, U+1F3F5-1F3F7, U+1F408, U+1F415, U+1F41F, U+1F426, U+1F43F, U+1F441-1F442, U+1F444, U+1F446-1F449, U+1F44C-1F44E, U+1F453, U+1F46A, U+1F47D, U+1F4A3, U+1F4B0, U+1F4B3, U+1F4B9, U+1F4BB, U+1F4BF, U+1F4C8-1F4CB, U+1F4D6, U+1F4DA, U+1F4DF, U+1F4E3-1F4E6, U+1F4EA-1F4ED, U+1F4F7, U+1F4F9-1F4FB, U+1F4FD-1F4FE, U+1F503, U+1F507-1F50B, U+1F50D, U+1F512-1F513, U+1F53E-1F54A, U+1F54F-1F5FA, U+1F610, U+1F650-1F67F, U+1F687, U+1F68D, U+1F691, U+1F694, U+1F698, U+1F6AD, U+1F6B2, U+1F6B9-1F6BA, U+1F6BC, U+1F6C6-1F6CF, U+1F6D3-1F6D7, U+1F6E0-1F6EA, U+1F6F0-1F6F3, U+1F6F7-1F6FC, U+1F700-1F7FF, U+1F800-1F80B, U+1F810-1F847, U+1F850-1F859, U+1F860-1F887, U+1F890-1F8AD, U+1F8B0-1F8BB, U+1F8C0-1F8C1, U+1F900-1F90B, U+1F93B, U+1F946, U+1F984, U+1F996, U+1F9E9, U+1FA00-1FA6F, U+1FA70-1FA7C, U+1FA80-1FA89, U+1FA8F-1FAC6, U+1FACE-1FADC, U+1FADF-1FAE9, U+1FAF0-1FAF8, U+1FB00-1FBFF;
+        }
+        /* tamil */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 400;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPiQUvbQoi-Entw.woff2) format('woff2');
+        unicode-range: U+0964-0965, U+0B82-0BFA, U+200C-200D, U+20B9, U+25CC;
+        }
+        /* telugu */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 400;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPi4UvbQoi-Entw.woff2) format('woff2');
+        unicode-range: U+0951-0952, U+0964-0965, U+0C00-0C7F, U+1CDA, U+1CF2, U+200C-200D, U+25CC;
+        }
+        /* thai */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 400;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPiYUvbQoi-Entw.woff2) format('woff2');
+        unicode-range: U+02D7, U+0303, U+0331, U+0E01-0E5B, U+200C-200D, U+25CC;
+        }
+        /* vietnamese */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 400;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPj0UvbQoi-Entw.woff2) format('woff2');
+        unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+        }
+        /* latin-ext */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 400;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPjwUvbQoi-Entw.woff2) format('woff2');
+        unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+        }
+        /* latin */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 400;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPjIUvbQoi-E.woff2) format('woff2');
+        unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+        /* armenian */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 500;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPiIUvbQoi-Entw.woff2) format('woff2');
+        unicode-range: U+0308, U+0530-058F, U+2010, U+2024, U+25CC, U+FB13-FB17;
+        }
+        /* bengali */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 500;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPiAUvbQoi-Entw.woff2) format('woff2');
+        unicode-range: U+0951-0952, U+0964-0965, U+0980-09FE, U+1CD0, U+1CD2, U+1CD5-1CD6, U+1CD8, U+1CE1, U+1CEA, U+1CED, U+1CF2, U+1CF5-1CF7, U+200C-200D, U+20B9, U+25CC, U+A8F1;
+        }
+        /* canadian-aboriginal */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 500;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPh0UvbQoi-Entw.woff2) format('woff2');
+        unicode-range: U+02C7, U+02D8-02D9, U+02DB, U+0307, U+1400-167F, U+18B0-18F5, U+25CC, U+11AB0-11ABF;
+        }
+        /* cyrillic-ext */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 500;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPj8UvbQoi-Entw.woff2) format('woff2');
+        unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+        }
+        /* cyrillic */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 500;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPjYUvbQoi-Entw.woff2) format('woff2');
+        unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+        }
+        /* devanagari */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 500;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPjMUvbQoi-Entw.woff2) format('woff2');
+        unicode-range: U+0900-097F, U+1CD0-1CF9, U+200C-200D, U+20A8, U+20B9, U+20F0, U+25CC, U+A830-A839, U+A8E0-A8FF, U+11B00-11B09;
+        }
+        /* ethiopic */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 500;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPiMUvbQoi-Entw.woff2) format('woff2');
+        unicode-range: U+030E, U+1200-1399, U+2D80-2DDE, U+AB01-AB2E, U+1E7E0-1E7E6, U+1E7E8-1E7EB, U+1E7ED-1E7EE, U+1E7F0-1E7FE;
+        }
+        /* georgian */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 500;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPi0UvbQoi-Entw.woff2) format('woff2');
+        unicode-range: U+0589, U+10A0-10FF, U+1C90-1CBA, U+1CBD-1CBF, U+205A, U+2D00-2D2F, U+2E31;
+        }
+        /* greek-ext */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 500;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPj4UvbQoi-Entw.woff2) format('woff2');
+        unicode-range: U+1F00-1FFF;
+        }
+        /* greek */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 500;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPjEUvbQoi-Entw.woff2) format('woff2');
+        unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+        }
+        /* gujarati */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 500;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPikUvbQoi-Entw.woff2) format('woff2');
+        unicode-range: U+0951-0952, U+0964-0965, U+0A80-0AFF, U+200C-200D, U+20B9, U+25CC, U+A830-A839;
+        }
+        /* gurmukhi */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 500;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPhEUvbQoi-Entw.woff2) format('woff2');
+        unicode-range: U+0951-0952, U+0964-0965, U+0A01-0A76, U+200C-200D, U+20B9, U+25CC, U+262C, U+A830-A839;
+        }
+        /* hebrew */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 500;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPjAUvbQoi-Entw.woff2) format('woff2');
+        unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F;
+        }
+        /* khmer */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 500;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPjkUvbQoi-Entw.woff2) format('woff2');
+        unicode-range: U+1780-17FF, U+19E0-19FF, U+200C-200D, U+25CC;
+        }
+        /* lao */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 500;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPjsUvbQoi-Entw.woff2) format('woff2');
+        unicode-range: U+0E81-0EDF, U+200C-200D, U+25CC;
+        }
+        /* malayalam */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 500;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPioUvbQoi-Entw.woff2) format('woff2');
+        unicode-range: U+0307, U+0323, U+0951-0952, U+0964-0965, U+0D00-0D7F, U+1CDA, U+1CF2, U+200C-200D, U+20B9, U+25CC, U+A830-A832;
+        }
+        /* oriya */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 500;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPisUvbQoi-Entw.woff2) format('woff2');
+        unicode-range: U+0951-0952, U+0964-0965, U+0B01-0B77, U+1CDA, U+1CF2, U+200C-200D, U+20B9, U+25CC;
+        }
+        /* sinhala */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 500;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPi8UvbQoi-Entw.woff2) format('woff2');
+        unicode-range: U+0964-0965, U+0D81-0DF4, U+1CF2, U+200C-200D, U+25CC, U+111E1-111F4;
+        }
+        /* symbols */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 500;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPlwUvbQoi-Entw.woff2) format('woff2');
+        unicode-range: U+0001-000C, U+000E-001F, U+007F-009F, U+20DD-20E0, U+20E2-20E4, U+2150-218F, U+2190, U+2192, U+2194-2199, U+21AF, U+21E6-21F0, U+21F3, U+2218-2219, U+2299, U+22C4-22C6, U+2300-243F, U+2440-244A, U+2460-24FF, U+25A0-27BF, U+2800-28FF, U+2921-2922, U+2981, U+29BF, U+29EB, U+2B00-2BFF, U+4DC0-4DFF, U+FFF9-FFFB, U+10140-1018E, U+10190-1019C, U+101A0, U+101D0-101FD, U+102E0-102FB, U+10E60-10E7E, U+1D2C0-1D2D3, U+1D2E0-1D37F, U+1F000-1F0FF, U+1F100-1F1AD, U+1F1E6-1F1FF, U+1F30D-1F30F, U+1F315, U+1F31C, U+1F31E, U+1F320-1F32C, U+1F336, U+1F378, U+1F37D, U+1F382, U+1F393-1F39F, U+1F3A7-1F3A8, U+1F3AC-1F3AF, U+1F3C2, U+1F3C4-1F3C6, U+1F3CA-1F3CE, U+1F3D4-1F3E0, U+1F3ED, U+1F3F1-1F3F3, U+1F3F5-1F3F7, U+1F408, U+1F415, U+1F41F, U+1F426, U+1F43F, U+1F441-1F442, U+1F444, U+1F446-1F449, U+1F44C-1F44E, U+1F453, U+1F46A, U+1F47D, U+1F4A3, U+1F4B0, U+1F4B3, U+1F4B9, U+1F4BB, U+1F4BF, U+1F4C8-1F4CB, U+1F4D6, U+1F4DA, U+1F4DF, U+1F4E3-1F4E6, U+1F4EA-1F4ED, U+1F4F7, U+1F4F9-1F4FB, U+1F4FD-1F4FE, U+1F503, U+1F507-1F50B, U+1F50D, U+1F512-1F513, U+1F53E-1F54A, U+1F54F-1F5FA, U+1F610, U+1F650-1F67F, U+1F687, U+1F68D, U+1F691, U+1F694, U+1F698, U+1F6AD, U+1F6B2, U+1F6B9-1F6BA, U+1F6BC, U+1F6C6-1F6CF, U+1F6D3-1F6D7, U+1F6E0-1F6EA, U+1F6F0-1F6F3, U+1F6F7-1F6FC, U+1F700-1F7FF, U+1F800-1F80B, U+1F810-1F847, U+1F850-1F859, U+1F860-1F887, U+1F890-1F8AD, U+1F8B0-1F8BB, U+1F8C0-1F8C1, U+1F900-1F90B, U+1F93B, U+1F946, U+1F984, U+1F996, U+1F9E9, U+1FA00-1FA6F, U+1FA70-1FA7C, U+1FA80-1FA89, U+1FA8F-1FAC6, U+1FACE-1FADC, U+1FADF-1FAE9, U+1FAF0-1FAF8, U+1FB00-1FBFF;
+        }
+        /* tamil */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 500;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPiQUvbQoi-Entw.woff2) format('woff2');
+        unicode-range: U+0964-0965, U+0B82-0BFA, U+200C-200D, U+20B9, U+25CC;
+        }
+        /* telugu */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 500;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPi4UvbQoi-Entw.woff2) format('woff2');
+        unicode-range: U+0951-0952, U+0964-0965, U+0C00-0C7F, U+1CDA, U+1CF2, U+200C-200D, U+25CC;
+        }
+        /* thai */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 500;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPiYUvbQoi-Entw.woff2) format('woff2');
+        unicode-range: U+02D7, U+0303, U+0331, U+0E01-0E5B, U+200C-200D, U+25CC;
+        }
+        /* vietnamese */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 500;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPj0UvbQoi-Entw.woff2) format('woff2');
+        unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+        }
+        /* latin-ext */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 500;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPjwUvbQoi-Entw.woff2) format('woff2');
+        unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+        }
+        /* latin */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 500;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPjIUvbQoi-E.woff2) format('woff2');
+        unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+        /* armenian */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 700;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPiIUvbQoi-Entw.woff2) format('woff2');
+        unicode-range: U+0308, U+0530-058F, U+2010, U+2024, U+25CC, U+FB13-FB17;
+        }
+        /* bengali */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 700;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPiAUvbQoi-Entw.woff2) format('woff2');
+        unicode-range: U+0951-0952, U+0964-0965, U+0980-09FE, U+1CD0, U+1CD2, U+1CD5-1CD6, U+1CD8, U+1CE1, U+1CEA, U+1CED, U+1CF2, U+1CF5-1CF7, U+200C-200D, U+20B9, U+25CC, U+A8F1;
+        }
+        /* canadian-aboriginal */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 700;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPh0UvbQoi-Entw.woff2) format('woff2');
+        unicode-range: U+02C7, U+02D8-02D9, U+02DB, U+0307, U+1400-167F, U+18B0-18F5, U+25CC, U+11AB0-11ABF;
+        }
+        /* cyrillic-ext */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 700;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPj8UvbQoi-Entw.woff2) format('woff2');
+        unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+        }
+        /* cyrillic */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 700;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPjYUvbQoi-Entw.woff2) format('woff2');
+        unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+        }
+        /* devanagari */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 700;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPjMUvbQoi-Entw.woff2) format('woff2');
+        unicode-range: U+0900-097F, U+1CD0-1CF9, U+200C-200D, U+20A8, U+20B9, U+20F0, U+25CC, U+A830-A839, U+A8E0-A8FF, U+11B00-11B09;
+        }
+        /* ethiopic */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 700;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPiMUvbQoi-Entw.woff2) format('woff2');
+        unicode-range: U+030E, U+1200-1399, U+2D80-2DDE, U+AB01-AB2E, U+1E7E0-1E7E6, U+1E7E8-1E7EB, U+1E7ED-1E7EE, U+1E7F0-1E7FE;
+        }
+        /* georgian */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 700;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPi0UvbQoi-Entw.woff2) format('woff2');
+        unicode-range: U+0589, U+10A0-10FF, U+1C90-1CBA, U+1CBD-1CBF, U+205A, U+2D00-2D2F, U+2E31;
+        }
+        /* greek-ext */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 700;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPj4UvbQoi-Entw.woff2) format('woff2');
+        unicode-range: U+1F00-1FFF;
+        }
+        /* greek */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 700;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPjEUvbQoi-Entw.woff2) format('woff2');
+        unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+        }
+        /* gujarati */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 700;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPikUvbQoi-Entw.woff2) format('woff2');
+        unicode-range: U+0951-0952, U+0964-0965, U+0A80-0AFF, U+200C-200D, U+20B9, U+25CC, U+A830-A839;
+        }
+        /* gurmukhi */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 700;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPhEUvbQoi-Entw.woff2) format('woff2');
+        unicode-range: U+0951-0952, U+0964-0965, U+0A01-0A76, U+200C-200D, U+20B9, U+25CC, U+262C, U+A830-A839;
+        }
+        /* hebrew */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 700;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPjAUvbQoi-Entw.woff2) format('woff2');
+        unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F;
+        }
+        /* khmer */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 700;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPjkUvbQoi-Entw.woff2) format('woff2');
+        unicode-range: U+1780-17FF, U+19E0-19FF, U+200C-200D, U+25CC;
+        }
+        /* lao */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 700;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPjsUvbQoi-Entw.woff2) format('woff2');
+        unicode-range: U+0E81-0EDF, U+200C-200D, U+25CC;
+        }
+        /* malayalam */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 700;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPioUvbQoi-Entw.woff2) format('woff2');
+        unicode-range: U+0307, U+0323, U+0951-0952, U+0964-0965, U+0D00-0D7F, U+1CDA, U+1CF2, U+200C-200D, U+20B9, U+25CC, U+A830-A832;
+        }
+        /* oriya */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 700;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPisUvbQoi-Entw.woff2) format('woff2');
+        unicode-range: U+0951-0952, U+0964-0965, U+0B01-0B77, U+1CDA, U+1CF2, U+200C-200D, U+20B9, U+25CC;
+        }
+        /* sinhala */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 700;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPi8UvbQoi-Entw.woff2) format('woff2');
+        unicode-range: U+0964-0965, U+0D81-0DF4, U+1CF2, U+200C-200D, U+25CC, U+111E1-111F4;
+        }
+        /* symbols */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 700;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPlwUvbQoi-Entw.woff2) format('woff2');
+        unicode-range: U+0001-000C, U+000E-001F, U+007F-009F, U+20DD-20E0, U+20E2-20E4, U+2150-218F, U+2190, U+2192, U+2194-2199, U+21AF, U+21E6-21F0, U+21F3, U+2218-2219, U+2299, U+22C4-22C6, U+2300-243F, U+2440-244A, U+2460-24FF, U+25A0-27BF, U+2800-28FF, U+2921-2922, U+2981, U+29BF, U+29EB, U+2B00-2BFF, U+4DC0-4DFF, U+FFF9-FFFB, U+10140-1018E, U+10190-1019C, U+101A0, U+101D0-101FD, U+102E0-102FB, U+10E60-10E7E, U+1D2C0-1D2D3, U+1D2E0-1D37F, U+1F000-1F0FF, U+1F100-1F1AD, U+1F1E6-1F1FF, U+1F30D-1F30F, U+1F315, U+1F31C, U+1F31E, U+1F320-1F32C, U+1F336, U+1F378, U+1F37D, U+1F382, U+1F393-1F39F, U+1F3A7-1F3A8, U+1F3AC-1F3AF, U+1F3C2, U+1F3C4-1F3C6, U+1F3CA-1F3CE, U+1F3D4-1F3E0, U+1F3ED, U+1F3F1-1F3F3, U+1F3F5-1F3F7, U+1F408, U+1F415, U+1F41F, U+1F426, U+1F43F, U+1F441-1F442, U+1F444, U+1F446-1F449, U+1F44C-1F44E, U+1F453, U+1F46A, U+1F47D, U+1F4A3, U+1F4B0, U+1F4B3, U+1F4B9, U+1F4BB, U+1F4BF, U+1F4C8-1F4CB, U+1F4D6, U+1F4DA, U+1F4DF, U+1F4E3-1F4E6, U+1F4EA-1F4ED, U+1F4F7, U+1F4F9-1F4FB, U+1F4FD-1F4FE, U+1F503, U+1F507-1F50B, U+1F50D, U+1F512-1F513, U+1F53E-1F54A, U+1F54F-1F5FA, U+1F610, U+1F650-1F67F, U+1F687, U+1F68D, U+1F691, U+1F694, U+1F698, U+1F6AD, U+1F6B2, U+1F6B9-1F6BA, U+1F6BC, U+1F6C6-1F6CF, U+1F6D3-1F6D7, U+1F6E0-1F6EA, U+1F6F0-1F6F3, U+1F6F7-1F6FC, U+1F700-1F7FF, U+1F800-1F80B, U+1F810-1F847, U+1F850-1F859, U+1F860-1F887, U+1F890-1F8AD, U+1F8B0-1F8BB, U+1F8C0-1F8C1, U+1F900-1F90B, U+1F93B, U+1F946, U+1F984, U+1F996, U+1F9E9, U+1FA00-1FA6F, U+1FA70-1FA7C, U+1FA80-1FA89, U+1FA8F-1FAC6, U+1FACE-1FADC, U+1FADF-1FAE9, U+1FAF0-1FAF8, U+1FB00-1FBFF;
+        }
+        /* tamil */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 700;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPiQUvbQoi-Entw.woff2) format('woff2');
+        unicode-range: U+0964-0965, U+0B82-0BFA, U+200C-200D, U+20B9, U+25CC;
+        }
+        /* telugu */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 700;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPi4UvbQoi-Entw.woff2) format('woff2');
+        unicode-range: U+0951-0952, U+0964-0965, U+0C00-0C7F, U+1CDA, U+1CF2, U+200C-200D, U+25CC;
+        }
+        /* thai */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 700;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPiYUvbQoi-Entw.woff2) format('woff2');
+        unicode-range: U+02D7, U+0303, U+0331, U+0E01-0E5B, U+200C-200D, U+25CC;
+        }
+        /* vietnamese */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 700;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPj0UvbQoi-Entw.woff2) format('woff2');
+        unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+        }
+        /* latin-ext */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 700;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPjwUvbQoi-Entw.woff2) format('woff2');
+        unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+        }
+        /* latin */
+        @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 700;
+        src: url(https://fonts.gstatic.com/s/googlesans/v62/4UasrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RPjIUvbQoi-E.woff2) format('woff2');
+        unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+
+
+        /* Global Styles */
+        :root {
+            --bg-color-light: #f3f3f3;
+            --text-color-light: #000;
+            --bg-color-dark: #1e1e1e;
+            --text-color-dark: #fff;
+            --taskbar-bg-light: rgba(243, 243, 243, 0.8);
+            --taskbar-bg-dark: rgba(30, 30, 30, 0.8);
+            --start-menu-bg-light: rgba(243, 243, 243, 0.95);
+            --start-menu-bg-dark: rgba(30, 30, 30, 0.95);
+            --window-bg-light: #fff;
+            --window-bg-dark: #2d2d2d;
+            --window-border-light: #ccc;
+            --window-border-dark: #555;
+            --button-bg-light: #e0e0e0;
+            --button-bg-dark: #3c3c3c; /* Slightly lighter for better contrast */
+            --button-hover-light: #d5d5d5;
+            --button-hover-dark: #505050;
+            --input-bg-light: #fff;
+            --input-bg-dark: #3c3c3c;
+            --input-border-light: #ccc;
+            --input-border-dark: #555;
+            --scrollbar-thumb-light: #c1c1c1;
+            --scrollbar-thumb-dark: #888;
+            --scrollbar-track-light: #f1f1f1;
+            --scrollbar-track-dark: #2d2d2d;
+            --accent-color: #0078d4; /* Windows accent color */
+            --power-options-bg-light: rgba(243, 243, 243, 0.98);
+            --power-options-bg-dark: rgba(30, 30, 30, 0.98);
+            --calc-button-bg-light: #f0f0f0;
+            --calc-button-bg-dark: #333;
+            --calc-button-hover-light: #e0e0e0;
+            --calc-button-hover-dark: #444;
+            --calc-operator-bg-light: #ddd;
+            --calc-operator-bg-dark: #555;
+            --calc-operator-hover-light: #ccc;
+            --calc-operator-hover-dark: #666;
+            --calc-equals-bg: var(--accent-color);
+            --calc-equals-hover: #005a9e;
+        }
+
+        html {
+            height: 100%;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Google Sans', 'Segoe UI Variable', 'Segoe UI', sans-serif; /* Google Sans Added */
+            color: var(--text-color-light);
+            background-color: var(--bg-color-light);
+            transition: background-color 0.3s, color 0.3s;
+            cursor: none;
+            overflow: auto;
+            min-height: 100%;
+        }
+
+        /* Dark Mode */
+        body.dark-mode {
+            color: var(--text-color-dark);
+            background-color: var(--bg-color-dark);
+        }
+
+        body.dark-mode .taskbar {
+            background-color: var(--taskbar-bg-dark);
+        }
+
+        body.dark-mode .start-menu {
+            background-color: var(--start-menu-bg-dark);
+        }
+        body.dark-mode #power-options-popup {
+            background-color: var(--power-options-bg-dark);
+            border-color: var(--window-border-dark);
+        }
+        body.dark-mode #power-options-popup button {
+            background-color: var(--button-bg-dark);
+            color: var(--text-color-dark);
+            border-color: var(--button-hover-dark);
+        }
+        body.dark-mode #power-options-popup button:hover {
+            background-color: var(--button-hover-dark);
+        }
+
+
+        body.dark-mode .window {
+            background-color: var(--window-bg-dark);
+            border-color: var(--window-border-dark);
+        }
+
+        body.dark-mode .settings-section button,
+        body.dark-mode #setup-content button,
+        body.dark-mode #password-content button
+        {
+            /* Accent buttons, style remains consistent */
+        }
+        body.dark-mode .window-content button { /* For general buttons inside app windows like click game */
+             /* Default button styles might need adjustment if not using accent color */
+        }
+
+
+        body.dark-mode input,
+        body.dark-mode select,
+        body.dark-mode textarea {
+            background-color: var(--input-bg-dark);
+            border-color: var(--input-border-dark);
+            color: var(--text-color-dark);
+        }
+
+        body.dark-mode ::-webkit-scrollbar-thumb {
+            background: var(--scrollbar-thumb-dark);
+        }
+
+        body.dark-mode ::-webkit-scrollbar-track {
+            background: var(--scrollbar-track-dark);
+        }
+
+
+        /* Custom Cursor */
+        #custom-cursor {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 20px;
+            height: 20px;
+            pointer-events: none;
+            z-index: 10000;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="%23000" d="M4.91 4.23c-.59.58-.91 1.36-.91 2.19v13.16c0 1.21 1.08 2.02 2.27 1.55l4.54-1.82l3.18 5.18c.24.39.67.63 1.13.63c.38 0 .74-.15 1-.42c.48-.48.59-1.21.28-1.78l-3.33-5.43l5.03-2.01c1.19-.48 1.59-1.95.89-3.02l-13.5-13.5c-1.07-.7-2.54-.3-3.02.89z"/></svg>');
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+
+        body.dark-mode #custom-cursor {
+             background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="%23fff" d="M4.91 4.23c-.59.58-.91 1.36-.91 2.19v13.16c0 1.21 1.08 2.02 2.27 1.55l4.54-1.82l3.18 5.18c.24.39.67.63 1.13.63c.38 0 .74-.15 1-.42c.48-.48.59-1.21.28-1.78l-3.33-5.43l5.03-2.01c1.19-.48 1.59-1.95.89-3.02l-13.5-13.5c-1.07-.7-2.54-.3-3.02.89z"/></svg>');
+        }
+
+        /* Initial Setup Screen */
+        #setup-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: var(--bg-color-light); color: var(--text-color-light);
+            display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
+            z-index: 1000; transition: background-color 0.3s, color 0.3s;
+            overflow-y: auto; padding: 20px; box-sizing: border-box;
+        }
+        body.dark-mode #setup-screen { background-color: var(--bg-color-dark); color: var(--text-color-dark); }
+        #setup-content {
+            background-color: var(--window-bg-light); padding: 40px; border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); text-align: center;
+            max-width: 500px; width: 90%; transition: background-color 0.3s;
+            margin-top: 20px; margin-bottom: 20px;
+        }
+        body.dark-mode #setup-content { background-color: var(--window-bg-dark); }
+        #setup-content h2 { margin-top: 0; margin-bottom: 20px; font-weight: 600; }
+        #setup-content label { display: block; margin-bottom: 8px; text-align: left; font-weight: 600; }
+        #setup-content input, #setup-content select {
+            width: 100%; padding: 10px; margin-bottom: 20px; border: 1px solid var(--input-border-light);
+            border-radius: 4px; box-sizing: border-box; background-color: var(--input-bg-light);
+            color: var(--text-color-light); transition: border-color 0.3s, background-color 0.3s, color 0.3s;
+        }
+        body.dark-mode #setup-content input, body.dark-mode #setup-content select {
+            border-color: var(--input-border-dark); background-color: var(--input-bg-dark); color: var(--text-color-dark);
+        }
+        #setup-content button {
+            padding: 10px 20px; background-color: var(--accent-color); color: white;
+            border: none; border-radius: 4px; cursor: pointer; font-size: 1em; transition: background-color 0.2s ease;
+        }
+        #setup-content button:hover { background-color: #005a9e; }
+
+        /* Password Screen */
+        #password-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: var(--bg-color-light); color: var(--text-color-light);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            z-index: 999; transition: background-color 0.3s, color 0.3s;
+            overflow-y: auto; padding: 20px; box-sizing: border-box;
+        }
+        body.dark-mode #password-screen { background-color: var(--bg-color-dark); color: var(--text-color-dark); }
+        #password-content {
+            background-color: var(--window-bg-light); padding: 40px; border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); text-align: center;
+            max-width: 400px; width: 90%; transition: background-color 0.3s;
+        }
+        body.dark-mode #password-content { background-color: var(--window-bg-dark); }
+        #password-content h2 { margin-top: 0; margin-bottom: 20px; font-weight: 600; }
+        #password-content input {
+            width: 100%; padding: 10px; margin-bottom: 20px; border: 1px solid var(--input-border-light);
+            border-radius: 4px; box-sizing: border-box; background-color: var(--input-bg-light);
+            color: var(--text-color-light); transition: border-color 0.3s, background-color 0.3s, color 0.3s;
+        }
+        body.dark-mode #password-content input {
+            border-color: var(--input-border-dark); background-color: var(--input-bg-dark); color: var(--text-color-dark);
+        }
+        #password-content button {
+            padding: 10px 20px; background-color: var(--accent-color); color: white;
+            border: none; border-radius: 4px; cursor: pointer; font-size: 1em; transition: background-color 0.2s ease;
+        }
+        #password-content button:hover { background-color: #005a9e; }
+        #password-error { color: red; margin-top: 10px; visibility: hidden; }
+
+        /* Desktop Screen */
+        #desktop-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-size: cover; background-position: center;
+            display: none; flex-direction: column; justify-content: space-between;
+            z-index: 1; overflow: hidden;
+        }
+
+        /* Taskbar */
+        .taskbar {
+            position: fixed; bottom: 0; left: 0; width: 100%; height: 48px;
+            background-color: var(--taskbar-bg-light); backdrop-filter: blur(10px);
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 10px; box-sizing: border-box; z-index: 998; transition: background-color 0.3s;
+        }
+        .taskbar-left { flex-shrink: 0; }
+        .taskbar-center { display: flex; justify-content: center; align-items: center; }
+        .taskbar-icon {
+            width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;
+            margin: 0 4px; border-radius: 4px; cursor: pointer; transition: background-color 0.2s ease;
+        }
+        .taskbar-icon:hover { background-color: rgba(0, 0, 0, 0.1); }
+        body.dark-mode .taskbar-icon:hover { background-color: rgba(255, 255, 255, 0.1); }
+        .start-button-icon { width: 24px; height: 24px; fill: var(--text-color-light); }
+        body.dark-mode .start-button-icon { fill: var(--text-color-dark); }
+        .search-icon { width: 20px; height: 20px; fill: var(--text-color-light); }
+        body.dark-mode .search-icon { fill: var(--text-color-dark); }
+
+        .system-tray { display: flex; align-items: center; flex-shrink: 0; }
+        .system-tray-item {
+            padding: 0 8px; height: 40px; display: flex; align-items: center;
+            border-radius: 4px; cursor: pointer; transition: background-color 0.2s ease;
+        }
+        .system-tray-item:hover { background-color: rgba(0, 0, 0, 0.1); }
+        body.dark-mode .system-tray-item:hover { background-color: rgba(255, 255, 255, 0.1); }
+        .system-tray-icon { width: 18px; height: 18px; margin-right: 4px; fill: var(--text-color-light); }
+        body.dark-mode .system-tray-icon { fill: var(--text-color-dark); }
+
+        .taskbar-detail-popup {
+            position: fixed; bottom: 58px;
+            background-color: var(--window-bg-light); border: 1px solid var(--window-border-light);
+            border-radius: 8px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 15px; z-index: 999; display: none; flex-direction: column;
+            min-width: 200px; transition: background-color 0.3s, border-color 0.3s;
+        }
+        #datetime-popup { right: 10px; }
+        #battery-popup { right: 10px; }
+        body.dark-mode .taskbar-detail-popup {
+             background-color: var(--window-bg-dark); border-color: var(--window-border-dark);
+        }
+        .taskbar-detail-popup h4 { margin-top: 0; margin-bottom: 10px; font-weight: 600; }
+        .taskbar-detail-popup p { margin: 5px 0; font-size: 0.9em; }
+
+        #search-bar {
+            position: fixed; bottom: 58px; left: 50%;
+            width: 500px; max-width: 95%;
+            background-color: var(--window-bg-light); border: 1px solid var(--window-border-light);
+            border-radius: 8px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            padding: 15px; box-sizing: border-box; z-index: 997;
+            display: none; flex-direction: column;
+            opacity: 0; transform: translateX(-50%) scale(0.95) translateY(20px);
+            transition: background-color 0.3s, border-color 0.3s, opacity 0.25s ease-out, transform 0.25s ease-out;
+        }
+        body.dark-mode #search-bar { background-color: var(--window-bg-dark); border-color: var(--window-border-dark); }
+        #search-bar input {
+            width: 100%; padding: 10px; border: 1px solid var(--input-border-light);
+            border-radius: 4px; box-sizing: border-box; background-color: var(--input-bg-light);
+            color: var(--text-color-light); transition: border-color 0.3s, background-color 0.3s, color 0.3s;
+        }
+        body.dark-mode #search-bar input {
+             border-color: var(--input-border-dark); background-color: var(--input-bg-dark); color: var(--text-color-dark);
+        }
+        #search-bar .search-results { margin-top: 10px; font-size: 0.9em; color: var(--text-color-light); }
+        body.dark-mode #search-bar .search-results { color: var(--text-color-dark); }
+        #search-results div { padding: 8px; cursor: pointer; border-bottom: 1px solid var(--window-border-light); transition: background-color 0.2s ease; }
+        body.dark-mode #search-results div { border-bottom-color: var(--window-border-dark); }
+        #search-results div:last-child { border-bottom: none; }
+        #search-results div:hover { background-color: rgba(0, 0, 0, 0.05); }
+        body.dark-mode #search-results div:hover { background-color: rgba(255, 255, 255, 0.05); }
+
+        .start-menu {
+            position: fixed; bottom: 58px; left: 50%;
+            width: 500px; max-width: 95%; height: 600px; max-height: calc(100% - 70px);
+            background-color: var(--start-menu-bg-light); backdrop-filter: blur(10px);
+            border-radius: 8px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            display: none; flex-direction: column; justify-content: space-between;
+            padding: 20px; box-sizing: border-box; z-index: 997;
+            opacity: 0; transform: translateX(-50%) scale(0.95) translateY(20px);
+            transition: background-color 0.3s, opacity 0.25s ease-out, transform 0.25s ease-out;
+            overflow-y: auto;
+        }
+        .start-menu-header {
+            display: flex; align-items: center; padding-top: 15px;
+            border-top: 1px solid var(--input-border-light);
+            margin-top: 15px; width: 100%;
+        }
+        body.dark-mode .start-menu-header { border-top-color: var(--input-border-dark); }
+        .start-menu-header img { width: 36px; height: 36px; border-radius: 50%; margin-right: 10px; }
+        .start-menu-header span { font-weight: 600; flex-grow: 1; }
+        .power-button-container { margin-left: auto; }
+        #start-menu-power-button {
+            background: none; border: none; cursor: pointer; padding: 5px; border-radius: 4px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        #start-menu-power-button svg { width: 22px; height: 22px; fill: var(--text-color-light); }
+        body.dark-mode #start-menu-power-button svg { fill: var(--text-color-dark); }
+        #start-menu-power-button:hover { background-color: rgba(0,0,0,0.1); }
+        body.dark-mode #start-menu-power-button:hover { background-color: rgba(255,255,255,0.1); }
+
+        #power-options-popup {
+            position: fixed;
+            bottom: 110px;
+            left: 50%;
+            transform: translateX(calc(-50% + 200px));
+            width: 200px;
+            background-color: var(--power-options-bg-light);
+            border: 1px solid var(--window-border-light);
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            z-index: 999;
+            display: none;
+            flex-direction: column;
+            gap: 8px;
+            opacity: 0;
+            transition: background-color 0.3s, border-color 0.3s, opacity 0.25s ease-out, transform 0.25s ease-out;
+        }
+        #power-options-popup button {
+            width: 100%; padding: 10px; text-align: left;
+            background-color: var(--button-bg-light); color: var(--text-color-light);
+            border: 1px solid var(--button-hover-light);
+            border-radius: 4px; cursor: pointer; font-size: 0.9em;
+            transition: background-color 0.2s ease, border-color 0.2s ease;
+        }
+        #power-options-popup button:hover { background-color: var(--button-hover-light); }
+
+
+        .app-list {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 15px; overflow-y: auto; flex-grow: 1; padding-bottom: 10px;
+        }
+        .app-icon {
+            display: flex; flex-direction: column; align-items: center; text-align: center; cursor: pointer;
+        }
+        .app-icon .icon {
+            width: 50px; height: 50px; margin-bottom: 5px; border-radius: 8px;
+            background-color: var(--button-bg-light); display: flex; align-items: center; justify-content: center;
+            font-size: 24px; transition: background-color 0.2s ease;
+        }
+        body.dark-mode .app-icon .icon { background-color: var(--button-bg-dark); }
+        .app-icon .icon:hover { background-color: var(--button-hover-light); }
+        body.dark-mode .app-icon .icon:hover { background-color: var(--button-hover-dark); }
+        .app-icon .icon svg { width: 30px; height: 30px; fill: var(--text-color-light); }
+        body.dark-mode .app-icon .icon svg { fill: var(--text-color-dark); }
+        .app-icon span { font-size: 0.9em; word-break: break-word; }
+
+        .window {
+            position: absolute; top: 50%; left: 50%;
+            background-color: var(--window-bg-light); border: 1px solid var(--window-border-light);
+            border-radius: 8px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            width: 80%; max-width: 800px; height: 80%; max-height: 600px;
+            display: none; flex-direction: column; z-index: 996; overflow: hidden; resize: both;
+            min-width: 300px; min-height: 200px;
+            opacity: 0; transform: translate(-50%, -50%) scale(0.95) translateY(20px);
+            transition: background-color 0.3s, border-color 0.3s, opacity 0.25s ease-out, transform 0.25s ease-out;
+        }
+        .window-header {
+            padding: 10px; background-color: rgba(0, 0, 0, 0.05);
+            display: flex; justify-content: space-between; align-items: center;
+            cursor: grab; user-select: none;
+        }
+        body.dark-mode .window-header { background-color: rgba(255, 255, 255, 0.05); }
+        .window-title { font-weight: 600; }
+        .window-buttons button {
+            background: none; border: none; font-size: 1.2em; margin-left: 5px; cursor: pointer;
+            padding: 5px; border-radius: 4px; transition: background-color 0.2s ease;
+            color: var(--text-color-light);
+        }
+        body.dark-mode .window-buttons button { color: var(--text-color-dark); }
+        .window-buttons button:hover { background-color: rgba(0, 0, 0, 0.1); }
+        body.dark-mode .window-buttons button:hover { background-color: rgba(255, 255, 255, 0.1); }
+
+        .window-content { flex-grow: 1; padding: 20px; overflow-y: auto; }
+        .window-content textarea {
+            width: 100%; height: 100%; border: none; resize: none;
+            font-family: inherit; font-size: 1em; /* Inherit body font */
+            box-sizing: border-box; padding: 5px; background-color: var(--input-bg-light); color: var(--text-color-light);
+        }
+        body.dark-mode .window-content textarea { background-color: var(--input-bg-dark); color: var(--text-color-dark); }
+
+        /* Click Game specific styles */
+        #click-game-content { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; }
+        #click-button {
+            padding: 20px 40px; font-size: 1.5em; background-color: var(--accent-color); color: white;
+            border: none; border-radius: 8px; cursor: pointer; margin-bottom: 20px; transition: background-color 0.2s, transform 0.1s;
+        }
+        #click-button:hover { background-color: #005a9e; }
+        #click-button:active { transform: scale(0.95); }
+        #click-count { font-size: 2em; font-weight: bold; }
+        body.dark-mode #click-button { /* No specific dark mode if accent is universal */ }
+
+        /* Calculator App Styles */
+        #calculator-window .window-content {
+            display: flex;
+            flex-direction: column;
+            padding: 0; /* Remove padding for full bleed display/buttons */
+        }
+        .calculator-display {
+            background-color: var(--input-bg-light);
+            color: var(--text-color-light);
+            text-align: right;
+            padding: 20px;
+            font-size: 2.5em; /* Larger display font */
+            font-weight: 300;
+            min-height: 50px;
+            border-bottom: 1px solid var(--window-border-light);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        body.dark-mode .calculator-display {
+            background-color: var(--input-bg-dark);
+            color: var(--text-color-dark);
+            border-bottom-color: var(--window-border-dark);
+        }
+        .calculator-buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1px; /* Thin lines between buttons */
+            flex-grow: 1;
+            background-color: var(--window-border-light); /* For grid lines */
+        }
+        body.dark-mode .calculator-buttons {
+            background-color: var(--window-border-dark);
+        }
+        .calculator-button {
+            background-color: var(--calc-button-bg-light);
+            color: var(--text-color-light);
+            border: none;
+            padding: 20px;
+            font-size: 1.5em;
+            cursor: pointer;
+            transition: background-color 0.1s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .calculator-button:hover {
+            background-color: var(--calc-button-hover-light);
+        }
+        body.dark-mode .calculator-button {
+            background-color: var(--calc-button-bg-dark);
+            color: var(--text-color-dark);
+        }
+        body.dark-mode .calculator-button:hover {
+            background-color: var(--calc-button-hover-dark);
+        }
+
+        .calculator-button.operator {
+            background-color: var(--calc-operator-bg-light);
+        }
+        .calculator-button.operator:hover {
+            background-color: var(--calc-operator-hover-light);
+        }
+        body.dark-mode .calculator-button.operator {
+            background-color: var(--calc-operator-bg-dark);
+        }
+        body.dark-mode .calculator-button.operator:hover {
+            background-color: var(--calc-operator-hover-dark);
+        }
+        .calculator-button.equals {
+            background-color: var(--calc-equals-bg);
+            color: white;
+            grid-column: span 2; /* Make equals button wider */
+        }
+        .calculator-button.equals:hover {
+            background-color: var(--calc-equals-hover);
+        }
+        body.dark-mode .calculator-button.equals {
+            /* Keep accent color for equals button in dark mode too */
+        }
+
+
+        #settings-content h3 { margin-top: 0; margin-bottom: 15px; font-weight: 600; }
+        .settings-section { margin-bottom: 25px; padding-bottom: 15px; border-bottom: 1px solid var(--window-border-light); }
+        body.dark-mode .settings-section { border-bottom-color: var(--window-border-dark); }
+        .settings-section label { display: block; margin-bottom: 8px; font-weight: 600; }
+        .settings-section input[type="text"], .settings-section input[type="password"],
+        .settings-section input[type="number"], .settings-section input[type="time"],
+        .settings-section input[type="date"], .settings-section select {
+            width: calc(100% - 22px); padding: 10px; margin-bottom: 10px; border: 1px solid var(--input-border-light);
+            border-radius: 4px; box-sizing: border-box; background-color: var(--input-bg-light); color: var(--text-color-light);
+            transition: border-color 0.3s, background-color 0.3s, color 0.3s;
+        }
+        body.dark-mode .settings-section input[type="text"], body.dark-mode .settings-section input[type="password"],
+        body.dark-mode .settings-section input[type="number"], body.dark-mode .settings-section input[type="time"],
+        body.dark-mode .settings-section input[type="date"], body.dark-mode .settings-section select {
+            border-color: var(--input-border-dark); background-color: var(--input-bg-dark); color: var(--text-color-dark);
+        }
+        .settings-section button {
+            padding: 8px 15px; background-color: var(--button-bg-light); color: var(--text-color-light);
+            border: 1px solid var(--button-hover-light); border-radius: 4px; cursor: pointer; font-size: 0.9em;
+            transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+        }
+        body.dark-mode .settings-section button {
+             background-color: var(--button-bg-dark); color: var(--text-color-dark); border-color: var(--button-hover-dark);
+        }
+        .settings-section button:hover { background-color: var(--button-hover-light); border-color: var(--button-bg-light); }
+        body.dark-mode .settings-section button:hover { background-color: var(--button-hover-dark); border-color: var(--button-bg-dark); }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--scrollbar-track-light); }
+        ::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb-light); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #555; }
+
+        #shutdown-overlay {
+            position:fixed; top:0; left:0; width:100%; height:100%;
+            background:rgba(0,0,0,0.9); color:white;
+            z-index:10001;
+            display:flex; flex-direction: column; align-items:center; justify-content:center;
+            font-size:1.5em; text-align: center;
+            opacity: 0; transition: opacity 0.3s ease-in-out;
+        }
+         #shutdown-overlay p { margin-top: 20px; }
+
+
+        @media (max-width: 768px) {
+            .taskbar { height: 56px; }
+            .taskbar-icon { width: 48px; height: 48px; }
+            .start-menu {
+                width: 100%; left: 0; transform: translateX(0) scale(0.95) translateY(20px);
+                border-radius: 0; bottom: 56px; max-height: calc(100% - 56px);
+            }
+            .window { width: 95%; height: 90%; max-width: 100%; max-height: 100%; }
+            .taskbar-detail-popup { right: 50%; transform: translateX(50%); min-width: unset; width: 90%; }
+            #search-bar {
+                width: 95%; left: 50%; transform: translateX(-50%) scale(0.95) translateY(20px);
+            }
+            #power-options-popup {
+                left: auto; right: 10px;
+                transform: scale(0.95) translateY(10px);
+                bottom: calc(56px + 10px + 36px + 15px + 15px + 10px);
+            }
+            .calculator-display { font-size: 2em; padding: 15px; }
+            .calculator-button { font-size: 1.2em; padding: 15px;}
+        }
+    </style>
+</head>
+<body>
+
+    <div id="custom-cursor"></div>
+
+    <div id="setup-screen">
+        <div id="setup-content">
+            <h2>Windows 11 セットアップ</h2>
+            <div class="settings-section">
+                 <label for="setup-language">言語:</label>
+                <select id="setup-language">
+                    <option value="ja">日本語</option>
+                    <option value="en">English</option>
+                </select>
+            </div>
+            <div class="settings-section">
+                 <label for="setup-region">地域:</label>
+                <select id="setup-region">
+                    <option value="JP">日本</option>
+                    <option value="US">United States</option>
+                </select>
+            </div>
+             <div class="settings-section">
+                <label>インターネット設定 (ダミー):</label>
+                <p>インターネットに接続しています...</p>
+            </div>
+            <div class="settings-section">
+                <label for="setup-date">日付:</label>
+                <input type="date" id="setup-date">
+            </div>
+            <div class="settings-section">
+                <label for="setup-time">時間:</label>
+                <input type="time" id="setup-time">
+            </div>
+            <div class="settings-section">
+                <label for="setup-keyboard">キーボード レイアウト:</label>
+                <select id="setup-keyboard">
+                    <option value="JP">日本語</option>
+                    <option value="US">US</option>
+                </select>
+            </div>
+             <div class="settings-section">
+                <label for="setup-mouse-icon">マウス アイコン:</label>
+                <select id="setup-mouse-icon">
+                    <option value="default">デフォルト</option>
+                    <option value="pointer">ポインター</option>
+                </select>
+            </div>
+             <div class="settings-section">
+                <label for="setup-wallpaper">壁紙:</label>
+                <select id="setup-wallpaper">
+                    <option value="default">デフォルト (Windows 11)</option>
+                    <option value="abstract">抽象画</option>
+                </select>
+            </div>
+             <div class="settings-section">
+                <label for="setup-username">ユーザー名:</label>
+                <input type="text" id="setup-username" placeholder="ユーザー名を入力">
+            </div>
+             <div class="settings-section">
+                <label for="setup-pcname">PC名:</label>
+                <input type="text" id="setup-pcname" placeholder="PC名を入力">
+            </div>
+            <div class="settings-section">
+                <label for="setup-password">パスワード:</label>
+                <input type="password" id="setup-password" placeholder="パスワードを入力">
+            </div>
+            <button id="complete-setup">セットアップ完了</button>
+        </div>
+    </div>
+
+    <div id="password-screen">
+        <div id="password-content">
+            <h2>パスワードを入力してください</h2>
+            <input type="password" id="login-password" placeholder="パスワード">
+            <button id="login-button">ログイン</button>
+            <p id="password-error">パスワードが間違っています。</p>
+        </div>
+    </div>
+
+    <div id="desktop-screen">
+        <div class="taskbar">
+            <div class="taskbar-left">
+            </div>
+            <div class="taskbar-center">
+                <div class="taskbar-icon" id="start-button">
+                     <svg class="start-button-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4.98 3.5H19.02C19.84 3.5 20.5 4.16 20.5 4.98V19.02C20.5 19.84 19.84 20.5 19.02 20.5H4.98C4.16 20.5 3.5 19.84 3.5 19.02V4.98C3.5 4.16 4.16 3.5 4.98 3.5ZM4.98 4.98V11.5H11.5V4.98H4.98ZM12.5 4.98V11.5H19.02V4.98H12.5ZM4.98 12.5V19.02H11.5V12.5H4.98ZM12.5 12.5V19.02H19.02V12.5H12.5Z"/>
+                    </svg>
+                </div>
+                 <div class="taskbar-icon" id="search-button">
+                     <svg class="search-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M15.5 14H14.71L14.43 13.73C15.41 12.59 16 11.11 16 9.5C16 5.91 13.09 3 9.5 3C5.91 3 3 5.91 3 9.5C3 13.09 5.91 16 9.5 16C11.11 16 12.59 15.41 13.73 14.43L14 14.71V15.5L19.25 20.75L20.75 19.25L15.5 14ZM9.5 14C7.01 14 5 11.99 5 9.5C5 7.01 7.01 5 9.5 5C11.99 5 14 7.01 14 9.5C14 11.99 11.99 14 9.5 14Z"/>
+                    </svg>
+                 </div>
+                <div class="taskbar-icon" id="taskbar-settings">
+                     <svg class="system-tray-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.09-.73-1.71-.98l-.37-2.65c-.06-.24-.27-.42-.51-.42h-4c-.25 0-.45.18-.51.42l-.37 2.65c-.62.25-1.19.58-1.71.98l-2.49-1c-.23-.09-.49 0-.61.22l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.09.73 1.71.98l.37 2.65c.06.24.27.42.51.42h4c.25 0-.45-.18-.51-.42l-.37-2.65c.62-.25 1.19-.58 1.71-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zm-2.03-2.02a3.5 3.5 0 1 1-7 0a3.5 3.5 0 0 1 7 0z"/></svg>
+                    </div>
+            </div>
+            <div class="system-tray">
+                <div class="system-tray-item" id="battery-status">
+                     <svg class="system-tray-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M17 4H15V2H9V4H7C6.45 4 6 4.45 6 5V20C6 20.55 6.45 21 7 21H17C17.55 21 18 20.55 18 20V5C18 4.45 17.55 4 17 4ZM16 19H8V6H16V19Z"/>
+                    </svg>
+                    <span id="battery-level">100%</span>
+                </div>
+                <div class="system-tray-item" id="time-display"></div>
+                <div class="system-tray-item" id="date-display"></div>
+            </div>
+        </div>
+
+        <div class="taskbar-detail-popup" id="datetime-popup">
+            <h4>日時</h4>
+            <p id="popup-datetime"></p>
+            <p>地域: <span id="popup-region"></span></p>
+            <p>言語: <span id="popup-language"></span></p>
+        </div>
+
+        <div class="taskbar-detail-popup" id="battery-popup">
+            <h4>バッテリー</h4>
+            <p>レベル: <span id="popup-battery-level"></span></p>
+            <p>状態: <span id="popup-battery-status"></span></p>
+        </div>
+
+        <div id="search-bar">
+            <input type="text" id="search-input" placeholder="検索...">
+            <div class="search-results" id="search-results">
+                <p>ここに検索結果が表示されます。</p>
+            </div>
+        </div>
+
+
+        <div class="start-menu" id="start-menu">
+            <div class="app-list">
+                <div class="app-icon" data-app="calculator"> <!-- Calculator App -->
+                    <div class="icon">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM7 18H5v-2h2v2zm0-4H5v-2h2v2zm0-4H5V8h2v2zm4 8H9v-2h2v2zm0-4H9v-2h2v2zm0-4H9V8h2v2zm4 8h-2v-2h2v2zm0-4h-2v-2h2v2zm0-4h-2V8h2v2zm4 8h-2v-2h2v2zm0-4h-2v-2h2v2z"/></svg>
+                    </div>
+                    <span>電卓</span>
+                </div>
+                <div class="app-icon" data-app="chrome">
+                    <div class="icon">
+                         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4ZM12 6C9.79 6 8 7.79 8 10C8 12.21 9.79 14 12 14C14.21 14 16 12.21 16 10C16 7.79 14.21 6 12 6ZM12 8C13.1 8 14 8.9 14 10C14 11.1 13.1 12 12 12C10.9 12 10 11.1 10 10C10 8.9 10.9 8 12 8Z"/></svg>
+                    </div>
+                    <span>Google Chrome</span>
+                </div>
+                 <div class="app-icon" data-app="minecraft-bedrock">
+                    <div class="icon">
+                         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 1L3 5V19L12 23L21 19V5L12 1ZM12 3.15L19 6.3V17.6L12 20.85L5 17.6V6.3L12 3.15ZM12 6L7 8.5V15.5L12 18L17 15.5V8.5L12 6ZM12 8.5L15 10V14L12 15.5L9 14V10L12 8.5Z"/></svg>
+                    </div>
+                    <span>Minecraft Bedrock Edition</span>
+                </div>
+                <div class="app-icon" data-app="minecraft-java">
+                    <div class="icon">
+                         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L2 7V17L12 22L22 17V7L12 2ZM11 16H6V11H11V16ZM18 16H13V11H18V16ZM11 10H6V5L11 7.5V10ZM18 10H13V7.5L18 5V10Z"/></svg>
+                    </div>
+                    <span>Minecraft Java Edition</span>
+                </div>
+                <div class="app-icon" data-app="amazon">
+                    <div class="icon">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M16.38 15.22c-.2-.25-.48-.4-.76-.4-.4 0-.78.24-.98.6l-2.73 4.82c-.06.1-.1.22-.1.35 0 .32.25.58.58.58.13 0 .25-.04.35-.12l.92-.68c1.16.66 2.52.92 3.9.73 2.6-.35 4.5-2.6 4.5-5.28 0-1.82-.9-3.42-2.28-4.38zm-8.76-2.6c-2.7 0-4.9 2.2-4.9 4.9s2.2 4.9 4.9 4.9c1.3 0 2.5-.5 3.4-1.4l-3.8-3.5c-.3-.3-.3-.8 0-1.1s.8-.3 1.1 0l3.8 3.5c.3-.3.5-.6.7-.9L7.92 9.92c-.2-.36-.58-.6-.98-.6zm8.76-6.62c-2.9 0-5.28 2.38-5.28 5.28s2.38 5.28 5.28 5.28 5.28-2.38 5.28-5.28-2.38-5.28-5.28-5.28z"/></svg>
+                    </div>
+                    <span>Amazon</span>
+                </div>
+                <div class="app-icon" data-app="click-game">
+                    <div class="icon">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>
+                    </div>
+                    <span>クリックゲーム</span>
+                </div>
+                 <div class="app-icon" data-app="settings">
+                    <div class="icon">
+                         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.09-.73-1.71-.98l-.37-2.65c-.06-.24-.27-.42-.51-.42h-4c-.25 0-.45.18-.51.42l-.37 2.65c-.62.25-1.19.58-1.71.98l-2.49-1c-.23-.09-.49 0-.61.22l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.09.73 1.71.98l.37 2.65c.06.24.27.42.51.42h4c.25 0-.45-.18-.51-.42l-.37-2.65c.62-.25 1.19-.58 1.71-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zm-2.03-2.02a3.5 3.5 0 1 1-7 0a3.5 3.5 0 0 1 7 0z"/></svg>
+                    </div>
+                    <span>設定</span>
+                </div>
+                 <div class="app-icon" data-app="edge">
+                    <div class="icon">
+                         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4ZM12 6C9.79 6 8 7.79 8 10C8 12.21 9.79 14 12 14C14.21 14 16 12.21 16 10C16 7.79 14.21 6 12 6ZM12 8C13.1 8 14 8.9 14 10C14 11.1 13.1 12 12 12C10.9 12 10 11.1 10 10C10 8.9 10.9 8 12 8Z"/></svg>
+                    </div>
+                    <span>Edge</span>
+                </div>
+                 <div class="app-icon" data-app="microsoft-store">
+                    <div class="icon">
+                         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18 2H6C4.9 2 4 2.9 4 4V20C4 21.1 4.9 22 6 22H18C19.1 22 20 21.1 20 20V4C20 2.9 19.1 2 18 2ZM18 20H6V4H18V20ZM12 6C9.79 6 8 7.79 8 10C8 12.21 9.79 14 12 14C14.21 14 16 12.21 16 10C16 7.79 14.21 6 12 6ZM12 8C13.1 8 14 8.9 14 10C14 11.1 13.1 12 12 12C10.9 12 10 11.1 10 10C10 8.9 10.9 8 12 8Z"/></svg>
+                    </div>
+                    <span>Microsoft Store</span>
+                </div>
+                <div class="app-icon" data-app="notepad">
+                    <div class="icon">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M14 2H6C4.9 2 4 2.9 4 4V20C4 21.1 4.9 22 6 22H18C19.1 22 20 21.1 20 20V8L14 2ZM16 18H8V16H16V18ZM16 14H8V12H16V14ZM13 9V3.5L18.5 9H13Z"/>
+                        </svg>
+                    </div>
+                    <span>メモ帳</span>
+                </div>
+                 <div class="app-icon" data-app="roblox">
+                    <div class="icon">
+                         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4ZM12 6C9.79 6 8 7.79 8 10C8 12.21 9.79 14 12 14C14.21 14 16 12.21 16 10C16 7.79 14.21 6 12 6ZM12 8C13.1 8 14 8.9 14 10C14 11.1 13.1 12 12 12C10.9 12 10 11.1 10 10C10 8.9 10.9 8 12 8Z"/></svg>
+                    </div>
+                    <span>Roblox</span>
+                </div>
+                 <div class="app-icon" data-app="x">
+                    <div class="icon">
+                         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.244 2.25h.002v.002h-.002zm2.074 1.326c-.607.268-1.25.478-1.897.636a7.164 7.164 0 0 1-1.44-.156a6.83 6.83 0 0 0-4.785-2.074c-3.26 0-5.918 2.659-5.918 5.92c0 .46.05.91.148 1.344c-4.938-.252-9.33-2.616-12.263-6.184c.507.088 1.027.138 1.555.138c1.004 0 1.96-.34 2.728-.944a5.828 5.828 0 0 1-2.665-1.13c.316.06.638.092.965.092c.47 0 .92-.066 1.34-.18a5.934 5.934 0 0 1-4.74-5.177v-.07c.62.347 1.335.56 2.082.582a5.933 5.933 0 0 1-1.85-2.24c1.66.972 3.51 1.54 5.498 1.617c-.356 1.444-1.384 2.75-2.838 3.623a5.96 5.96 0 0 0-4.08 1.473c1.718 1.355 3.945 2.147 6.302 2.147c7.56 0 11.69-6.264 11.69-11.69c0-.177-.004-.352-.012-.527a8.385 8.385 0 0 0 2.066-2.147z"/></svg>
+                    </div>
+                    <span>X</span>
+                </div>
+                 <div class="app-icon" data-app="youtube">
+                    <div class="icon">
+                         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10 16.5V7.5L16 12L10 16.5ZM12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4ZM12 6C9.79 6 8 7.79 8 10C8 12.21 9.79 14 12 14C14.21 14 16 12.21 16 10C16 7.79 14.21 6 12 6ZM12 8C13.1 8 14 8.9 14 10C14 11.1 13.1 12 12 12C10.9 12 10 11.1 10 10C10 8.9 10.9 8 12 8Z"/></svg>
+                    </div>
+                    <span>YouTube</span>
+                </div>
+                 <div class="app-icon" data-app="google-meet">
+                    <div class="icon">
+                         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4ZM12 6C9.79 6 8 7.79 8 10C8 12.21 9.79 14 12 14C14.21 14 16 12.21 16 10C16 7.79 14.21 6 12 6ZM12 8C13.1 8 14 8.9 14 10C14 11.1 13.1 12 12 12C10.9 12 10 11.1 10 10C10 8.9 10.9 8 12 8Z"/></svg>
+                    </div>
+                    <span>Google Meet</span>
+                </div>
+                 <div class="app-icon" data-app="google-drive">
+                    <div class="icon">
+                         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4ZM12 6C9.79 6 8 7.79 8 10C8 12.21 9.79 14 12 14C14.21 14 16 12.21 16 10C16 7.79 14.21 6 12 6ZM12 8C13.1 8 14 8.9 14 10C14 11.1 13.1 12 12 12C10.9 12 10 11.1 10 10C10 8.9 10.9 8 12 8Z"/></svg>
+                    </div>
+                    <span>Google Drive</span>
+                </div>
+            </div>
+            <div class="start-menu-header">
+                <img id="start-menu-user-avatar" src="https://placehold.co/36x36/cccccc/000?text=U" alt="User Icon">
+                <span id="start-menu-username">ユーザー</span>
+                <div class="power-button-container">
+                    <button id="start-menu-power-button" title="電源">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12.999 2.999a1 1 0 011 1v8a1 1 0 01-2 0V4a1 1 0 011-1zm5.363 2.364a1 1 0 011.414 0l.001.001a1 1 0 010 1.414l-1.06 1.061a1 1 0 01-1.415-1.414l1.06-1.061zm-12.726 0a1 1 0 011.414 1.414L5.001 7.838a1 1 0 01-1.414-1.414l1.06-1.061a1 1 0 010-.001zM12 15.499a5.5 5.5 0 110 11 5.5 5.5 0 010-11zm0 2a3.5 3.5 0 100 7 3.5 3.5 0 000-7z"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="power-options-popup">
+            <button id="restart-button">再起動</button>
+            <button id="shutdown-button">シャットダウン</button>
+        </div>
+
+        <!-- Calculator App Window -->
+        <div class="window" id="calculator-window" style="max-width: 400px; max-height:500px; min-width: 280px; min-height: 380px;">
+            <div class="window-header">
+                <span class="window-title">電卓</span>
+                <div class="window-buttons">
+                    <button class="minimize-button">—</button>
+                    <button class="maximize-button">□</button>
+                    <button class="close-button">×</button>
+                </div>
+            </div>
+            <div class="window-content">
+                <div class="calculator-display" id="calculator-display">0</div>
+                <div class="calculator-buttons">
+                    <button class="calculator-button operator" data-value="clear">AC</button>
+                    <button class="calculator-button operator" data-value="backspace">⌫</button>
+                    <button class="calculator-button operator" data-value="%">%</button>
+                    <button class="calculator-button operator" data-value="/">÷</button>
+
+                    <button class="calculator-button number" data-value="7">7</button>
+                    <button class="calculator-button number" data-value="8">8</button>
+                    <button class="calculator-button number" data-value="9">9</button>
+                    <button class="calculator-button operator" data-value="*">×</button>
+
+                    <button class="calculator-button number" data-value="4">4</button>
+                    <button class="calculator-button number" data-value="5">5</button>
+                    <button class="calculator-button number" data-value="6">6</button>
+                    <button class="calculator-button operator" data-value="-">−</button>
+
+                    <button class="calculator-button number" data-value="1">1</button>
+                    <button class="calculator-button number" data-value="2">2</button>
+                    <button class="calculator-button number" data-value="3">3</button>
+                    <button class="calculator-button operator" data-value="+">+</button>
+
+                    <button class="calculator-button number" data-value="0">0</button>
+                    <button class="calculator-button number" data-value=".">.</button>
+                    <button class="calculator-button equals" data-value="=">=</button>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="window" id="chrome-window">
+            <div class="window-header">
+                <span class="window-title">Google Chrome</span>
+                <div class="window-buttons">
+                    <button class="minimize-button">—</button>
+                    <button class="maximize-button">□</button>
+                    <button class="close-button">×</button>
+                </div>
+            </div>
+            <div class="window-content">
+                <div style="display: flex; align-items: center; border: 1px solid #ccc; border-radius: 20px; padding: 5px 10px; margin-bottom: 15px;">
+                    <svg style="width: 16px; height: 16px; margin-right: 8px; fill: #5f6368;" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15.5 14H14.71L14.43 13.73C15.41 12.59 16 11.11 16 9.5C16 5.91 13.09 3 9.5 3C5.91 3 3 5.91 3 9.5C3 13.09 5.91 16 9.5 16C11.11 16 12.59 15.41 13.73 14.43L14 14.71V15.5L19.25 20.75L20.75 19.25L15.5 14ZM9.5 14C7.01 14 5 11.99 5 9.5C5 7.01 7.01 5 9.5 5C11.99 5 14 7.01 14 9.5C14 11.99 11.99 14 9.5 14Z"/></svg>
+                    <input type="text" value="https://www.google.com" style="border: none; outline: none; flex-grow: 1; padding: 0; margin: 0; background: none; color: inherit;">
+                </div>
+                <div style="text-align: center; margin-top: 50px;">
+                    <img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png" alt="Google Logo" style="width: 150px; margin-bottom: 20px;">
+                    <input type="text" placeholder="Google で検索、または URL を入力" style="width: 80%; max-width: 500px; padding: 10px; border: 1px solid #ddd; border-radius: 20px; text-align: center;">
+                </div>
+            </div>
+        </div>
+
+         <div class="window" id="minecraft-bedrock-window">
+            <div class="window-header">
+                <span class="window-title">Minecraft Bedrock Edition</span>
+                <div class="window-buttons">
+                    <button class="minimize-button">—</button>
+                    <button class="maximize-button">□</button>
+                    <button class="close-button">×</button>
+                </div>
+            </div>
+            <div class="window-content" style="text-align: center; background-image: url('https://placehold.co/800x600/2E8B57/fff?text=Minecraft+Bedrock'); background-size: cover; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                <h1 style="color: white; text-shadow: 2px 2px #000;">Minecraft Bedrock Edition</h1>
+                <button style="margin-top: 20px; padding: 10px 20px; background-color: rgba(0,0,0,0.5); color: white; border: 1px solid gray; border-radius: 4px;">シングルプレイ</button>
+                 <button style="margin-top: 10px; padding: 10px 20px; background-color: rgba(0,0,0,0.5); color: white; border: 1px solid gray; border-radius: 4px;">マルチプレイ</button>
+            </div>
+        </div>
+        <div class="window" id="minecraft-java-window">
+            <div class="window-header">
+                <span class="window-title">Minecraft Java Edition</span>
+                <div class="window-buttons">
+                    <button class="minimize-button">—</button>
+                    <button class="maximize-button">□</button>
+                    <button class="close-button">×</button>
+                </div>
+            </div>
+            <div class="window-content" style="text-align: center; background-image: url('https://placehold.co/800x600/A0522D/fff?text=Minecraft+Java'); background-size: cover; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                <h1 style="color: white; text-shadow: 2px 2px #000;">Minecraft Java Edition</h1>
+                 <button style="margin-top: 20px; padding: 10px 20px; background-color: rgba(0,0,0,0.6); color: white; border: 1px solid #555; border-radius: 4px;">Play</button>
+                 <button style="margin-top: 10px; padding: 10px 20px; background-color: rgba(0,0,0,0.6); color: white; border: 1px solid #555; border-radius: 4px;">Installations</button>
+            </div>
+        </div>
+        <div class="window" id="amazon-window">
+            <div class="window-header">
+                <span class="window-title">Amazon</span>
+                <div class="window-buttons">
+                    <button class="minimize-button">—</button>
+                    <button class="maximize-button">□</button>
+                    <button class="close-button">×</button>
+                </div>
+            </div>
+            <div class="window-content" style="text-align: center;">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Amazon_logo.svg/603px-Amazon_logo.svg.png" alt="Amazon Logo" style="width: 150px; margin-bottom: 20px;">
+                <input type="text" placeholder="Amazon.co.jp で検索" style="width: 80%; max-width: 500px; padding: 10px; border: 1px solid #ddd; border-radius: 4px; text-align: center;">
+                <p style="margin-top: 20px;">おすすめ商品 (ダミー)</p>
+                <div style="display:flex; justify-content: space-around; flex-wrap: wrap;">
+                    <div style="border: 1px solid #eee; padding:10px; margin:10px; border-radius: 4px; width: 120px;">
+                        <img src="https://placehold.co/100x100/FF9900/fff?text=商品1" style="width:100%; height:auto;">
+                        <p style="font-size:0.8em;">商品1</p>
+                    </div>
+                     <div style="border: 1px solid #eee; padding:10px; margin:10px; border-radius: 4px; width: 120px;">
+                        <img src="https://placehold.co/100x100/FF9900/fff?text=商品2" style="width:100%; height:auto;">
+                        <p style="font-size:0.8em;">商品2</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="window" id="click-game-window">
+            <div class="window-header">
+                <span class="window-title">クリックゲーム</span>
+                <div class="window-buttons">
+                    <button class="minimize-button">—</button>
+                    <button class="maximize-button">□</button>
+                    <button class="close-button">×</button>
+                </div>
+            </div>
+            <div class="window-content" id="click-game-content">
+                <button id="click-button">クリック！</button>
+                <p>スコア: <span id="click-count">0</span></p>
+            </div>
+        </div>
+         <div class="window" id="edge-window">
+            <div class="window-header">
+                <span class="window-title">Microsoft Edge</span>
+                <div class="window-buttons">
+                    <button class="minimize-button">—</button>
+                    <button class="maximize-button">□</button>
+                    <button class="close-button">×</button>
+                </div>
+            </div>
+            <div class="window-content">
+                <div style="display: flex; align-items: center; border: 1px solid #ccc; border-radius: 20px; padding: 5px 10px; margin-bottom: 15px;">
+                    <svg style="width: 16px; height: 16px; margin-right: 8px; fill: #5f6368;" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4ZM12 6C9.79 6 8 7.79 8 10C8 12.21 9.79 14 12 14C14.21 14 16 12.21 16 10C16 7.79 14.21 6 12 6ZM12 8C13.1 8 14 8.9 14 10C14 11.1 13.1 12 12 12C10.9 12 10 11.1 10 10C10 8.9 10.9 8 12 8Z"/></svg>
+                    <input type="text" value="https://www.bing.com" style="border: none; outline: none; flex-grow: 1; padding: 0; margin: 0; background: none; color: inherit;">
+                </div>
+                <div style="text-align: center; margin-top: 50px;">
+                     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Bing_logo_%282016%29.svg/1280px-Bing_logo_%282016%29.svg.png" alt="Bing Logo" style="width: 150px; margin-bottom: 20px;">
+                    <input type="text" placeholder="Bing で検索" style="width: 80%; max-width: 500px; padding: 10px; border: 1px solid #ddd; border-radius: 20px; text-align: center;">
+                </div>
+            </div>
+        </div>
+
+         <div class="window" id="microsoft-store-window">
+            <div class="window-header">
+                <span class="window-title">Microsoft Store</span>
+                <div class="window-buttons">
+                    <button class="minimize-button">—</button>
+                    <button class="maximize-button">□</button>
+                    <button class="close-button">×</button>
+                </div>
+            </div>
+            <div class="window-content" style="text-align: center;">
+                <h2>Microsoft Store (ダミー)</h2>
+                <p>人気のアプリやゲームを探しましょう！</p>
+                <div style="margin-top: 20px;">
+                    <div style="display: inline-block; margin: 10px; padding: 15px; border: 1px solid #ccc; border-radius: 8px; text-align: center;">
+                        <svg style="width: 40px; height: 40px; fill: var(--text-color-light);" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18 2H6C4.9 2 4 2.9 4 4V20C4 21.1 4.9 22 6 22H18C19.1 22 20 21.1 20 20V4C20 2.9 19.1 2 18 2ZM18 20H6V4H18V20ZM12 6C9.79 6 8 7.79 8 10C8 12.21 9.79 14 12 14C14.21 14 16 12.21 16 10C16 7.79 14.21 6 12 6ZM12 8C13.1 8 14 8.9 14 10C14 11.1 13.1 12 12 12C10.9 12 10 11.1 10 10C10 8.9 10.9 8 12 8Z"/></svg>
+                        <p style="font-size: 0.9em; margin-top: 5px;">人気アプリ</p>
+                    </div>
+                     <div style="display: inline-block; margin: 10px; padding: 15px; border: 1px solid #ccc; border-radius: 8px; text-align: center;">
+                        <svg style="width: 40px; height: 40px; fill: var(--text-color-light);" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 1L3 5V19L12 23L21 19V5L12 1ZM12 3.15L19 6.3V17.6L12 20.85L5 17.6V6.3L12 3.15ZM12 6L7 8.5V15.5L12 18L17 15.5V8.5L12 6ZM12 8.5L15 10V14L12 15.5L9 14V10L12 8.5Z"/></svg>
+                        <p style="font-size: 0.9em; margin-top: 5px;">人気ゲーム</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="window" id="notepad-window">
+            <div class="window-header">
+                <span class="window-title">無題 - メモ帳</span>
+                <div class="window-buttons">
+                    <button class="minimize-button">—</button>
+                    <button class="maximize-button">□</button>
+                    <button class="close-button">×</button>
+                </div>
+            </div>
+            <div class="window-content">
+                <textarea placeholder="ここにテキストを入力..."></textarea>
+            </div>
+        </div>
+         <div class="window" id="roblox-window">
+            <div class="window-header">
+                <span class="window-title">Roblox</span>
+                <div class="window-buttons">
+                    <button class="minimize-button">—</button>
+                    <button class="maximize-button">□</button>
+                    <button class="close-button">×</button>
+                </div>
+            </div>
+            <div class="window-content" style="text-align: center; background-color: #191919; color: white; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Roblox_Logo_2022.svg/1280px-Roblox_Logo_2022.svg.png" alt="Roblox Logo" style="width: 150px; margin-bottom: 20px;">
+                <p>Robloxへようこそ！</p>
+                <button style="margin-top: 20px; padding: 10px 20px; background-color: #00a2ed; color: white; border: none; border-radius: 4px;">プレイ</button>
+            </div>
+        </div>
+
+         <div class="window" id="x-window">
+            <div class="window-header">
+                <span class="window-title">X</span>
+                <div class="window-buttons">
+                    <button class="minimize-button">—</button>
+                    <button class="maximize-button">□</button>
+                    <button class="close-button">×</button>
+                </div>
+            </div>
+            <div class="window-content" style="text-align: center; background-color: #000; color: white;">
+                <svg style="width: 50px; height: 50px; fill: white; margin-bottom: 20px;" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.244 2.25h.002v.002h-.002zm2.074 1.326c-.607.268-1.25.478-1.897.636a7.164 7.164 0 0 1-1.44-.156a6.83 6.83 0 0 0-4.785-2.074c-3.26 0-5.918 2.659-5.918 5.92c0 .46.05.91.148 1.344c-4.938-.252-9.33-2.616-12.263-6.184c.507.088 1.027.138 1.555.138c1.004 0 1.96-.34 2.728-.944a5.828 5.828 0 0 1-2.665-1.13c.316.06.638.092.965.092c.47 0 .92-.066 1.34-.18a5.934 5.934 0 0 1-4.74-5.177v-.07c.62.347 1.335.56 2.082.582a5.933 5.933 0 0 1-1.85-2.24c1.66.972 3.51 1.54 5.498 1.617c-.356 1.444-1.384 2.75-2.838 3.623a5.96 5.96 0 0 0-4.08 1.473c1.718 1.355 3.945 2.147 6.302 2.147c7.56 0 11.69-6.264 11.69-11.69c0-.177-.004-.352-.012-.527a8.385 8.385 0 0 0 2.066-2.147z"/></svg>
+                <h2>X (旧Twitter)</h2>
+                <p>タイムラインを読み込み中...</p>
+            </div>
+        </div>
+
+         <div class="window" id="youtube-window">
+            <div class="window-header">
+                <span class="window-title">YouTube</span>
+                <div class="window-buttons">
+                    <button class="minimize-button">—</button>
+                    <button class="maximize-button">□</button>
+                    <button class="close-button">×</button>
+                </div>
+            </div>
+            <div class="window-content" style="text-align: center;">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/YouTube_Logo_2017.svg/1280px-YouTube_Logo_2017.svg.png" alt="YouTube Logo" style="width: 150px; margin-bottom: 20px;">
+                <input type="text" placeholder="検索" style="width: 80%; max-width: 500px; padding: 10px; border: 1px solid #ddd; border-radius: 4px; text-align: center;">
+                <div style="margin-top: 20px;">
+                    <p>おすすめ動画 (ダミー)</p>
+                    <div style="display: flex; justify-content: center; flex-wrap: wrap;">
+                        <div style="margin: 10px; text-align: left; width: 150px;">
+                            <img src="https://placehold.co/150x90/cc0000/fff?text=Video+1" alt="Video Thumbnail" style="width: 100%; height: auto; border-radius: 4px;">
+                            <p style="font-size: 0.8em; margin-top: 5px;">ダミー動画タイトル 1</p>
+                        </div>
+                         <div style="margin: 10px; text-align: left; width: 150px;">
+                            <img src="https://placehold.co/150x90/cc0000/fff?text=Video+2" alt="Video Thumbnail" style="width: 100%; height: auto; border-radius: 4px;">
+                            <p style="font-size: 0.8em; margin-top: 5px;">ダミー動画タイトル 2</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+         <div class="window" id="google-meet-window">
+            <div class="window-header">
+                <span class="window-title">Google Meet</span>
+                <div class="window-buttons">
+                    <button class="minimize-button">—</button>
+                    <button class="maximize-button">□</button>
+                    <button class="close-button">×</button>
+                </div>
+            </div>
+            <div class="window-content" style="text-align: center;">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Google_Meet_logo.png/1280px-Google_Meet_logo.png" alt="Google Meet Logo" style="width: 100px; margin-bottom: 20px;">
+                <h2>会議を開始または参加</h2>
+                <button style="margin-top: 20px; padding: 10px 20px; background-color: #0078d4; color: white; border: none; border-radius: 4px;">新しい会議を開始</button>
+                 <input type="text" placeholder="コードまたはリンクを入力" style="margin-top: 15px; width: 80%; max-width: 300px; padding: 10px; border: 1px solid #ddd; border-radius: 4px; text-align: center;">
+            </div>
+        </div>
+
+         <div class="window" id="google-drive-window">
+            <div class="window-header">
+                <span class="window-title">Google Drive</span>
+                <div class="window-buttons">
+                    <button class="minimize-button">—</button>
+                    <button class="maximize-button">□</button>
+                    <button class="close-button">×</button>
+                </div>
+            </div>
+            <div class="window-content" style="text-align: center;">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Google_Drive_icon_%282020%29.svg/1280px-Google_Drive_icon_%282020%29.svg.png" alt="Google Drive Logo" style="width: 100px; margin-bottom: 20px;">
+                <h2>Google Drive (ダミー)</h2>
+                <p>ファイルはここに表示されます。</p>
+                <div style="margin-top: 20px; border: 1px dashed #ccc; padding: 20px; border-radius: 8px;">
+                    <p>ファイルをドラッグ＆ドロップするか、新規作成ボタンを押してください。</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="window" id="settings-window">
+            <div class="window-header">
+                <span class="window-title">設定</span>
+                <div class="window-buttons">
+                    <button class="minimize-button">—</button>
+                    <button class="maximize-button">□</button>
+                    <button class="close-button">×</button>
+                </div>
+            </div>
+            <div class="window-content" id="settings-content">
+                <h3>システム</h3>
+                 <div class="settings-section">
+                    <label for="settings-language">言語:</label>
+                    <select id="settings-language">
+                        <option value="ja">日本語</option>
+                        <option value="en">English</option>
+                    </select>
+                </div>
+
+                <div class="settings-section">
+                    <label for="settings-region">地域:</label>
+                    <select id="settings-region">
+                        <option value="JP">日本</option>
+                        <option value="US">United States</option>
+                    </select>
+                </div>
+
+                 <div class="settings-section">
+                    <label>インターネット設定 (ダミー):</label>
+                    <p>現在の状態: 接続済み (ダミー)</p>
+                    <button>接続設定を開く (ダミー)</button>
+                </div>
+
+                <h3>時刻と言語</h3>
+                 <div class="settings-section">
+                    <label for="settings-date">日付:</label>
+                    <input type="date" id="settings-date">
+                    <button id="apply-date">適用</button>
+                </div>
+
+                <div class="settings-section">
+                    <label for="settings-time">時間:</label>
+                    <input type="time" id="settings-time">
+                    <button id="apply-time">適用</button>
+                </div>
+
+                 <div class="settings-section">
+                    <label for="settings-keyboard">キーボード レイアウト:</label>
+                    <select id="settings-keyboard">
+                        <option value="JP">日本語</option>
+                        <option value="US">US</option>
+                    </select>
+                </div>
+
+                <h3>デバイス</h3>
+                 <div class="settings-section">
+                    <label for="settings-mouse-icon">マウス アイコン:</label>
+                    <select id="settings-mouse-icon">
+                        <option value="default">デフォルト</option>
+                        <option value="pointer">ポインター</option>
+                    </select>
+                </div>
+
+                <h3>個人用設定</h3>
+                 <div class="settings-section">
+                    <label for="settings-wallpaper">壁紙:</label>
+                    <select id="settings-wallpaper">
+                        <option value="default">デフォルト (Windows 11)</option>
+                        <option value="abstract">抽象画</option>
+                    </select>
+                </div>
+
+                <h3>アカウント</h3>
+                 <div class="settings-section">
+                    <label for="settings-username">ユーザー名:</label>
+                    <input type="text" id="settings-username" placeholder="ユーザー名">
+                    <button id="apply-username">適用</button>
+                </div>
+
+                 <div class="settings-section">
+                    <label for="settings-pcname">PC名:</label>
+                    <input type="text" id="settings-pcname" placeholder="PC名">
+                    <button id="apply-pcname">適用</button>
+                </div>
+
+                 <div class="settings-section">
+                    <label for="settings-password">パスワード:</label>
+                    <input type="password" id="settings-password" placeholder="新しいパスワード">
+                    <button id="apply-password">パスワード設定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="shutdown-overlay" style="display:none;">
+        <span id="shutdown-message-text"></span>
+        <p id="shutdown-message-subtext" style="font-size: 0.6em;"></p>
+    </div>
+
+
+    <script>
+        // State variables
+        let isSetupComplete = localStorage.getItem('setupComplete') === 'true';
+        let storedPassword = localStorage.getItem('password') || '';
+        let currentUsername = localStorage.getItem('username') || 'ユーザー';
+        let currentPcName = localStorage.getItem('pcName') || 'MY-PC';
+        let currentLanguage = localStorage.getItem('language') || 'ja';
+        let currentRegion = localStorage.getItem('region') || 'JP';
+        let currentKeyboard = localStorage.getItem('keyboard') || 'JP';
+        let currentMouseIcon = localStorage.getItem('mouseIcon') || 'default';
+        let currentWallpaper = localStorage.getItem('wallpaper') || 'default';
+        let currentDate = localStorage.getItem('date') || new Date().toISOString().split('T')[0];
+        let currentTime = localStorage.getItem('time') || new Date().toTimeString().split(' ')[0].substring(0, 5);
+
+        // DOM Elements
+        const setupScreen = document.getElementById('setup-screen');
+        const passwordScreen = document.getElementById('password-screen');
+        const desktopScreen = document.getElementById('desktop-screen');
+        const customCursor = document.getElementById('custom-cursor');
+        const startButton = document.getElementById('start-button');
+        const startMenu = document.getElementById('start-menu');
+        const timeDisplay = document.getElementById('time-display');
+        const dateDisplay = document.getElementById('date-display');
+        const batteryStatusItem = document.getElementById('battery-status');
+        const batteryLevelDisplay = document.getElementById('battery-level');
+        const settingsWindow = document.getElementById('settings-window');
+        const startMenuUserAvatar = document.getElementById('start-menu-user-avatar');
+        const startMenuUsername = document.getElementById('start-menu-username');
+        const taskbarSettingsIcon = document.getElementById('taskbar-settings');
+        const searchButton = document.getElementById('search-button');
+        const searchBar = document.getElementById('search-bar');
+        const searchInput = document.getElementById('search-input');
+        const searchResults = document.getElementById('search-results');
+
+        const datetimePopup = document.getElementById('datetime-popup');
+        const batteryPopup = document.getElementById('battery-popup');
+        const popupDatetime = document.getElementById('popup-datetime');
+        const popupRegion = document.getElementById('popup-region');
+        const popupLanguage = document.getElementById('popup-language');
+        const popupBatteryLevel = document.getElementById('popup-battery-level');
+        const popupBatteryStatus = document.getElementById('popup-battery-status');
+
+        const startMenuPowerButton = document.getElementById('start-menu-power-button');
+        const powerOptionsPopup = document.getElementById('power-options-popup');
+        const shutdownButton = document.getElementById('shutdown-button');
+        const restartButton = document.getElementById('restart-button');
+        const shutdownOverlay = document.getElementById('shutdown-overlay');
+        const shutdownMessageText = document.getElementById('shutdown-message-text');
+        const shutdownMessageSubtext = document.getElementById('shutdown-message-subtext');
+
+
+        const setupLanguage = document.getElementById('setup-language');
+        const setupRegion = document.getElementById('setup-region');
+        const setupDate = document.getElementById('setup-date');
+        const setupTime = document.getElementById('setup-time');
+        const setupKeyboard = document.getElementById('setup-keyboard');
+        const setupMouseIcon = document.getElementById('setup-mouse-icon');
+        const setupWallpaper = document.getElementById('setup-wallpaper');
+        const setupUsernameInput = document.getElementById('setup-username');
+        const setupPcNameInput = document.getElementById('setup-pcname');
+        const setupPasswordInput = document.getElementById('setup-password');
+        const completeSetupButton = document.getElementById('complete-setup');
+
+        const loginPasswordInput = document.getElementById('login-password');
+        const loginButton = document.getElementById('login-button');
+        const passwordError = document.getElementById('password-error');
+
+        const settingsLanguage = document.getElementById('settings-language');
+        const settingsRegion = document.getElementById('settings-region');
+        const settingsDate = document.getElementById('settings-date');
+        const settingsTime = document.getElementById('settings-time');
+        const settingsKeyboard = document.getElementById('settings-keyboard');
+        const settingsMouseIcon = document.getElementById('settings-mouse-icon');
+        const settingsWallpaper = document.getElementById('settings-wallpaper');
+        const settingsUsernameInput = document.getElementById('settings-username');
+        const settingsPcNameInput = document.getElementById('settings-pcname');
+        const settingsPasswordInput = document.getElementById('settings-password');
+        const applyDateButton = document.getElementById('apply-date');
+        const applyTimeButton = document.getElementById('apply-time');
+        const applyUsernameButton = document.getElementById('apply-username');
+        const applyPcNameButton = document.getElementById('apply-pcname');
+        const applyPasswordButton = document.getElementById('apply-password');
+
+        const appIcons = document.querySelectorAll('.app-icon');
+
+        const appWindows = {
+            'settings': document.getElementById('settings-window'),
+            'chrome': document.getElementById('chrome-window'),
+            'minecraft-bedrock': document.getElementById('minecraft-bedrock-window'),
+            'minecraft-java': document.getElementById('minecraft-java-window'),
+            'amazon': document.getElementById('amazon-window'),
+            'click-game': document.getElementById('click-game-window'),
+            'edge': document.getElementById('edge-window'),
+            'microsoft-store': document.getElementById('microsoft-store-window'),
+            'roblox': document.getElementById('roblox-window'),
+            'x': document.getElementById('x-window'),
+            'youtube': document.getElementById('youtube-window'),
+            'google-meet': document.getElementById('google-meet-window'),
+            'google-drive': document.getElementById('google-drive-window'),
+            'notepad': document.getElementById('notepad-window'),
+            'calculator': document.getElementById('calculator-window') // Added Calculator
+        };
+
+        // Click Game variables
+        let clickCount = 0;
+        const clickButtonEl = document.getElementById('click-button'); // Renamed to avoid conflict
+        const clickCountDisplay = document.getElementById('click-count');
+
+        if (clickButtonEl) {
+            clickButtonEl.addEventListener('click', () => {
+                clickCount++;
+                if (clickCountDisplay) clickCountDisplay.textContent = clickCount;
+            });
+        }
+
+        // Calculator variables
+        const calculatorDisplay = document.getElementById('calculator-display');
+        const calculatorButtons = document.querySelectorAll('.calculator-button');
+        let calcCurrentInput = '0';
+        let calcPreviousInput = '';
+        let calcOperator = null;
+        let shouldResetDisplay = false;
+
+
+        // --- Animation Helper Functions ---
+        function showAnimatedElement(element, displayType = 'flex', transformX = '-50%', onShown) {
+            if (!element) return;
+            if (element === startMenu) {
+                hideAnimatedElement(searchBar, '-50%');
+                hideAnimatedElement(powerOptionsPopup, 'calc(-50% + 200px)');
+            } else if (element === searchBar) {
+                hideAnimatedElement(startMenu, '-50%');
+                hideAnimatedElement(powerOptionsPopup, 'calc(-50% + 200px)');
+            }
+            hideTaskbarPopups();
+
+            element.style.display = displayType;
+            void element.offsetWidth;
+            requestAnimationFrame(() => {
+                element.style.opacity = '1';
+                if (element.id === 'start-menu' || element.id === 'search-bar') {
+                    element.style.transform = `translateX(${transformX}) scale(1) translateY(0px)`;
+                } else if (element.id === 'power-options-popup') {
+                     const currentX = window.getComputedStyle(element).getPropertyValue('transform').includes('translateX') ?
+                                   window.getComputedStyle(element).getPropertyValue('transform').match(/translateX\(([^)]+)\)/)[1] :
+                                   (window.innerWidth <= 768 ? '0px' : 'calc(-50% + 200px)');
+                    element.style.transform = `translateX(${currentX}) scale(1) translateY(0px)`;
+                } else {
+                    const currentOffsetX = parseFloat(element.dataset.offsetX || "0");
+                    const currentOffsetY = parseFloat(element.dataset.offsetY || "0");
+                    element.style.transform = `translate(-50%, -50%) translate3d(${currentOffsetX}px, ${currentOffsetY}px, 0) scale(1) translateY(0px)`;
+                }
+                if (onShown) onShown();
+            });
+        }
+
+        function hideAnimatedElement(element, transformX = '-50%', onHidden) {
+            if (element && element.style.display !== 'none') {
+                element.style.opacity = '0';
+                 if (element.id === 'start-menu' || element.id === 'search-bar') {
+                    element.style.transform = `translateX(${transformX}) scale(0.95) translateY(20px)`;
+                } else if (element.id === 'power-options-popup') {
+                     const currentX = window.getComputedStyle(element).getPropertyValue('transform').includes('translateX') ?
+                                   window.getComputedStyle(element).getPropertyValue('transform').match(/translateX\(([^)]+)\)/)[1] :
+                                   (window.innerWidth <= 768 ? '0px' : 'calc(-50% + 200px)');
+                    element.style.transform = `translateX(${currentX}) scale(0.95) translateY(10px)`;
+                } else {
+                    const currentOffsetX = parseFloat(element.dataset.offsetX || "0");
+                    const currentOffsetY = parseFloat(element.dataset.offsetY || "0");
+                    element.style.transform = `translate(-50%, -50%) translate3d(${currentOffsetX}px, ${currentOffsetY}px, 0) scale(0.95) translateY(20px)`;
+                }
+                setTimeout(() => {
+                    element.style.display = 'none';
+                    if (onHidden) onHidden();
+                }, 250);
+            } else if (onHidden) {
+                onHidden();
+            }
+        }
+
+
+        // --- Initial Load and State Check ---
+        window.onload = () => {
+            applyTheme();
+            if (!isSetupComplete) {
+                showSetupScreen();
+            } else {
+                showPasswordScreen();
+            }
+            updateDateTime();
+            setInterval(updateDateTime, 1000);
+            updateBatteryStatus();
+            initializeWindowDraggingAndControls();
+            initializeCalculator(); // Initialize calculator buttons
+
+            [startMenu, searchBar, powerOptionsPopup, ...Object.values(appWindows)].forEach(el => {
+                if(el) {
+                    el.style.opacity = '0';
+                    if (el.id === 'start-menu' || el.id === 'search-bar') {
+                        el.style.transform = `translateX(-50%) scale(0.95) translateY(20px)`;
+                    } else if (el.id === 'power-options-popup') {
+                        const initialX = window.innerWidth <= 768 ? '0px' : 'calc(-50% + 200px)';
+                         if(window.innerWidth <= 768 && el.style.left === "50%") {
+                            el.style.transform = `translateX(-50%) scale(0.95) translateY(10px)`;
+                        } else {
+                            el.style.transform = `translateX(${initialX}) scale(0.95) translateY(10px)`;
+                        }
+                    } else {
+                         el.style.transform = `translate(-50%, -50%) scale(0.95) translateY(20px)`;
+                    }
+                }
+            });
+        };
+
+        // --- Theme Handling ---
+        function applyTheme() {
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (prefersDark) {
+                document.body.classList.add('dark-mode');
+            } else {
+                document.body.classList.remove('dark-mode');
+            }
+            updateCursorStyle();
+        }
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applyTheme);
+
+        // --- Custom Cursor ---
+        document.addEventListener('mousemove', (e) => {
+            customCursor.style.left = e.clientX + 'px';
+            customCursor.style.top = e.clientY + 'px';
+        });
+         document.addEventListener('touchmove', (e) => {
+            if (e.touches.length > 0) {
+                customCursor.style.left = e.touches[0].clientX + 'px';
+                customCursor.style.top = e.touches[0].clientY + 'px';
+            }
+        }, { passive: true });
+
+
+        function updateCursorStyle() {
+            const fillColor = document.body.classList.contains('dark-mode') ? '%23fff' : '%23000';
+            if (currentMouseIcon === 'pointer') {
+                 customCursor.style.backgroundImage = `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="${fillColor}" d="M3.31 14.61l-1.53 1.54c-.5.5-.12 1.36.59 1.55l4.1.97l.97 4.1c.19.71 1.05 1.09 1.55.59l1.54-1.53l4.95 4.95c.39.39 1.02.39 1.41 0l2.3-2.3c.39-.39.39-1.02 0-1.41l-4.95-4.95l1.53-1.54c.5-.5.12-1.36-.59-1.55l-4.1-.97l-.97-4.1c-.19-.71-1.05-1.09-1.55-.59l-1.54 1.53l-4.95-4.95c-.39-.39-1.02-.39-1.41 0l-2.3 2.3c-.39.38-.39 1.02 0 1.41l4.95 4.95z"/></svg>')`;
+            } else {
+                 customCursor.style.backgroundImage = `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="${fillColor}" d="M4.91 4.23c-.59.58-.91 1.36-.91 2.19v13.16c0 1.21 1.08 2.02 2.27 1.55l4.54-1.82l3.18 5.18c.24.39.67.63 1.13.63c.38 0 .74-.15 1-.42c.48-.48.59-1.21.28-1.78l-3.33-5.43l5.03-2.01c1.19-.48 1.59-1.95.89-3.02l-13.5-13.5c-1.07-.7-2.54-.3-3.02.89z"/></svg>')`;
+            }
+        }
+
+        // --- Screen Switching & Setup/Password Logic ---
+        function showSetupScreen() {
+            setupScreen.style.display = 'flex'; passwordScreen.style.display = 'none'; desktopScreen.style.display = 'none';
+            setupLanguage.value = currentLanguage; setupRegion.value = currentRegion; setupDate.value = currentDate; setupTime.value = currentTime; setupKeyboard.value = currentKeyboard; setupMouseIcon.value = currentMouseIcon; setupWallpaper.value = currentWallpaper; setupUsernameInput.value = currentUsername; setupPcNameInput.value = currentPcName; setupPasswordInput.value = storedPassword;
+        }
+        function showPasswordScreen() {
+            setupScreen.style.display = 'none'; passwordScreen.style.display = 'flex'; desktopScreen.style.display = 'none';
+            loginPasswordInput.value = ''; passwordError.style.visibility = 'hidden';
+            hideAnimatedElement(startMenu, '-50%');
+            hideAnimatedElement(searchBar, '-50%');
+            hideAnimatedElement(powerOptionsPopup, 'calc(-50% + 200px)');
+            Object.values(appWindows).forEach(win => hideAnimatedElement(win));
+            hideTaskbarPopups();
+        }
+        function showDesktopScreen() {
+            setupScreen.style.display = 'none'; passwordScreen.style.display = 'none'; desktopScreen.style.display = 'flex';
+            applySettingsToDesktop();
+        }
+        completeSetupButton.addEventListener('click', () => {
+            currentLanguage = setupLanguage.value; currentRegion = setupRegion.value; currentDate = setupDate.value; currentTime = setupTime.value; currentKeyboard = setupKeyboard.value; currentMouseIcon = setupMouseIcon.value; currentWallpaper = setupWallpaper.value; currentUsername = setupUsernameInput.value || 'ユーザー'; currentPcName = setupPcNameInput.value || 'MY-PC'; storedPassword = setupPasswordInput.value;
+            Object.entries({setupComplete: 'true', password: storedPassword, username: currentUsername, pcName: currentPcName, language: currentLanguage, region: currentRegion, date: currentDate, time: currentTime, keyboard: currentKeyboard, mouseIcon: currentMouseIcon, wallpaper: currentWallpaper}).forEach(([key, value]) => localStorage.setItem(key, value));
+            isSetupComplete = true; showPasswordScreen();
+        });
+        loginButton.addEventListener('click', () => {
+            if (loginPasswordInput.value === storedPassword) { showDesktopScreen(); } else { passwordError.style.visibility = 'visible'; }
+        });
+        loginPasswordInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') loginButton.click(); });
+
+        function applySettingsToDesktop() {
+            if (currentWallpaper === 'default') { desktopScreen.style.backgroundImage = 'url("https://placehold.co/1920x1080/0078d4/fff?text=Windows+11")'; }
+            else if (currentWallpaper === 'abstract') { desktopScreen.style.backgroundImage = 'url("https://placehold.co/1920x1080/ff6347/fff?text=Abstract+Wallpaper")';}
+            startMenuUsername.textContent = currentUsername;
+            startMenuUserAvatar.alt = currentUsername + " Avatar";
+            updateCursorStyle(); updateDateTime();
+        }
+
+        // --- Taskbar & Popups Logic ---
+        startButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (startMenu.style.display === 'flex') {
+                hideAnimatedElement(startMenu, '-50%');
+                hideAnimatedElement(powerOptionsPopup, 'calc(-50% + 200px)');
+            } else {
+                hideAnimatedElement(searchBar, '-50%');
+                hideTaskbarPopups();
+                showAnimatedElement(startMenu, 'flex', '-50%');
+            }
+        });
+
+        searchButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (searchBar.style.display === 'flex') {
+                hideAnimatedElement(searchBar, '-50%', () => {
+                    searchInput.value = '';
+                    searchResults.innerHTML = '<p>ここに検索結果が表示されます。</p>';
+                });
+            } else {
+                hideAnimatedElement(startMenu, '-50%');
+                hideAnimatedElement(powerOptionsPopup, 'calc(-50% + 200px)');
+                hideTaskbarPopups();
+                showAnimatedElement(searchBar, 'flex', '-50%', () => searchInput.focus());
+            }
+        });
+
+        searchInput.addEventListener('input', () => {
+            const query = searchInput.value.trim().toLowerCase();
+            searchResults.innerHTML = '';
+            if (query) {
+                const appNames = { settings: "設定", chrome: "Google Chrome", "minecraft-bedrock": "Minecraft Bedrock Edition", "minecraft-java": "Minecraft Java Edition", amazon: "Amazon", "click-game": "クリックゲーム", edge: "Microsoft Edge", "microsoft-store": "Microsoft Store", notepad: "メモ帳", roblox: "Roblox", x: "X (旧Twitter)", youtube: "YouTube", "google-meet": "Google Meet", "google-drive": "Google Drive", calculator: "電卓"};
+                let found = false;
+                for (const appId in appNames) { if (appNames[appId].toLowerCase().includes(query) || appId.includes(query)) { searchResults.innerHTML += `<div data-app="${appId}">${appNames[appId]} アプリ</div>`; found = true;}}
+                if ('ファイル'.includes(query) || 'file'.includes(query)) { searchResults.innerHTML += '<div>ファイル エクスプローラー (ダミー)</div>'; found = true; }
+                if ('ウェブ'.includes(query) || 'web'.includes(query)) { searchResults.innerHTML += '<div>ウェブを検索 (ダミー)</div>'; found = true; }
+                if (!found) { searchResults.innerHTML = `<p>「${searchInput.value}」に一致する結果は見つかりませんでした。`}
+                else { searchResults.querySelectorAll('div[data-app]').forEach(res => res.addEventListener('click', () => { hideAnimatedElement(searchBar, '-50%'); openAppWindow(res.dataset.app); }));}
+            } else { searchResults.innerHTML = '<p>ここに検索結果が表示されます。</p>'; }
+        });
+
+        desktopScreen.addEventListener('click', (e) => {
+            let clickedInsideInteractiveElement = false;
+            [startMenu, searchBar, datetimePopup, batteryPopup, powerOptionsPopup, ...Object.values(appWindows)].forEach(el => {
+                if (el && el.style.display !== 'none' && el.contains(e.target)) {
+                    clickedInsideInteractiveElement = true;
+                }
+            });
+            if (startButton.contains(e.target) || searchButton.contains(e.target) ||
+                timeDisplay.parentElement.contains(e.target) || batteryStatusItem.contains(e.target) ||
+                startMenuPowerButton.contains(e.target)) {
+                clickedInsideInteractiveElement = true;
+            }
+
+            if (!clickedInsideInteractiveElement) {
+                hideAnimatedElement(startMenu, '-50%');
+                hideAnimatedElement(searchBar, '-50%', () => {
+                    searchInput.value = '';
+                    searchResults.innerHTML = '<p>ここに検索結果が表示されます。</p>';
+                });
+                hideAnimatedElement(powerOptionsPopup, 'calc(-50% + 200px)');
+                hideTaskbarPopups();
+            }
+        });
+
+        [startMenu, searchBar, datetimePopup, batteryPopup, powerOptionsPopup, ...Object.values(appWindows)].forEach(el => {
+            if (el) el.addEventListener('click', (e) => e.stopPropagation());
+        });
+
+        function hideTaskbarPopups() {
+            if (datetimePopup.style.display !== 'none') datetimePopup.style.display = 'none';
+            if (batteryPopup.style.display !== 'none') batteryPopup.style.display = 'none';
+        }
+
+        function updateDateTime() {
+            const now = new Date();
+            const displayDate = new Date(currentDate);
+            const [h, m] = currentTime.split(':');
+            displayDate.setHours(parseInt(h), parseInt(m), now.getSeconds());
+
+            timeDisplay.textContent = displayDate.toLocaleTimeString(currentLanguage, { hour: '2-digit', minute: '2-digit' });
+            dateDisplay.textContent = displayDate.toLocaleDateString(currentLanguage, { year: 'numeric', month: 'numeric', day: 'numeric' });
+
+            popupDatetime.textContent = `${displayDate.toLocaleDateString(currentLanguage, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })} ${displayDate.toLocaleTimeString(currentLanguage, { hour: '2-digit', minute: '2-digit', second: '2-digit'})}`;
+            popupRegion.textContent = currentRegion;
+            popupLanguage.textContent = currentLanguage;
+        }
+        function updateBatteryStatus() {
+             batteryLevelDisplay.textContent = `100%`;
+             popupBatteryLevel.textContent = `100%`;
+             popupBatteryStatus.textContent = '電源に接続: 充電中';
+        }
+        timeDisplay.parentElement.addEventListener('click', (e) => {
+            e.stopPropagation();
+            hideAnimatedElement(startMenu, '-50%');
+            hideAnimatedElement(searchBar, '-50%');
+            hideAnimatedElement(powerOptionsPopup, 'calc(-50% + 200px)');
+            if (datetimePopup.style.display === 'flex') {
+                datetimePopup.style.display = 'none';
+            } else {
+                hideTaskbarPopups();
+                datetimePopup.style.display = 'flex';
+                updateDateTime();
+            }
+        });
+        batteryStatusItem.addEventListener('click', (e) => {
+            e.stopPropagation();
+            hideAnimatedElement(startMenu, '-50%');
+            hideAnimatedElement(searchBar, '-50%');
+            hideAnimatedElement(powerOptionsPopup, 'calc(-50% + 200px)');
+            if (batteryPopup.style.display === 'flex') {
+                batteryPopup.style.display = 'none';
+            } else {
+                hideTaskbarPopups();
+                batteryPopup.style.display = 'flex';
+                updateBatteryStatus();
+            }
+        });
+
+        // --- Power Options Logic ---
+        startMenuPowerButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (powerOptionsPopup.style.display === 'flex') {
+                hideAnimatedElement(powerOptionsPopup, 'calc(-50% + 200px)');
+            } else {
+                showAnimatedElement(powerOptionsPopup, 'flex', 'calc(-50% + 200px)');
+            }
+        });
+
+        function performShutdown() {
+            shutdownMessageText.textContent = "シャットダウンしています...";
+            shutdownMessageSubtext.textContent = "PC の電源を切らないでください。";
+            shutdownOverlay.style.display = 'flex';
+            requestAnimationFrame(() => { shutdownOverlay.style.opacity = '1'; });
+
+            hideAnimatedElement(startMenu, '-50%');
+            hideAnimatedElement(searchBar, '-50%');
+            hideAnimatedElement(powerOptionsPopup, 'calc(-50% + 200px)');
+            Object.values(appWindows).forEach(win => hideAnimatedElement(win));
+            hideTaskbarPopups();
+            desktopScreen.style.opacity = 0;
+
+            setTimeout(() => {
+                shutdownOverlay.style.opacity = '0';
+                setTimeout(() => {
+                    shutdownOverlay.style.display = 'none';
+                    desktopScreen.style.opacity = 1;
+                    if (isSetupComplete) {
+                        showPasswordScreen();
+                    } else {
+                        showSetupScreen();
+                    }
+                }, 300);
+            }, 3000);
+        }
+
+        function performRestart() {
+            shutdownMessageText.textContent = "再起動しています...";
+            shutdownMessageSubtext.textContent = "";
+            shutdownOverlay.style.display = 'flex';
+            requestAnimationFrame(() => { shutdownOverlay.style.opacity = '1'; });
+
+            hideAnimatedElement(startMenu, '-50%');
+            hideAnimatedElement(searchBar, '-50%');
+            hideAnimatedElement(powerOptionsPopup, 'calc(-50% + 200px)');
+            Object.values(appWindows).forEach(win => hideAnimatedElement(win));
+            hideTaskbarPopups();
+            desktopScreen.style.opacity = 0;
+
+            setTimeout(() => {
+                shutdownOverlay.style.opacity = '0';
+                setTimeout(() => {
+                    shutdownOverlay.style.display = 'none';
+                    desktopScreen.style.opacity = 1;
+                    showPasswordScreen();
+                }, 300);
+            }, 2500);
+        }
+
+        shutdownButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            hideAnimatedElement(powerOptionsPopup, 'calc(-50% + 200px)', performShutdown);
+        });
+
+        restartButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            hideAnimatedElement(powerOptionsPopup, 'calc(-50% + 200px)', performRestart);
+        });
+
+
+        // --- App Icon, Window Opening & Dragging/Controls ---
+        appIcons.forEach(icon => icon.addEventListener('click', () => {
+            hideAnimatedElement(startMenu, '-50%');
+            hideAnimatedElement(searchBar, '-50%');
+            hideAnimatedElement(powerOptionsPopup, 'calc(-50% + 200px)');
+            hideTaskbarPopups();
+            openAppWindow(icon.dataset.app);
+        }));
+
+        taskbarSettingsIcon.addEventListener('click', () => {
+            hideAnimatedElement(startMenu, '-50%');
+            hideAnimatedElement(searchBar, '-50%');
+            hideAnimatedElement(powerOptionsPopup, 'calc(-50% + 200px)');
+            hideTaskbarPopups();
+            openAppWindow('settings');
+        });
+
+        function openAppWindow(appId) {
+            const windowElement = appWindows[appId];
+            if (windowElement) {
+                bringWindowToFront(windowElement);
+                showAnimatedElement(windowElement);
+                if (appId === 'settings') {
+                    settingsLanguage.value = currentLanguage; settingsRegion.value = currentRegion; settingsDate.value = currentDate; settingsTime.value = currentTime; settingsKeyboard.value = currentKeyboard; settingsMouseIcon.value = currentMouseIcon; settingsWallpaper.value = currentWallpaper; settingsUsernameInput.value = currentUsername; settingsPcNameInput.value = currentPcName; settingsPasswordInput.value = storedPassword;
+                }
+                 if (appId === 'click-game') {
+                    clickCount = 0;
+                    if(clickCountDisplay) clickCountDisplay.textContent = clickCount;
+                }
+                if (appId === 'calculator') {
+                    resetCalculator();
+                }
+            } else { console.warn(`${appId} window not found.`); }
+        }
+
+        function initializeWindowDraggingAndControls() {
+            document.querySelectorAll('.window').forEach(windowElement => {
+                const header = windowElement.querySelector('.window-header');
+                let isDragging = false, dragStartMouseX, dragStartMouseY;
+                windowElement.dataset.offsetX = windowElement.dataset.offsetX || "0";
+                windowElement.dataset.offsetY = windowElement.dataset.offsetY || "0";
+
+                if (header) {
+                    const onDragStart = (e, clientX, clientY) => {
+                        if (e.target !== header && !e.target.classList.contains('window-title')) return;
+                        isDragging = true; bringWindowToFront(windowElement);
+                        dragStartMouseX = clientX; dragStartMouseY = clientY;
+                        header.style.cursor = 'grabbing';
+                    };
+                    const onDragMove = (clientX, clientY) => {
+                        if (!isDragging) return;
+                        const currentOffsetX = parseFloat(windowElement.dataset.offsetX);
+                        const currentOffsetY = parseFloat(windowElement.dataset.offsetY);
+                        const dx = clientX - dragStartMouseX; const dy = clientY - dragStartMouseY;
+                        windowElement.style.transform = `translate(-50%, -50%) translate3d(${currentOffsetX + dx}px, ${currentOffsetY + dy}px, 0) scale(1)`;
+                    };
+                    const onDragEnd = (clientX, clientY) => {
+                        if (!isDragging) return; isDragging = false;
+                        const currentOffsetX = parseFloat(windowElement.dataset.offsetX);
+                        const currentOffsetY = parseFloat(windowElement.dataset.offsetY);
+                        windowElement.dataset.offsetX = currentOffsetX + (clientX - dragStartMouseX);
+                        windowElement.dataset.offsetY = currentOffsetY + (clientY - dragStartMouseY);
+                        header.style.cursor = 'grab';
+                    };
+
+                    header.addEventListener('mousedown', e => { onDragStart(e, e.clientX, e.clientY); document.addEventListener('mousemove', mouseMoveHandler); document.addEventListener('mouseup', mouseUpHandler); });
+                    const mouseMoveHandler = e => onDragMove(e.clientX, e.clientY);
+                    const mouseUpHandler = e => { onDragEnd(e.clientX, e.clientY); document.removeEventListener('mousemove', mouseMoveHandler); document.removeEventListener('mouseup', mouseUpHandler); };
+
+                    header.addEventListener('touchstart', e => { onDragStart(e, e.touches[0].clientX, e.touches[0].clientY); document.addEventListener('touchmove', touchMoveHandler, { passive: false }); document.addEventListener('touchend', touchEndHandler); }, { passive: false });
+                    const touchMoveHandler = e => { if(isDragging) { onDragMove(e.touches[0].clientX, e.touches[0].clientY); e.preventDefault(); }};
+                    const touchEndHandler = e => { if(isDragging) { if (e.changedTouches.length > 0) onDragEnd(e.changedTouches[0].clientX, e.changedTouches[0].clientY); else onDragEnd(dragStartMouseX, dragStartMouseY); document.removeEventListener('touchmove', touchMoveHandler); document.removeEventListener('touchend', touchEndHandler); }};
+                }
+
+                const closeOrMinimize = () => {
+                    hideAnimatedElement(windowElement);
+                };
+                windowElement.querySelector('.close-button')?.addEventListener('click', closeOrMinimize);
+                windowElement.querySelector('.minimize-button')?.addEventListener('click', closeOrMinimize);
+
+                const maximizeButton = windowElement.querySelector('.maximize-button');
+                if (maximizeButton) {
+                    let isMaximized = false, originalState = {};
+                    maximizeButton.addEventListener('click', () => {
+                        const taskbarH = document.querySelector('.taskbar').offsetHeight;
+                        if (!isMaximized) {
+                            originalState = { width: windowElement.style.width, height: windowElement.style.height, top: windowElement.style.top, left: windowElement.style.left, transform: windowElement.style.transform, offsetX: windowElement.dataset.offsetX, offsetY: windowElement.dataset.offsetY, borderRadius: windowElement.style.borderRadius, resize: windowElement.style.resize };
+                            windowElement.style.width = '100%'; windowElement.style.height = `calc(100% - ${taskbarH}px)`;
+                            windowElement.style.top = '0px'; windowElement.style.left = '0px';
+                            windowElement.style.transform = 'none';
+                            windowElement.style.borderRadius = '0';
+                            windowElement.style.resize = 'none';
+                            windowElement.dataset.offsetX = "0";
+                            windowElement.dataset.offsetY = "0";
+                            maximizeButton.innerHTML = '▣'; isMaximized = true;
+                        } else {
+                            windowElement.style.width = originalState.width || '80%'; windowElement.style.height = originalState.height || '80%';
+                            windowElement.style.top = originalState.top || '50%'; windowElement.style.left = originalState.left || '50%';
+                            windowElement.style.borderRadius = originalState.borderRadius || '8px';
+                            windowElement.style.resize = originalState.resize || 'both';
+                            windowElement.dataset.offsetX = originalState.offsetX || "0";
+                            windowElement.dataset.offsetY = originalState.offsetY || "0";
+                            windowElement.style.transform = `translate(-50%, -50%) translate3d(${originalState.offsetX}px, ${originalState.offsetY}px, 0) scale(1)`;
+
+                            maximizeButton.innerHTML = '□'; isMaximized = false;
+                        }
+                    });
+                }
+                windowElement.addEventListener('mousedown', () => bringWindowToFront(windowElement));
+                windowElement.addEventListener('touchstart', () => bringWindowToFront(windowElement), { passive: true });
+            });
+        }
+
+        let highestZIndex = 996;
+        function bringWindowToFront(windowElement) {
+             highestZIndex++;
+             windowElement.style.zIndex = highestZIndex;
+        }
+
+        // --- Settings Apply Logic ---
+        applyDateButton.addEventListener('click', () => { currentDate = settingsDate.value; localStorage.setItem('date', currentDate); updateDateTime(); });
+        applyTimeButton.addEventListener('click', () => { currentTime = settingsTime.value; localStorage.setItem('time', currentTime); updateDateTime(); });
+        applyUsernameButton.addEventListener('click', () => { currentUsername = settingsUsernameInput.value || 'ユーザー'; localStorage.setItem('username', currentUsername); applySettingsToDesktop(); });
+        applyPcNameButton.addEventListener('click', () => { currentPcName = settingsPcNameInput.value || 'MY-PC'; localStorage.setItem('pcName', currentPcName); });
+        applyPasswordButton.addEventListener('click', () => { storedPassword = settingsPasswordInput.value; localStorage.setItem('password', storedPassword); alert('パスワードが設定されました。'); });
+        settingsLanguage.addEventListener('change', () => { currentLanguage = settingsLanguage.value; localStorage.setItem('language', currentLanguage); updateDateTime(); });
+        settingsRegion.addEventListener('change', () => { currentRegion = settingsRegion.value; localStorage.setItem('region', currentRegion); updateDateTime(); });
+        settingsKeyboard.addEventListener('change', () => { currentKeyboard = settingsKeyboard.value; localStorage.setItem('keyboard', currentKeyboard); });
+        settingsMouseIcon.addEventListener('change', () => { currentMouseIcon = settingsMouseIcon.value; localStorage.setItem('mouseIcon', currentMouseIcon); updateCursorStyle(); });
+        settingsWallpaper.addEventListener('change', () => { currentWallpaper = settingsWallpaper.value; localStorage.setItem('wallpaper', currentWallpaper); applySettingsToDesktop(); });
+
+
+        // --- Calculator Logic ---
+        function updateCalculatorDisplay() {
+            calculatorDisplay.textContent = calcCurrentInput;
+        }
+
+        function resetCalculator() {
+            calcCurrentInput = '0';
+            calcPreviousInput = '';
+            calcOperator = null;
+            shouldResetDisplay = false;
+            updateCalculatorDisplay();
+        }
+
+        function inputDigit(digit) {
+            if (calcCurrentInput === '0' || shouldResetDisplay) {
+                calcCurrentInput = digit;
+                shouldResetDisplay = false;
+            } else {
+                calcCurrentInput += digit;
+            }
+            updateCalculatorDisplay();
+        }
+
+        function inputDecimal() {
+            if (shouldResetDisplay) {
+                calcCurrentInput = '0.';
+                shouldResetDisplay = false;
+                updateCalculatorDisplay();
+                return;
+            }
+            if (!calcCurrentInput.includes('.')) {
+                calcCurrentInput += '.';
+            }
+            updateCalculatorDisplay();
+        }
+
+        function handleOperator(nextOperator) {
+            const inputValue = parseFloat(calcCurrentInput);
+
+            if (calcOperator && calcPreviousInput !== '') {
+                // If there's already an operator and a previous input, calculate first
+                const prevValue = parseFloat(calcPreviousInput);
+                const result = calculate(prevValue, inputValue, calcOperator);
+                calcCurrentInput = String(result);
+                calcPreviousInput = String(result);
+            } else {
+                calcPreviousInput = calcCurrentInput;
+            }
+
+            calcOperator = nextOperator;
+            shouldResetDisplay = true; // Next digit input should reset display
+            updateCalculatorDisplay(); // Show current input before it's overwritten by next digit
+        }
+        function calculate(firstOperand, secondOperand, operator) {
+            if (operator === '+') return firstOperand + secondOperand;
+            if (operator === '-') return firstOperand - secondOperand;
+            if (operator === '*') return firstOperand * secondOperand;
+            if (operator === '/') {
+                if (secondOperand === 0) return 'Error'; // Division by zero
+                return firstOperand / secondOperand;
+            }
+            if (operator === '%') { // Percentage of the first operand
+                 return firstOperand * (secondOperand / 100);
+            }
+            return secondOperand; // Should not happen
+        }
+
+        function handleEquals() {
+            if (calcOperator && calcPreviousInput !== '') {
+                const inputValue = parseFloat(calcCurrentInput);
+                const prevValue = parseFloat(calcPreviousInput);
+                const result = calculate(prevValue, inputValue, calcOperator);
+
+                if (result === 'Error') {
+                    calcCurrentInput = 'Error';
+                } else {
+                    // Format result to avoid long decimals, e.g., 0.1 + 0.2
+                    calcCurrentInput = String(parseFloat(result.toFixed(10)));
+                }
+                calcOperator = null;
+                calcPreviousInput = ''; // Reset previous input after calculation
+                shouldResetDisplay = true;
+                updateCalculatorDisplay();
+            }
+        }
+        function handleBackspace() {
+            if (calcCurrentInput.length > 1) {
+                calcCurrentInput = calcCurrentInput.slice(0, -1);
+            } else {
+                calcCurrentInput = '0';
+            }
+            updateCalculatorDisplay();
+        }
+
+
+        function initializeCalculator() {
+            calculatorButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const { value } = button.dataset;
+
+                    if (button.classList.contains('number')) {
+                        inputDigit(value);
+                    } else if (button.classList.contains('operator')) {
+                        if (value === 'clear') {
+                            resetCalculator();
+                        } else if (value === 'backspace') {
+                            handleBackspace();
+                        }
+                        else if (value === '%') {
+                            if (calcCurrentInput !== '0' && calcCurrentInput !== 'Error') {
+                                calcCurrentInput = String(parseFloat(calcCurrentInput) / 100);
+                                updateCalculatorDisplay();
+                                shouldResetDisplay = true; // So next number starts fresh, or operator uses this
+                            }
+                        } else { // Other operators + - * /
+                            handleOperator(value);
+                        }
+                    } else if (button.classList.contains('equals')) {
+                        handleEquals();
+                    }
+                });
+            });
+            resetCalculator(); // Initial state
+        }
+    </script>
+
+</body>
+</html>
