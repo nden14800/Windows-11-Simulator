@@ -393,6 +393,9 @@
         }
         body.dark-mode .window-header { background-color: rgba(255, 255, 255, 0.05); }
         .window-title { font-weight: 600; }
+        .window-buttons {
+            display: flex; /* Ensures buttons are in a row */
+        }
         .window-buttons button {
             background: none; border: none; font-size: 1.2em; margin-left: 5px; cursor: pointer;
             padding: 5px; border-radius: 4px; transition: background-color 0.2s ease;
@@ -664,9 +667,9 @@
                     </svg>
                 </div>
                  <div class="taskbar-icon" id="search-button">
-                     <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                      <path d="M4.318 2.687C5.234 2.271 6.536 2 8 2s2.766.27 3.682.687C12.644 3.125 13 3.627 13 4c0 .374-.356.875-1.318 1.313C10.766 5.729 9.464 6 8 6s-2.766-.27-3.682-.687C3.356 4.875 3 4.373 3 4c0-.374.356-.875 1.318-1.313M13 5.698V7c0 .374-.356.875-1.318 1.313C10.766 8.729 9.464 9 8 9s-2.766-.27-3.682-.687C3.356 7.875 3 7.373 3 7V5.698c.271.202.58.378.904.525C4.978 6.711 6.427 7 8 7s3.022-.289 4.096-.777A5 5 0 0 0 13 5.698M14 4c0-1.007-.875-1.755-1.904-2.223C11.022 1.289 9.573 1 8 1s-3.022.289-4.096.777C2.875 2.245 2 2.993 2 4v9c0 1.007.875 1.755 1.904 2.223C4.978 15.71 6.427 16 8 16s3.022-.289 4.096-.777C13.125 14.755 14 14.007 14 13zm-1 4.698V10c0 .374-.356.875-1.318 1.313C10.766 11.729 9.464 12 8 12s-2.766-.27-3.682-.687C3.356 10.875 3 10.373 3 10V8.698c.271.202.58.378.904.525C4.978 9.71 6.427 10 8 10s3.022-.289 4.096-.777A5 5 0 0 0 13 8.698m0 3V13c0 .374-.356.875-1.318 1.313C10.766 14.729 9.464 15 8 15s-2.766-.27-3.682-.687C3.356 13.875 3 13.373 3 13v-1.302c.271.202.58.378.904.525C4.978 12.71 6.427 13 8 13s3.022-.289 4.096-.777c.324-.147.633-.323.904-.525"/>
-                    </svg>
+                     <svg class="search-icon bi bi-search" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                       <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                     </svg>
                  </div>
                 <div class="taskbar-icon" id="taskbar-settings">
                      <svg class="system-tray-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
@@ -1327,7 +1330,12 @@
                     <button class="close-button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/></svg></button>
                 </div>
             </div>
-            <div class="window-content" style="text-align: center;"><h2>Bing (ダミー)</h2></div>
+            <div class="window-content">
+              <div style="text-align: center; padding-top: 50px;">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Bing_logo_%282016%29.svg/200px-Bing_logo_%282016%29.svg.png" alt="Bing Logo" style="width: 120px; margin-bottom: 20px;">
+                <input type="text" placeholder="Bing で検索" style="width: 80%; max-width: 400px; padding: 10px; border: 1px solid var(--input-border-light); border-radius: 20px; text-align: center; background-color: var(--input-bg-light); color: var(--text-color-light);">
+              </div>
+            </div>
         </div>
         <div class="window" id="xbox-window">
             <div class="window-header">
@@ -1338,7 +1346,17 @@
                     <button class="close-button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/></svg></button>
                 </div>
             </div>
-            <div class="window-content" style="text-align: center;"><h2>Xbox (ダミー)</h2></div>
+            <div class="window-content">
+              <div style="text-align: center; padding-top: 30px; color: var(--text-color-light);">
+                <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="currentColor" class="bi bi-xbox" viewBox="0 0 16 16" style="color: #107c10; margin-bottom: 20px;">
+                  <path d="M7.202 3.645c.234-.238.49-.43.768-.58.324-.176.677-.313 1.048-.403l.1-.024c.044-.01.09-.018.135-.024l.053-.007c.043-.006.086-.01.13-.01.033 0 .065.003.097.005.06.004.12.01.18.016.136.012.27.028.403.05.32.053.635.13.936.233.323.11.63.254.91.43.284.178.543.385.77.612.225.226.42.48.58.767.16.286.29.593.38.918.09.324.15.657.17.994.02.336.02.675 0 1.013-.02.338-.08.67-.17.995-.09.324-.22.632-.38.917-.16.287-.355.542-.58.768-.227.226-.486.434-.77.612-.28.176-.587.32-.91.43-.3-.102-.615.18-.935.233-.133.022-.267.038-.402.05-.06.007-.12.012-.18.016-.032.002-.064.005-.097.005-.044,0-.087-.003-.13-.008l-.053-.007c-.045-.006-.09-.014-.135-.024l-.1-.024c-.37-.09-.724-.227-1.048-.403-.278-.15-.534-.34-.768-.58-.235-.24-.43-.5-.58-.78-.15-.28-.27-.58-.35-.89-.08-.31-.13-.63-.14-.95-.01-.32-.01-.64 0-.96.01-.32.06-.63.14-.94.08-.31.2-.61.35-.89.15-.28.345-.54.58-.78Zm-4.94 0L1.03 4.93c-.353.94-.556 1.95-.556 3.004 0 1.056.203 2.064.556 3.004l1.232-1.285c-.12-.34-.18-.703-.18-1.07v-.293c0-.368.06-.73.18-1.07l1.232-1.286Zm1.163-1.635c-.234.238-.43.5-.58.78-.15.28-.27.58-.35.89-.08.31-.13.63-.14.95-.01.32-.01.64 0 .96.01.32.06.63.14.94.08.31.2.61.35.89.15.28.345.54.58.78.234.24.49.43.768.58.324.176.677.313 1.048-.403l.1.024c.044.01.09.018.135.024l.053.007c.043.006.086.01.13.01s.065-.003.097-.005c.06-.004.12-.01.18-.016.136-.012.27-.028.403.05.32-.053.635-.13.936-.233.323-.11.63-.254.91-.43.284-.178.543-.385.77-.612.225-.226.42-.48.58-.767.16-.286.29-.593.38-.918.09.324.15-.657.17-.994.02-.336.02-.675 0-1.013-.02-.338-.08-.67-.17-.995-.09-.324-.22-.632-.38-.917-.16-.287-.355-.542-.58-.768-.227-.226-.486-.434-.77-.612-.28-.176-.587-.32-.91-.43-.3-.102-.615-.18-.935-.233-.133-.022-.267-.038-.402-.05-.06-.007-.12-.012-.18-.016-.032-.002-.064-.005-.097-.005-.044 0-.087-.003-.13.008l-.053.007c-.045-.006-.09-.014-.135-.024l-.1.024c-.37.09-.724-.227-1.048.403-.278-.15-.534-.34-.768-.58Zm7.143 1.635 1.232 1.285c.12.34.18.703.18 1.07v.293c0 .368-.06.73-.18 1.07l-1.232 1.286c.353-.94.556-1.95.556-3.004s-.203-2.064-.556-3.004Z"/>
+                </svg>
+                <h2 style="margin-bottom: 15px; font-weight: 600;">Xbox</h2>
+                <p style="margin-bottom: 20px;">ゲーム、フレンド、実績の世界へようこそ。</p>
+                <button style="padding: 10px 20px; background-color: #107c10; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 1em; margin: 5px;">マイゲーム</button>
+                <button style="padding: 10px 20px; background-color: var(--button-bg-light); color: var(--text-color-light); border: 1px solid var(--button-hover-light); border-radius: 4px; cursor: pointer; font-size: 1em; margin: 5px;">Game Pass</button>
+              </div>
+            </div>
         </div>
         <div class="window" id="teams-window">
             <div class="window-header">
@@ -1349,7 +1367,18 @@
                     <button class="close-button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/></svg></button>
                 </div>
             </div>
-            <div class="window-content" style="text-align: center;"><h2>Microsoft Teams (ダミー)</h2></div>
+            <div class="window-content">
+              <div style="text-align: center; padding-top: 30px; color: var(--text-color-light);">
+                <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="#464EB8" class="bi bi-microsoft-teams" viewBox="0 0 16 16" style="margin-bottom: 20px;">
+                  <path d="M9.186 4.797a2.42 2.42 0 1 0-2.86-2.448h1.178c.929 0 1.682.753 1.682 1.682zm-4.295 7.738h2.613c.929 0 1.682-.753 1.682-1.682V5.58h2.783a.7.7 0 0 1 .682.716v4.294a4.197 4.197 0 0 1-4.093 4.293c-1.618-.04-3-.99-3.667-2.35Zm10.737-9.372a1.674 1.674 0 1 1-3.349 0 1.674 1.674 0 0 1 3.349 0m-2.238 9.488-.12-.002a5.2 5.2 0 0 0 .381-2.07V6.306a1.7 1.7 0 0 0-.15-.725h1.792c.39 0 .707.317.707.707v3.765a2.6 2.6 0 0 1-2.598 2.598z"/>
+                  <path d="M.682 3.349h6.822c.377 0 .682.305.682.682v6.822a.68.68 0 0 1-.682.682H.682A.68.68 0 0 1 0 10.853V4.03c0-.377.305-.682.682-.682Zm5.206 2.596v-.72h-3.59v.72h1.357V9.66h.87V5.945z"/>
+                </svg>
+                <h2 style="margin-bottom: 15px; font-weight: 600;">Microsoft Teams</h2>
+                <p style="margin-bottom: 20px;">チャット、会議、ファイル共有をここで行います。</p>
+                <button style="padding: 10px 20px; background-color: #464EB8; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 1em; margin: 5px;">新しいチャット</button>
+                <button style="padding: 10px 20px; background-color: var(--button-bg-light); color: var(--text-color-light); border: 1px solid var(--button-hover-light); border-radius: 4px; cursor: pointer; font-size: 1em; margin: 5px;">会議を開始</button>
+              </div>
+            </div>
         </div>
         <div class="window" id="github-window">
             <div class="window-header">
@@ -1360,7 +1389,17 @@
                     <button class="close-button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/></svg></button>
                 </div>
             </div>
-            <div class="window-content" style="text-align: center;"><h2>GitHub (ダミー)</h2></div>
+            <div class="window-content">
+              <div style="text-align: center; padding-top: 30px; color: var(--text-color-light);">
+                <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="currentColor" class="bi bi-github" viewBox="0 0 16 16" style="margin-bottom: 20px;">
+                  <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8"/>
+                </svg>
+                <h2 style="margin-bottom: 15px; font-weight: 600;">GitHub</h2>
+                <p style="margin-bottom: 20px;">コードをホストし、プロジェクトで共同作業しましょう。</p>
+                <button style="padding: 10px 20px; background-color: var(--button-bg-light); color: var(--text-color-light); border: 1px solid var(--button-hover-light); border-radius: 4px; cursor: pointer; font-size: 1em; margin: 5px;">リポジトリを見る</button>
+                <button style="padding: 10px 20px; background-color: var(--button-bg-light); color: var(--text-color-light); border: 1px solid var(--button-hover-light); border-radius: 4px; cursor: pointer; font-size: 1em; margin: 5px;">プロフィール</button>
+              </div>
+            </div>
         </div>
         <div class="window" id="google-window">
             <div class="window-header">
@@ -1371,7 +1410,12 @@
                     <button class="close-button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/></svg></button>
                 </div>
             </div>
-            <div class="window-content" style="text-align: center;"><h2>Google (ダミー)</h2></div>
+            <div class="window-content">
+              <div style="text-align: center; padding-top: 50px;">
+                <img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png" alt="Google Logo" style="width: 150px; margin-bottom: 20px;">
+                <input type="text" placeholder="Google で検索" style="width: 80%; max-width: 500px; padding: 10px; border: 1px solid var(--input-border-light); border-radius: 20px; text-align: center; background-color: var(--input-bg-light); color: var(--text-color-light);">
+              </div>
+            </div>
         </div>
         <div class="window" id="google-play-window">
             <div class="window-header">
@@ -1382,7 +1426,17 @@
                     <button class="close-button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/></svg></button>
                 </div>
             </div>
-            <div class="window-content" style="text-align: center;"><h2>Google Play (ダミー)</h2></div>
+            <div class="window-content">
+              <div style="text-align: center; padding-top: 30px; color: var(--text-color-light);">
+                <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="currentColor" class="bi bi-google-play" viewBox="0 0 16 16" style="margin-bottom: 20px;">
+                  <path d="M14.222 9.374c1.037-.61 1.037-2.137 0-2.748L11.528 5.04 8.32 8l3.207 2.96zm-3.595 2.116L7.583 8.68 1.03 14.73c.201 1.029 1.36 1.61 2.303 1.055zM1 13.396V2.603L6.846 8zM1.03 1.27l6.553 6.05 3.044-2.81L3.333.215C2.39-.341 1.231.24 1.03 1.27"/>
+                </svg>
+                <h2 style="margin-bottom: 15px; font-weight: 600;">Google Play</h2>
+                <p style="margin-bottom: 20px;">お気に入りのアプリ、ゲーム、映画、書籍などを見つけましょう。</p>
+                <button style="padding: 10px 20px; background-color: var(--button-bg-light); color: var(--text-color-light); border: 1px solid var(--button-hover-light); border-radius: 4px; cursor: pointer; font-size: 1em; margin: 5px;">アプリを探す</button>
+                <button style="padding: 10px 20px; background-color: var(--button-bg-light); color: var(--text-color-light); border: 1px solid var(--button-hover-light); border-radius: 4px; cursor: pointer; font-size: 1em; margin: 5px;">ゲームを探す</button>
+              </div>
+            </div>
         </div>
         <div class="window" id="calendar-window">
             <div class="window-header">
@@ -1393,7 +1447,28 @@
                     <button class="close-button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/></svg></button>
                 </div>
             </div>
-            <div class="window-content" style="text-align: center;"><h2>カレンダー (ダミー)</h2></div>
+            <div class="window-content">
+              <div style="padding: 10px; color: var(--text-color-light);">
+                <h2 style="text-align: center; margin-bottom: 15px; font-weight: 600;">カレンダー</h2>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                  <button style="background: none; border: none; font-size: 1.5em; cursor: pointer; color: var(--text-color-light);">&lt;</button>
+                  <span style="font-size: 1.2em; font-weight: 500;">2024年 7月</span>
+                  <button style="background: none; border: none; font-size: 1.5em; cursor: pointer; color: var(--text-color-light);">&gt;</button>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; text-align: center;">
+                  <div style="font-weight: 500;">日</div><div style="font-weight: 500;">月</div><div style="font-weight: 500;">火</div><div style="font-weight: 500;">水</div><div style="font-weight: 500;">木</div><div style="font-weight: 500;">金</div><div style="font-weight: 500;">土</div>
+                  
+                  <!-- Dummy days for a generic month view -->
+                  <div style="color: #999;">29</div><div style="color: #999;">30</div>
+                  <div>1</div><div>2</div><div>3</div><div>4</div><div>5</div>
+                  <div>6</div><div>7</div><div>8</div><div>9</div><div>10</div><div>11</div><div>12</div>
+                  <div>13</div><div>14</div><div>15</div><div>16</div><div>17</div><div>18</div><div>19</div>
+                  <div>20</div><div style="background-color: var(--accent-color); color: white; border-radius: 50%; width: 30px; height: 30px; display:flex; align-items:center; justify-content:center; margin: auto;">21</div><div>22</div><div>23</div><div>24</div><div>25</div><div>26</div>
+                  <div>27</div><div>28</div><div>29</div><div>30</div><div>31</div>
+                  <div style="color: #999;">1</div><div style="color: #999;">2</div>
+                </div>
+              </div>
+            </div>
         </div>
         <div class="window" id="wikipedia-window">
             <div class="window-header">
@@ -1404,7 +1479,17 @@
                     <button class="close-button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/></svg></button>
                 </div>
             </div>
-            <div class="window-content" style="text-align: center;"><h2>Wikipedia (ダミー)</h2></div>
+            <div class="window-content">
+              <div style="text-align: center; padding-top: 30px; color: var(--text-color-light);">
+                <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="currentColor" class="bi bi-google-play" viewBox="0 0 16 16" style="margin-bottom: 20px;">
+                  <path d="M14.222 9.374c1.037-.61 1.037-2.137 0-2.748L11.528 5.04 8.32 8l3.207 2.96zm-3.595 2.116L7.583 8.68 1.03 14.73c.201 1.029 1.36 1.61 2.303 1.055zM1 13.396V2.603L6.846 8zM1.03 1.27l6.553 6.05 3.044-2.81L3.333.215C2.39-.341 1.231.24 1.03 1.27"/>
+                </svg>
+                <h2 style="margin-bottom: 15px; font-weight: 600;">Google Play</h2>
+                <p style="margin-bottom: 20px;">お気に入りのアプリ、ゲーム、映画、書籍などを見つけましょう。</p>
+                <button style="padding: 10px 20px; background-color: var(--button-bg-light); color: var(--text-color-light); border: 1px solid var(--button-hover-light); border-radius: 4px; cursor: pointer; font-size: 1em; margin: 5px;">アプリを探す</button>
+                <button style="padding: 10px 20px; background-color: var(--button-bg-light); color: var(--text-color-light); border: 1px solid var(--button-hover-light); border-radius: 4px; cursor: pointer; font-size: 1em; margin: 5px;">ゲームを探す</button>
+              </div>
+            </div>
         </div>
         <!-- NEW APP WINDOWS END HERE -->
     </div>
