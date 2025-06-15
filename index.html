@@ -26,8 +26,8 @@
             --button-bg-dark: #3c3c3c; /* Slightly lighter for better contrast */
             --button-hover-light: #d5d5d5;
             --button-hover-dark: #505050;
-            --input-bg-light: #fff;
-            --input-bg-dark: #3c3c3c;
+            --input-bg-light: var(--bg-color-light);
+            --input-bg-dark: var(--bg-color-dark);
             --input-border-light: #ccc;
             --input-border-dark: #555;
             --scrollbar-thumb-light: #c1c1c1;
@@ -139,6 +139,95 @@
 
         body.dark-mode ::-webkit-scrollbar-track {
             background: var(--scrollbar-track-dark);
+        }
+
+        /* Ensure general window content text inherits dark mode color */
+        body.dark-mode .window-content {
+            color: var(--text-color-dark);
+        }
+        body.dark-mode .window-content p,
+        body.dark-mode .window-content h1:not([style*="color: white"]), /* Keep explicit white for Minecraft if that's intended over variable */
+        body.dark-mode .window-content h2,
+        body.dark-mode .window-content h3,
+        body.dark-mode .window-content span:not(.window-title):not(#click-count):not(#battery-level), /* Avoid affecting specific spans like window titles or already styled elements */
+        body.dark-mode .window-content div[style*="text-align: center"] p, /* For Amazon product items */
+        body.dark-mode .window-content div[style*="text-align: left"] p, /* For YouTube video titles */
+        body.dark-mode #microsoft-store-window .window-content div[style*="text-align: center"] p, /* For MS Store app/game text */
+        body.dark-mode #google-drive-window .window-content div[style*="border: 1px dashed #ccc"] p {
+            color: var(--text-color-dark) !important; /* Use important if inline styles are present */
+        }
+        body.dark-mode #click-count, body.dark-mode #battery-level {
+             color: var(--text-color-dark); /* Ensure these specific spans are also updated */
+        }
+
+        /* Specific fixes for apps based on subtask */
+        /* Minecraft h1 already handled by direct style change or previous generic h1 rule */
+
+        body.dark-mode #microsoft-store-window .window-content svg {
+            fill: var(--text-color-dark);
+        }
+        /* Fix for MS Store text not covered by the general p rule if needed */
+        body.dark-mode #microsoft-store-window .window-content h2,
+        body.dark-mode #microsoft-store-window .window-content p {
+             color: var(--text-color-dark);
+        }
+
+        body.dark-mode #calendar-window .window-content,
+        body.dark-mode #calendar-window h2 {
+            color: var(--text-color-dark);
+        }
+         body.dark-mode #calendar-window .window-content div[style*="font-weight: 500"] { /* Day names etc. */
+             color: var(--text-color-dark);
+         }
+         body.dark-mode #calendar-window .window-content div[style*="color: #999"] {
+            color: #777 !important; /* Make previous/next month days slightly lighter in dark mode */
+        }
+         body.dark-mode #calendar-window button { /* This covers prev/next month buttons */
+            color: var(--text-color-dark);
+        }
+
+        /* Ensure buttons in placeholder apps like Xbox, Teams, GitHub, Google Play have correct dark mode text if not covered by global button rules */
+        body.dark-mode #xbox-window .window-content button[style*="background-color: var(--button-bg-light)"],
+        body.dark-mode #teams-window .window-content button[style*="background-color: var(--button-bg-light)"],
+        body.dark-mode #github-window .window-content button, /* GitHub buttons are generic */
+        body.dark-mode #google-play-window .window-content button[style*="background-color: var(--button-bg-light)"] {
+            color: var(--text-color-dark); /* Ensure text is dark mode compatible */
+            /* Background and border should be handled by the more generic rule:
+               body.dark-mode .window-content button:not(#click-button):not(.calculator-button):not(.settings-section button):not(.google-play-button)
+               If not, specific background/border rules would be needed here too.
+            */
+        }
+
+        /* Ensure text in specific problematic apps is dark mode compatible (some might be redundant with general rules but added for safety) */
+        body.dark-mode #amazon-window .window-content p,
+        body.dark-mode #youtube-window .window-content p,
+        body.dark-mode #google-meet-window .window-content h2,
+        body.dark-mode #google-meet-window .window-content p,
+        body.dark-mode #google-drive-window .window-content h2,
+        body.dark-mode #google-drive-window .window-content p,
+        body.dark-mode #bing-window .window-content h2, /* Bing, Xbox, Teams, GitHub, Google, Google Play */
+        body.dark-mode #bing-window .window-content p,
+        body.dark-mode #xbox-window .window-content h2,
+        body.dark-mode #xbox-window .window-content p,
+        body.dark-mode #teams-window .window-content h2,
+        body.dark-mode #teams-window .window-content p,
+        body.dark-mode #github-window .window-content h2,
+        body.dark-mode #github-window .window-content p,
+        body.dark-mode #google-window .window-content h2,
+        body.dark-mode #google-window .window-content p,
+        body.dark-mode #google-play-window .window-content h2,
+        body.dark-mode #google-play-window .window-content p {
+            color: var(--text-color-dark);
+        }
+         /* Fix for text within divs styled with specific light-mode border (e.g. Amazon product items) */
+        body.dark-mode div[style*="border: 1px solid #eee"] p {
+            color: var(--text-color-dark) !important;
+        }
+        body.dark-mode div[style*="border: 1px solid #eee"] { /* Amazon product item border */
+            border-color: var(--input-border-dark) !important;
+        }
+        body.dark-mode div[style*="border: 1px solid #ccc"] { /* Chrome/Edge URL bar container border */
+            border-color: var(--input-border-dark) !important;
         }
 
 
@@ -409,7 +498,23 @@
             cursor: grab; user-select: none;
         }
         body.dark-mode .window-header { background-color: rgba(255, 255, 255, 0.05); }
-        .window-title { font-weight: 600; }
+        .window-title {
+            font-weight: 600;
+            display: flex; /* Use flexbox for easy alignment */
+            align-items: center; /* Vertically align items in the middle */
+            flex-grow: 1; /* Allow title to take available space */
+        }
+        .header-app-icon {
+            display: inline-flex; /* Or inline-block, flex helps with SVG alignment */
+            align-items: center;
+            justify-content: center;
+            /* vertical-align: middle; /* Alternative if not using flex on parent */
+        }
+
+        .header-app-icon svg {
+            /* Styles are set in JS, but can be defaults here too */
+            /* width: 16px; height: 16px; margin-right: 8px; */
+        }
         .window-buttons {
             display: flex; /* Ensures buttons are in a row */
         }
@@ -667,17 +772,13 @@
                     <option value="US">United States</option>
                 </select>
             </div>
+            <div class="settings-section">
+                <label for="setup-timezone">タイムゾーン:</label>
+                <select id="setup-timezone"></select>
+            </div>
              <div class="settings-section">
                 <label>インターネット設定 (ダミー):</label>
                 <p>インターネットに接続しています...</p>
-            </div>
-            <div class="settings-section">
-                <label for="setup-date">日付:</label>
-                <input type="date" id="setup-date">
-            </div>
-            <div class="settings-section">
-                <label for="setup-time">時間:</label>
-                <input type="time" id="setup-time">
             </div>
             <div class="settings-section">
                 <label for="setup-keyboard">キーボード レイアウト:</label>
@@ -856,16 +957,6 @@
                         </svg>
                     </div>
                     <span>設定</span>
-                </div>
-                 <div class="app-icon" data-app="edge">
-                    <div class="icon">
-                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                          <path d="M9.482 9.341c-.069.062-.17.153-.17.309 0 .162.107.325.3.456.877.613 2.521.54 2.592.538h.002c.667 0 1.32-.18 1.894-.519A3.84 3.84 0 0 0 16 6.819c.018-1.316-.44-2.218-.666-2.664l-.04-.08C13.963 1.487 11.106 0 8 0A8 8 0 0 0 .473 5.29C1.488 4.048 3.183 3.262 5 3.262c2.83 0 5.01 1.885 5.01 4.797h-.004v.002c0 .338-.168.832-.487 1.244l.006-.006z"/>
-                          <path d="M.01 7.753a8.14 8.14 0 0 0 .753 3.641 8 8 0 0 0 6.495 4.564 5 5 0 0 1-.785-.377h-.01l-.12-.075a5.5 5.5 0 0 1-1.56-1.463A5.543 5.543 0 0 1 6.81 5.8l.01-.004.025-.012c.208-.098.62-.292 1.167-.285q.194.001.384.033a4 4 0 0 0-.993-.698l-.01-.005C6.348 4.282 5.199 4.263 5 4.263c-2.44 0-4.824 1.634-4.99 3.49m10.263 7.912q.133-.04.265-.084-.153.047-.307.086z"/>
-                          <path d="M10.228 15.667a5 5 0 0 0 .303-.086l.082-.025a8.02 8.02 0 0 0 4.162-3.3.25.25 0 0 0-.331-.35q-.322.168-.663.294a6.4 6.4 0 0 1-2.243.4c-2.957 0-5.532-2.031-5.532-4.644q.003-.203.046-.399a4.54 4.54 0 0 0-.46 5.898l.003.005c.315.441.707.821 1.158 1.121h.003l.144.09c.877.55 1.721 1.078 3.328.996"/>
-                        </svg>
-                    </div>
-                    <span>Edge</span>
                 </div>
                  <div class="app-icon" data-app="microsoft-store">
                     <div class="icon">
@@ -1063,15 +1154,8 @@
                     <button class="close-button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/></svg></button>
                 </div>
             </div>
-            <div class="window-content">
-                <div style="display: flex; align-items: center; border: 1px solid #ccc; border-radius: 20px; padding: 5px 10px; margin-bottom: 15px;">
-                    <svg style="width: 16px; height: 16px; margin-right: 8px; fill: #5f6368;" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15.5 14H14.71L14.43 13.73C15.41 12.59 16 11.11 16 9.5C16 5.91 13.09 3 9.5 3C5.91 3 3 5.91 3 9.5C3 13.09 5.91 16 9.5 16C11.11 16 12.59 15.41 13.73 14.43L14 14.71V15.5L19.25 20.75L20.75 19.25L15.5 14ZM9.5 14C7.01 14 5 11.99 5 9.5C5 7.01 7.01 5 9.5 5C11.99 5 14 7.01 14 9.5C14 11.99 11.99 14 9.5 14Z"/></svg>
-                    <input type="text" value="https://www.google.com" style="border: none; outline: none; flex-grow: 1; padding: 0; margin: 0; background: none; color: inherit;">
-                </div>
-                <div style="text-align: center; margin-top: 50px;">
-                    <img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png" alt="Google Logo" style="width: 150px; margin-bottom: 20px;">
-                    <input type="text" placeholder="Google で検索、または URL を入力" style="width: 80%; max-width: 500px; padding: 10px; border: 1px solid #ddd; border-radius: 20px; text-align: center;">
-                </div>
+            <div class="window-content" style="padding: 0; overflow: hidden;">
+                <iframe src="https://google.com" style="width: 100%; height: 100%; border: none;" title="Google Chrome"></iframe>
             </div>
         </div>
 
@@ -1085,7 +1169,7 @@
                 </div>
             </div>
             <div class="window-content" style="text-align: center; background-image: url('https://placehold.co/800x600/2E8B57/fff?text=Minecraft+Bedrock'); background-size: cover; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-                <h1 style="color: white; text-shadow: 2px 2px #000;">Minecraft Bedrock Edition</h1>
+                <h1 style="color: var(--text-color-dark); text-shadow: 2px 2px #333;">Minecraft Bedrock Edition</h1>
                 <button style="margin-top: 20px; padding: 10px 20px; background-color: rgba(0,0,0,0.5); color: white; border: 1px solid gray; border-radius: 4px;">シングルプレイ</button>
                  <button style="margin-top: 10px; padding: 10px 20px; background-color: rgba(0,0,0,0.5); color: white; border: 1px solid gray; border-radius: 4px;">マルチプレイ</button>
             </div>
@@ -1100,7 +1184,7 @@
                 </div>
             </div>
             <div class="window-content" style="text-align: center; background-image: url('https://placehold.co/800x600/A0522D/fff?text=Minecraft+Java'); background-size: cover; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-                <h1 style="color: white; text-shadow: 2px 2px #000;">Minecraft Java Edition</h1>
+                <h1 style="color: var(--text-color-dark); text-shadow: 2px 2px #333;">Minecraft Java Edition</h1>
                  <button style="margin-top: 20px; padding: 10px 20px; background-color: rgba(0,0,0,0.6); color: white; border: 1px solid #555; border-radius: 4px;">Play</button>
                  <button style="margin-top: 10px; padding: 10px 20px; background-color: rgba(0,0,0,0.6); color: white; border: 1px solid #555; border-radius: 4px;">Installations</button>
             </div>
@@ -1114,20 +1198,8 @@
                     <button class="close-button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/></svg></button>
                 </div>
             </div>
-            <div class="window-content" style="text-align: center;">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Amazon_logo.svg/603px-Amazon_logo.svg.png" alt="Amazon Logo" style="width: 150px; margin-bottom: 20px;">
-                <input type="text" placeholder="Amazon.co.jp で検索" style="width: 80%; max-width: 500px; padding: 10px; border: 1px solid #ddd; border-radius: 4px; text-align: center;">
-                <p style="margin-top: 20px;">おすすめ商品 (ダミー)</p>
-                <div style="display:flex; justify-content: space-around; flex-wrap: wrap;">
-                    <div style="border: 1px solid #eee; padding:10px; margin:10px; border-radius: 4px; width: 120px;">
-                        <img src="https://placehold.co/100x100/FF9900/fff?text=商品1" style="width:100%; height:auto;">
-                        <p style="font-size:0.8em;">商品1</p>
-                    </div>
-                     <div style="border: 1px solid #eee; padding:10px; margin:10px; border-radius: 4px; width: 120px;">
-                        <img src="https://placehold.co/100x100/FF9900/fff?text=商品2" style="width:100%; height:auto;">
-                        <p style="font-size:0.8em;">商品2</p>
-                    </div>
-                </div>
+            <div class="window-content" style="padding: 0; overflow: hidden;">
+                <iframe src="https://www.amazon.co.jp/ref=nav_logo" style="width: 100%; height: 100%; border: none;" title="Amazon"></iframe>
             </div>
         </div>
         <div class="window" id="click-game-window">
@@ -1141,27 +1213,7 @@
             </div>
             <div class="window-content" id="click-game-content">
                 <button id="click-button">クリック！</button>
-                <p>スコア: <span id="click-count">0</span></p>
-            </div>
-        </div>
-         <div class="window" id="edge-window">
-            <div class="window-header">
-                <span class="window-title">Microsoft Edge</span>
-                <div class="window-buttons">
-                    <button class="minimize-button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8"/></svg></button>
-                    <button class="maximize-button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/></svg></button>
-                    <button class="close-button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/></svg></button>
-                </div>
-            </div>
-            <div class="window-content">
-                <div style="display: flex; align-items: center; border: 1px solid #ccc; border-radius: 20px; padding: 5px 10px; margin-bottom: 15px;">
-                    <svg style="width: 16px; height: 16px; margin-right: 8px; fill: #5f6368;" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4ZM12 6C9.79 6 8 7.79 8 10C8 12.21 9.79 14 12 14C14.21 14 16 12.21 16 10C16 7.79 14.21 6 12 6ZM12 8C13.1 8 14 8.9 14 10C14 11.1 13.1 12 12 12C10.9 12 10 11.1 10 10C10 8.9 10.9 8 12 8Z"/></svg>
-                    <input type="text" value="https://www.bing.com" style="border: none; outline: none; flex-grow: 1; padding: 0; margin: 0; background: none; color: inherit;">
-                </div>
-                <div style="text-align: center; margin-top: 50px;">
-                     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Bing_logo_%282016%29.svg/1280px-Bing_logo_%282016%29.svg.png" alt="Bing Logo" style="width: 150px; margin-bottom: 20px;">
-                    <input type="text" placeholder="Bing で検索" style="width: 80%; max-width: 500px; padding: 10px; border: 1px solid #ddd; border-radius: 20px; text-align: center;">
-                </div>
+                <p>スコア: <span id="click-count">0</span></p> <!-- click-count will inherit from body.dark-mode .window-content -->
             </div>
         </div>
 
@@ -1174,19 +1226,8 @@
                     <button class="close-button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/></svg></button>
                 </div>
             </div>
-            <div class="window-content" style="text-align: center;">
-                <h2>Microsoft Store (ダミー)</h2>
-                <p>人気のアプリやゲームを探しましょう！</p>
-                <div style="margin-top: 20px;">
-                    <div style="display: inline-block; margin: 10px; padding: 15px; border: 1px solid #ccc; border-radius: 8px; text-align: center;">
-                        <svg style="width: 40px; height: 40px; fill: var(--text-color-light);" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18 2H6C4.9 2 4 2.9 4 4V20C4 21.1 4.9 22 6 22H18C19.1 22 20 21.1 20 20V4C20 2.9 19.1 2 18 2ZM18 20H6V4H18V20ZM12 6C9.79 6 8 7.79 8 10C8 12.21 9.79 14 12 14C14.21 14 16 12.21 16 10C16 7.79 14.21 6 12 6ZM12 8C13.1 8 14 8.9 14 10C14 11.1 13.1 12 12 12C10.9 12 10 11.1 10 10C10 8.9 10.9 8 12 8Z"/></svg>
-                        <p style="font-size: 0.9em; margin-top: 5px;">人気アプリ</p>
-                    </div>
-                     <div style="display: inline-block; margin: 10px; padding: 15px; border: 1px solid #ccc; border-radius: 8px; text-align: center;">
-                        <svg style="width: 40px; height: 40px; fill: var(--text-color-light);" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 1L3 5V19L12 23L21 19V5L12 1ZM12 3.15L19 6.3V17.6L12 20.85L5 17.6V6.3L12 3.15ZM12 6L7 8.5V15.5L12 18L17 15.5V8.5L12 6ZM12 8.5L15 10V14L12 15.5L9 14V10L12 8.5Z"/></svg>
-                        <p style="font-size: 0.9em; margin-top: 5px;">人気ゲーム</p>
-                    </div>
-                </div>
+            <div class="window-content" style="padding: 0; overflow: hidden;">
+                <iframe src="https://apps.microsoft.com/?hl=ja-JP&gl=JP" style="width: 100%; height: 100%; border: none;" title="Microsoft Store"></iframe>
             </div>
         </div>
 
@@ -1212,10 +1253,8 @@
                     <button class="close-button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/></svg></button>
                 </div>
             </div>
-            <div class="window-content" style="text-align: center; background-color: #191919; color: white; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Roblox_Logo_2022.svg/1280px-Roblox_Logo_2022.svg.png" alt="Roblox Logo" style="width: 150px; margin-bottom: 20px;">
-                <p>Robloxへようこそ！</p>
-                <button style="margin-top: 20px; padding: 10px 20px; background-color: #00a2ed; color: white; border: none; border-radius: 4px;">プレイ</button>
+            <div class="window-content" style="padding: 0; overflow: hidden;">
+                <iframe src="https://www.roblox.com/" style="width: 100%; height: 100%; border: none;" title="Roblox"></iframe>
             </div>
         </div>
 
@@ -1228,10 +1267,8 @@
                     <button class="close-button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/></svg></button>
                 </div>
             </div>
-            <div class="window-content" style="text-align: center; background-color: #000; color: white;">
-                <svg style="width: 50px; height: 50px; fill: white; margin-bottom: 20px;" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865z"/></svg>
-                <h2>X (旧Twitter)</h2>
-                <p>タイムラインを読み込み中...</p>
+            <div class="window-content" style="padding: 0; overflow: hidden;">
+                <iframe src="https://x.com/" style="width: 100%; height: 100%; border: none;" title="X"></iframe>
             </div>
         </div>
 
@@ -1244,22 +1281,8 @@
                     <button class="close-button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/></svg></button>
                 </div>
             </div>
-            <div class="window-content" style="text-align: center;">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/YouTube_Logo_2017.svg/1280px-YouTube_Logo_2017.svg.png" alt="YouTube Logo" style="width: 150px; margin-bottom: 20px;">
-                <input type="text" placeholder="検索" style="width: 80%; max-width: 500px; padding: 10px; border: 1px solid #ddd; border-radius: 4px; text-align: center;">
-                <div style="margin-top: 20px;">
-                    <p>おすすめ動画 (ダミー)</p>
-                    <div style="display: flex; justify-content: center; flex-wrap: wrap;">
-                        <div style="margin: 10px; text-align: left; width: 150px;">
-                            <img src="https://placehold.co/150x90/cc0000/fff?text=Video+1" alt="Video Thumbnail" style="width: 100%; height: auto; border-radius: 4px;">
-                            <p style="font-size: 0.8em; margin-top: 5px;">ダミー動画タイトル 1</p>
-                        </div>
-                         <div style="margin: 10px; text-align: left; width: 150px;">
-                            <img src="https://placehold.co/150x90/cc0000/fff?text=Video+2" alt="Video Thumbnail" style="width: 100%; height: auto; border-radius: 4px;">
-                            <p style="font-size: 0.8em; margin-top: 5px;">ダミー動画タイトル 2</p>
-                        </div>
-                    </div>
-                </div>
+            <div class="window-content" style="padding: 0; overflow: hidden;">
+                <iframe src="https://www.youtube.com/" style="width: 100%; height: 100%; border: none;" title="YouTube"></iframe>
             </div>
         </div>
 
@@ -1272,11 +1295,8 @@
                     <button class="close-button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/></svg></button>
                 </div>
             </div>
-            <div class="window-content" style="text-align: center;">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Google_Meet_logo.png/1280px-Google_Meet_logo.png" alt="Google Meet Logo" style="width: 100px; margin-bottom: 20px;">
-                <h2>会議を開始または参加</h2>
-                <button style="margin-top: 20px; padding: 10px 20px; background-color: #0078d4; color: white; border: none; border-radius: 4px;">新しい会議を開始</button>
-                 <input type="text" placeholder="コードまたはリンクを入力" style="margin-top: 15px; width: 80%; max-width: 300px; padding: 10px; border: 1px solid #ddd; border-radius: 4px; text-align: center;">
+            <div class="window-content" style="padding: 0; overflow: hidden;">
+                <iframe src="https://meet.google.com/landing" style="width: 100%; height: 100%; border: none;" title="Google Meet"></iframe>
             </div>
         </div>
 
@@ -1289,13 +1309,8 @@
                     <button class="close-button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/></svg></button>
                 </div>
             </div>
-            <div class="window-content" style="text-align: center;">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Google_Drive_icon_%282020%29.svg/1280px-Google_Drive_icon_%282020%29.svg.png" alt="Google Drive Logo" style="width: 100px; margin-bottom: 20px;">
-                <h2>Google Drive (ダミー)</h2>
-                <p>ファイルはここに表示されます。</p>
-                <div style="margin-top: 20px; border: 1px dashed #ccc; padding: 20px; border-radius: 8px;">
-                    <p>ファイルをドラッグ＆ドロップするか、新規作成ボタンを押してください。</p>
-                </div>
+            <div class="window-content" style="padding: 0; overflow: hidden;">
+                <iframe src="https://drive.google.com/drive/home" style="width: 100%; height: 100%; border: none;" title="Google Drive"></iframe>
             </div>
         </div>
 
@@ -1333,18 +1348,10 @@
                 </div>
 
                 <h3>時刻と言語</h3>
-                 <div class="settings-section">
-                    <label for="settings-date">日付:</label>
-                    <input type="date" id="settings-date">
-                    <button id="apply-date">適用</button>
-                </div>
-
                 <div class="settings-section">
-                    <label for="settings-time">時間:</label>
-                    <input type="time" id="settings-time">
-                    <button id="apply-time">適用</button>
+                    <label for="settings-timezone">タイムゾーン:</label>
+                    <select id="settings-timezone"></select>
                 </div>
-
                  <div class="settings-section">
                     <label for="settings-keyboard">キーボード レイアウト:</label>
                     <select id="settings-keyboard">
@@ -1402,10 +1409,8 @@
                     <button class="close-button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/></svg></button>
                 </div>
             </div>
-            <div class="window-content">
-              <div style="text-align: center; padding-top: 50px;">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Bing_logo_%282016%29.svg/200px-Bing_logo_%282016%29.svg.png" alt="Bing Logo" style="width: 120px; margin-bottom: 20px;">
-                <input type="text" placeholder="Bing で検索" style="width: 80%; max-width: 400px; padding: 10px; border: 1px solid var(--input-border-light); border-radius: 20px; text-align: center; background-color: var(--input-bg-light); color: var(--text-color-light);">
+            <div class="window-content" style="padding: 0; overflow: hidden;">
+                <iframe src="https://www.bing.com/" style="width: 100%; height: 100%; border: none;" title="Bing"></iframe>
               </div>
             </div>
         </div>
@@ -1418,15 +1423,8 @@
                     <button class="close-button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/></svg></button>
                 </div>
             </div>
-            <div class="window-content">
-              <div style="text-align: center; padding-top: 30px; color: var(--text-color-light);">
-                <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="currentColor" class="bi bi-xbox" viewBox="0 0 16 16" style="color: #107c10; margin-bottom: 20px;">
-                  <path d="M7.202 15.967a8 8 0 0 1-3.552-1.26c-.898-.585-1.101-.826-1.101-1.306 0-.965 1.062-2.656 2.879-4.583C6.459 7.723 7.897 6.44 8.052 6.475c.302.068 2.718 2.423 3.622 3.531 1.43 1.753 2.088 3.189 1.754 3.829-.254.486-1.83 1.437-2.987 1.802-.954.301-2.207.429-3.239.33m-5.866-3.57C.589 11.253.212 10.127.03 8.497c-.06-.539-.038-.846.137-1.95.218-1.377 1.002-2.97 1.945-3.95.401-.417.437-.427.926-.263.595.2 1.23.638 2.213 1.528l.574.519-.313.385C4.056 6.553 2.52 9.086 1.94 10.653c-.315.852-.442 1.707-.306 2.063.091.24.007.15-.3-.319Zm13.101.195c.074-.36-.019-1.02-.238-1.687-.473-1.443-2.055-4.128-3.508-5.953l-.457-.575.494-.454c.646-.593 1.095-.948 1.58-1.25.381-.237.927-.448 1.161-.448.145 0 .654.528 1.065 1.104a8.4 8.4 0 0 1 1.343 3.102c.153.728.166 2.286.024 3.012a9.5 9.5 0 0 1-.6 1.893c-.179.393-.624 1.156-.82 1.404-.1.128-.1.127-.043-.148ZM7.335 1.952c-.67-.34-1.704-.705-2.276-.803a4 4 0 0 0-.759-.043c-.471.024-.45 0 .306-.358A7.8 7.8 0 0 1 6.47.128c.8-.169 2.306-.17 3.094-.005.85.18 1.853.552 2.418.9l.168.103-.385-.02c-.766-.038-1.88.27-3.078.853-.361.176-.676.316-.699.312a12 12 0 0 1-.654-.319Z"/>
-                </svg>
-                <h2 style="margin-bottom: 15px; font-weight: 600;">Xbox</h2>
-                <p style="margin-bottom: 20px;">ゲーム、フレンド、実績の世界へようこそ。</p>
-                <button style="padding: 10px 20px; background-color: #107c10; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 1em; margin: 5px;">マイゲーム</button>
-                <button style="padding: 10px 20px; background-color: var(--button-bg-light); color: var(--text-color-light); border: 1px solid var(--button-hover-light); border-radius: 4px; cursor: pointer; font-size: 1em; margin: 5px;">Game Pass</button>
+            <div class="window-content" style="padding: 0; overflow: hidden;">
+                <iframe src="https://www.xbox.com/ja-JP" style="width: 100%; height: 100%; border: none;" title="Xbox"></iframe>
               </div>
             </div>
         </div>
@@ -1439,16 +1437,8 @@
                     <button class="close-button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/></svg></button>
                 </div>
             </div>
-            <div class="window-content">
-              <div style="text-align: center; padding-top: 30px; color: var(--text-color-light);">
-                <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="#464EB8" class="bi bi-microsoft-teams" viewBox="0 0 16 16" style="margin-bottom: 20px;">
-                  <path d="M9.186 4.797a2.42 2.42 0 1 0-2.86-2.448h1.178c.929 0 1.682.753 1.682 1.682zm-4.295 7.738h2.613c.929 0 1.682-.753 1.682-1.682V5.58h2.783a.7.7 0 0 1 .682.716v4.294a4.197 4.197 0 0 1-4.093 4.293c-1.618-.04-3-.99-3.667-2.35Zm10.737-9.372a1.674 1.674 0 1 1-3.349 0 1.674 1.674 0 0 1 3.349 0m-2.238 9.488-.12-.002a5.2 5.2 0 0 0 .381-2.07V6.306a1.7 1.7 0 0 0-.15-.725h1.792c.39 0 .707.317.707.707v3.765a2.6 2.6 0 0 1-2.598 2.598z"/>
-                  <path d="M.682 3.349h6.822c.377 0 .682.305.682.682v6.822a.68.68 0 0 1-.682.682H.682A.68.68 0 0 1 0 10.853V4.03c0-.377.305-.682.682-.682Zm5.206 2.596v-.72h-3.59v.72h1.357V9.66h.87V5.945z"/>
-                </svg>
-                <h2 style="margin-bottom: 15px; font-weight: 600;">Microsoft Teams</h2>
-                <p style="margin-bottom: 20px;">チャット、会議、ファイル共有をここで行います。</p>
-                <button style="padding: 10px 20px; background-color: #464EB8; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 1em; margin: 5px;">新しいチャット</button>
-                <button style="padding: 10px 20px; background-color: var(--button-bg-light); color: var(--text-color-light); border: 1px solid var(--button-hover-light); border-radius: 4px; cursor: pointer; font-size: 1em; margin: 5px;">会議を開始</button>
+            <div class="window-content" style="padding: 0; overflow: hidden;">
+                <iframe src="https://www.microsoft.com/ja-jp/microsoft-teams/log-in" style="width: 100%; height: 100%; border: none;" title="Microsoft Teams"></iframe>
               </div>
             </div>
         </div>
@@ -1461,15 +1451,8 @@
                     <button class="close-button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/></svg></button>
                 </div>
             </div>
-            <div class="window-content">
-              <div style="text-align: center; padding-top: 30px; color: var(--text-color-light);">
-                <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="currentColor" class="bi bi-github" viewBox="0 0 16 16" style="margin-bottom: 20px;">
-                  <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8"/>
-                </svg>
-                <h2 style="margin-bottom: 15px; font-weight: 600;">GitHub</h2>
-                <p style="margin-bottom: 20px;">コードをホストし、プロジェクトで共同作業しましょう。</p>
-                <button style="padding: 10px 20px; background-color: var(--button-bg-light); color: var(--text-color-light); border: 1px solid var(--button-hover-light); border-radius: 4px; cursor: pointer; font-size: 1em; margin: 5px;">リポジトリを見る</button>
-                <button style="padding: 10px 20px; background-color: var(--button-bg-light); color: var(--text-color-light); border: 1px solid var(--button-hover-light); border-radius: 4px; cursor: pointer; font-size: 1em; margin: 5px;">プロフィール</button>
+            <div class="window-content" style="padding: 0; overflow: hidden;">
+                <iframe src="https://github.com/" style="width: 100%; height: 100%; border: none;" title="GitHub"></iframe>
               </div>
             </div>
         </div>
@@ -1482,11 +1465,8 @@
                     <button class="close-button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/></svg></button>
                 </div>
             </div>
-            <div class="window-content">
-              <div style="text-align: center; padding-top: 50px;">
-                <img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png" alt="Google Logo" style="width: 150px; margin-bottom: 20px;">
-                <input type="text" placeholder="Google で検索" style="width: 80%; max-width: 500px; padding: 10px; border: 1px solid var(--input-border-light); border-radius: 20px; text-align: center; background-color: var(--input-bg-light); color: var(--text-color-light);">
-              </div>
+            <div class="window-content" style="padding: 0; overflow: hidden;">
+                <iframe src="https://google.com" style="width: 100%; height: 100%; border: none;" title="Google"></iframe>
             </div>
         </div>
         <div class="window" id="google-play-window">
@@ -1498,15 +1478,8 @@
                     <button class="close-button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/></svg></button>
                 </div>
             </div>
-            <div class="window-content">
-              <div style="text-align: center; padding-top: 30px; color: var(--text-color-light);">
-                <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="currentColor" class="bi bi-google-play" viewBox="0 0 16 16" style="margin-bottom: 20px;">
-                  <path d="M14.222 9.374c1.037-.61 1.037-2.137 0-2.748L11.528 5.04 8.32 8l3.207 2.96zm-3.595 2.116L7.583 8.68 1.03 14.73c.201 1.029 1.36 1.61 2.303 1.055zM1 13.396V2.603L6.846 8zM1.03 1.27l6.553 6.05 3.044-2.81L3.333.215C2.39-.341 1.231.24 1.03 1.27"/>
-                </svg>
-                <h2 style="margin-bottom: 15px; font-weight: 600;">Google Play</h2>
-                <p style="margin-bottom: 20px;">お気に入りのアプリ、ゲーム、映画、書籍などを見つけましょう。</p>
-                <button style="padding: 10px 20px; background-color: var(--button-bg-light); color: var(--text-color-light); border: 1px solid var(--button-hover-light); border-radius: 4px; cursor: pointer; font-size: 1em; margin: 5px;">アプリを探す</button>
-                <button style="padding: 10px 20px; background-color: var(--button-bg-light); color: var(--text-color-light); border: 1px solid var(--button-hover-light); border-radius: 4px; cursor: pointer; font-size: 1em; margin: 5px;">ゲームを探す</button>
+            <div class="window-content" style="padding: 0; overflow: hidden;">
+                <iframe src="https://play.google.com/store/games?hl=ja" style="width: 100%; height: 100%; border: none;" title="Google Play"></iframe>
               </div>
             </div>
         </div>
@@ -1520,24 +1493,18 @@
                 </div>
             </div>
             <div class="window-content">
-              <div style="padding: 10px; color: var(--text-color-light);">
+              <div style="padding: 10px;" id="calendar-app-content">
                 <h2 style="text-align: center; margin-bottom: 15px; font-weight: 600;">カレンダー</h2>
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                  <button id="calendar-prev-month-btn" style="background: none; border: none; font-size: 1.5em; cursor: pointer; color: var(--text-color-light);">&lt;</button>
+                  <button id="calendar-prev-month-btn" style="background: none; border: none; font-size: 1.5em; cursor: pointer;">&lt;</button>
                   <span id="calendar-month-year-display" style="font-size: 1.2em; font-weight: 500;">2024年 7月</span>
-                  <button id="calendar-next-month-btn" style="background: none; border: none; font-size: 1.5em; cursor: pointer; color: var(--text-color-light);">&gt;</button>
+                  <button id="calendar-next-month-btn" style="background: none; border: none; font-size: 1.5em; cursor: pointer;">&gt;</button>
                 </div>
-                <div style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; text-align: center;">
-                  <div style="font-weight: 500;">日</div><div style="font-weight: 500;">月</div><div style="font-weight: 500;">火</div><div style="font-weight: 500;">水</div><div style="font-weight: 500;">木</div><div style="font-weight: 500;">金</div><div style="font-weight: 500;">土</div>
-                  
-                  <!-- Dummy days for a generic month view -->
-                  <div style="color: #999;">29</div><div style="color: #999;">30</div>
-                  <div>1</div><div>2</div><div>3</div><div>4</div><div>5</div>
-                  <div>6</div><div>7</div><div>8</div><div>9</div><div>10</div><div>11</div><div>12</div>
-                  <div>13</div><div>14</div><div>15</div><div>16</div><div>17</div><div>18</div><div>19</div>
-                  <div>20</div><div style="background-color: var(--accent-color); color: white; border-radius: 50%; width: 30px; height: 30px; display:flex; align-items:center; justify-content:center; margin: auto;">21</div><div>22</div><div>23</div><div>24</div><div>25</div><div>26</div>
-                  <div>27</div><div>28</div><div>29</div><div>30</div><div>31</div>
-                  <div style="color: #999;">1</div><div style="color: #999;">2</div>
+                <div id="calendar-day-headers" style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; text-align: center;">
+                  <div style="font-weight: 500;">日</div> <div style="font-weight: 500;">月</div> <div style="font-weight: 500;">火</div> <div style="font-weight: 500;">水</div> <div style="font-weight: 500;">木</div> <div style="font-weight: 500;">金</div> <div style="font-weight: 500;">土</div>
+                </div>
+                <div id="calendar-days-body" style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; text-align: center; min-height: 180px; /* Adjust as needed */">
+                  <!-- Day cells will be populated here by JavaScript -->
                 </div>
               </div>
             </div>
@@ -1551,16 +1518,8 @@
                     <button class="close-button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/></svg></button>
                 </div>
             </div>
-            <div class="window-content">
-              <div style="text-align: center; padding-top: 30px; color: var(--text-color-light);">
-                <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="currentColor" class="bi bi-google-play" viewBox="0 0 16 16" style="margin-bottom: 20px;">
-                  <path d="M14.222 9.374c1.037-.61 1.037-2.137 0-2.748L11.528 5.04 8.32 8l3.207 2.96zm-3.595 2.116L7.583 8.68 1.03 14.73c.201 1.029 1.36 1.61 2.303 1.055zM1 13.396V2.603L6.846 8zM1.03 1.27l6.553 6.05 3.044-2.81L3.333.215C2.39-.341 1.231.24 1.03 1.27"/>
-                </svg>
-                <h2 style="margin-bottom: 15px; font-weight: 600;">Google Play</h2>
-                <p style="margin-bottom: 20px;">お気に入りのアプリ、ゲーム、映画、書籍などを見つけましょう。</p>
-                <button style="padding: 10px 20px; background-color: var(--button-bg-light); color: var(--text-color-light); border: 1px solid var(--button-hover-light); border-radius: 4px; cursor: pointer; font-size: 1em; margin: 5px;">アプリを探す</button>
-                <button style="padding: 10px 20px; background-color: var(--button-bg-light); color: var(--text-color-light); border: 1px solid var(--button-hover-light); border-radius: 4px; cursor: pointer; font-size: 1em; margin: 5px;">ゲームを探す</button>
-              </div>
+            <div class="window-content" style="padding: 0; overflow: hidden;">
+                <iframe src="https://www.wikipedia.org/" style="width: 100%; height: 100%; border: none;" title="Wikipedia"></iframe>
             </div>
         </div>
         <!-- NEW APP WINDOWS END HERE -->
@@ -1582,8 +1541,8 @@
         let currentKeyboard = localStorage.getItem('keyboard') || 'JP';
         let currentMouseIcon = localStorage.getItem('mouseIcon') || 'default';
         let currentWallpaper = localStorage.getItem('wallpaper') || 'default';
-        let currentDate = localStorage.getItem('date') || new Date().toISOString().split('T')[0];
-        let currentTime = localStorage.getItem('time') || new Date().toTimeString().split(' ')[0].substring(0, 5);
+        let currentDate, currentTime;
+        let currentTimezone = localStorage.getItem('timezone') || '0';
 
         // DOM Elements
         const setupScreen = document.getElementById('setup-screen');
@@ -1627,8 +1586,6 @@
 
         const setupLanguage = document.getElementById('setup-language');
         const setupRegion = document.getElementById('setup-region');
-        const setupDate = document.getElementById('setup-date');
-        const setupTime = document.getElementById('setup-time');
         const setupKeyboard = document.getElementById('setup-keyboard');
         const setupMouseIcon = document.getElementById('setup-mouse-icon');
         const setupWallpaper = document.getElementById('setup-wallpaper');
@@ -1643,16 +1600,14 @@
 
         const settingsLanguage = document.getElementById('settings-language');
         const settingsRegion = document.getElementById('settings-region');
-        const settingsDate = document.getElementById('settings-date');
-        const settingsTime = document.getElementById('settings-time');
+        // settingsDate and settingsTime are removed as per instructions
         const settingsKeyboard = document.getElementById('settings-keyboard');
         const settingsMouseIcon = document.getElementById('settings-mouse-icon');
         const settingsWallpaper = document.getElementById('settings-wallpaper');
         const settingsUsernameInput = document.getElementById('settings-username');
         const settingsPcNameInput = document.getElementById('settings-pcname');
         const settingsPasswordInput = document.getElementById('settings-password');
-        const applyDateButton = document.getElementById('apply-date');
-        const applyTimeButton = document.getElementById('apply-time');
+        // applyDateButton and applyTimeButton are removed as per instructions
         const applyUsernameButton = document.getElementById('apply-username');
         const applyPcNameButton = document.getElementById('apply-pcname');
         const applyPasswordButton = document.getElementById('apply-password');
@@ -1679,22 +1634,81 @@
                     const today = new Date();
                     currentCalendarYear = today.getFullYear();
                     currentCalendarMonth = today.getMonth();
-                    updateCalendarDisplay(); // Update display if fallback is used
                 }
+                updateCalendarDisplay(); // Ensure this is called after state is determined
             } else {
-                // Fallback if element not found (should not happen with new IDs)
+                // Fallback if element not found
                 const today = new Date();
                 currentCalendarYear = today.getFullYear();
                 currentCalendarMonth = today.getMonth();
+                // updateCalendarDisplay will be called if monthYearDisplay is found later or when app opens
             }
         }
 
+        function renderCalendarGrid() {
+            const daysBody = document.getElementById('calendar-days-body');
+            if (!daysBody) return;
+            daysBody.innerHTML = ''; // Clear previous grid
+
+            // Calculate today's date considering the user's selected timezone for correct highlighting
+            const nowGlobal = new Date();
+            const todayLocalOffset = new Date(nowGlobal.getTime() + parseFloat(currentTimezone) * 3600 * 1000);
+            const todayDate = todayLocalOffset.getUTCDate();
+            const todayMonth = todayLocalOffset.getUTCMonth();
+            const todayYear = todayLocalOffset.getUTCFullYear();
+
+            const firstDayOfMonth = new Date(Date.UTC(currentCalendarYear, currentCalendarMonth, 1));
+            const daysInMonth = new Date(Date.UTC(currentCalendarYear, currentCalendarMonth + 1, 0)).getUTCDate();
+            const startingDayOfWeek = firstDayOfMonth.getUTCDay(); // 0 (Sun) - 6 (Sat)
+
+            const daysInPrevMonth = new Date(Date.UTC(currentCalendarYear, currentCalendarMonth, 0)).getUTCDate();
+
+            let dayCounter = 1;
+            let nextMonthDayCounter = 1;
+            const totalCells = 42; // 6 weeks * 7 days
+
+            for (let i = 0; i < totalCells; i++) {
+                const dayCell = document.createElement('div');
+                dayCell.style.padding = '5px 0';
+                dayCell.style.minHeight = '30px'; // Ensure cells have a minimum height
+                dayCell.style.display = 'flex';
+                dayCell.style.alignItems = 'center';
+                dayCell.style.justifyContent = 'center';
+                dayCell.style.boxSizing = 'border-box';
+
+
+                if (i < startingDayOfWeek) { // Days from previous month
+                    dayCell.textContent = daysInPrevMonth - startingDayOfWeek + 1 + i;
+                    dayCell.style.color = document.body.classList.contains('dark-mode') ? '#777' : '#aaa';
+                } else if (dayCounter <= daysInMonth) { // Days of current month
+                    dayCell.textContent = dayCounter;
+                    if (dayCounter === todayDate && currentCalendarMonth === todayMonth && currentCalendarYear === todayYear) {
+                        dayCell.style.backgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--accent-color').trim();
+                        dayCell.style.color = 'white';
+                        dayCell.style.borderRadius = '50%';
+                        // Adjust width/height for better circle appearance if needed, considering padding
+                        dayCell.style.width = '28px'; 
+                        dayCell.style.height = '28px';
+                        dayCell.style.margin = 'auto'; // Center the circle if cell is larger
+                    } else {
+                         // Color will be inherited from #calendar-app-content or body.dark-mode .window-content
+                    }
+                    dayCounter++;
+                } else { // Days from next month
+                    dayCell.textContent = nextMonthDayCounter;
+                    dayCell.style.color = document.body.classList.contains('dark-mode') ? '#777' : '#aaa';
+                    nextMonthDayCounter++;
+                }
+                daysBody.appendChild(dayCell);
+            }
+        }
+
+
         function updateCalendarDisplay() {
             if (monthYearDisplay) {
-                // Format back to "YYYY年 M月"
                 monthYearDisplay.textContent = `${currentCalendarYear}年 ${currentCalendarMonth + 1}月`;
             }
-            // Note: The day grid itself is not updated in this step.
+            renderCalendarGrid();
         }
 
         if (prevMonthBtn) {
@@ -1737,7 +1751,6 @@
             'minecraft-java': document.getElementById('minecraft-java-window'),
             'amazon': document.getElementById('amazon-window'),
             'click-game': document.getElementById('click-game-window'),
-            'edge': document.getElementById('edge-window'),
             'microsoft-store': document.getElementById('microsoft-store-window'),
             'roblox': document.getElementById('roblox-window'),
             'x': document.getElementById('x-window'),
@@ -1765,7 +1778,6 @@
              'amazon': { name: "Amazon", icon: document.querySelector('.app-icon[data-app="amazon"] .icon').innerHTML },
              'click-game': { name: "クリックゲーム", icon: document.querySelector('.app-icon[data-app="click-game"] .icon').innerHTML },
              'settings': { name: "設定", icon: document.querySelector('.app-icon[data-app="settings"] .icon').innerHTML },
-             'edge': { name: "Edge", icon: document.querySelector('.app-icon[data-app="edge"] .icon').innerHTML },
              'microsoft-store': { name: "Microsoft Store", icon: document.querySelector('.app-icon[data-app="microsoft-store"] .icon').innerHTML },
              'notepad': { name: "メモ帳", icon: document.querySelector('.app-icon[data-app="notepad"] .icon').innerHTML },
              'roblox': { name: "Roblox", icon: document.querySelector('.app-icon[data-app="roblox"] .icon').innerHTML },
@@ -1931,7 +1943,10 @@
         // --- Screen Switching & Setup/Password Logic ---
         function showSetupScreen() {
             setupScreen.style.display = 'flex'; passwordScreen.style.display = 'none'; desktopScreen.style.display = 'none';
-            setupLanguage.value = currentLanguage; setupRegion.value = currentRegion; setupDate.value = currentDate; setupTime.value = currentTime; setupKeyboard.value = currentKeyboard; setupMouseIcon.value = currentMouseIcon; setupWallpaper.value = currentWallpaper; setupUsernameInput.value = currentUsername; setupPcNameInput.value = currentPcName; setupPasswordInput.value = storedPassword;
+            populateTimezoneSelect('setup-timezone');
+            const setupTimezone = document.getElementById('setup-timezone');
+            if(setupTimezone) setupTimezone.value = currentTimezone;
+            setupLanguage.value = currentLanguage; setupRegion.value = currentRegion; /* setupDate and setupTime removed */ setupKeyboard.value = currentKeyboard; setupMouseIcon.value = currentMouseIcon; setupWallpaper.value = currentWallpaper; setupUsernameInput.value = currentUsername; setupPcNameInput.value = currentPcName; setupPasswordInput.value = storedPassword;
         }
         function showPasswordScreen() {
             setupScreen.style.display = 'none'; passwordScreen.style.display = 'flex'; desktopScreen.style.display = 'none';
@@ -1947,8 +1962,28 @@
             applySettingsToDesktop();
         }
         completeSetupButton.addEventListener('click', () => {
-            currentLanguage = setupLanguage.value; currentRegion = setupRegion.value; currentDate = setupDate.value; currentTime = setupTime.value; currentKeyboard = setupKeyboard.value; setupMouseIcon.value = currentMouseIcon; setupWallpaper.value = currentWallpaper; currentUsername = setupUsernameInput.value || 'ユーザー'; currentPcName = setupPcNameInput.value || 'MY-PC'; storedPassword = setupPasswordInput.value;
-            Object.entries({setupComplete: 'true', password: storedPassword, username: currentUsername, pcName: currentPcName, language: currentLanguage, region: currentRegion, date: currentDate, time: currentTime, keyboard: currentKeyboard, mouseIcon: currentMouseIcon, wallpaper: currentWallpaper}).forEach(([key, value]) => localStorage.setItem(key, value));
+            currentLanguage = setupLanguage.value;
+            currentRegion = setupRegion.value;
+            currentKeyboard = setupKeyboard.value;
+            currentMouseIcon = setupMouseIcon.value; // Corrected from setupMouseIcon.value to currentMouseIcon
+            currentWallpaper = setupWallpaper.value; // Corrected from setupWallpaper.value to currentWallpaper
+            currentUsername = setupUsernameInput.value || 'ユーザー';
+            currentPcName = setupPcNameInput.value || 'MY-PC';
+            storedPassword = setupPasswordInput.value;
+            currentTimezone = document.getElementById('setup-timezone').value;
+
+            Object.entries({
+                setupComplete: 'true',
+                password: storedPassword,
+                username: currentUsername,
+                pcName: currentPcName,
+                language: currentLanguage,
+                region: currentRegion,
+                keyboard: currentKeyboard,
+                mouseIcon: currentMouseIcon,
+                wallpaper: currentWallpaper,
+                timezone: currentTimezone
+            }).forEach(([key, value]) => localStorage.setItem(key, value));
             isSetupComplete = true; showPasswordScreen();
         });
         loginButton.addEventListener('click', () => {
@@ -2047,16 +2082,70 @@
 
         function updateDateTime() {
             const now = new Date();
-            const displayDate = new Date(currentDate);
-            const [h, m] = currentTime.split(':');
-            displayDate.setHours(parseInt(h), parseInt(m), now.getSeconds());
+            const selectedTimezoneOffsetHours = parseFloat(currentTimezone);
+            const displayTimeForZone = new Date(now.getTime() + selectedTimezoneOffsetHours * 3600 * 1000);
 
-            timeDisplay.textContent = displayDate.toLocaleTimeString(currentLanguage, { hour: '2-digit', minute: '2-digit' });
-            dateDisplay.textContent = displayDate.toLocaleDateString(currentLanguage, { year: 'numeric', month: 'numeric', day: 'numeric' });
+            currentDate = `${displayTimeForZone.getUTCFullYear()}-${String(displayTimeForZone.getUTCMonth() + 1).padStart(2, '0')}-${String(displayTimeForZone.getUTCDate()).padStart(2, '0')}`;
+            currentTime = `${String(displayTimeForZone.getUTCHours()).padStart(2, '0')}:${String(displayTimeForZone.getUTCMinutes()).padStart(2, '0')}`;
 
-            popupDatetime.textContent = `${displayDate.toLocaleDateString(currentLanguage, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })} ${displayDate.toLocaleTimeString(currentLanguage, { hour: '2-digit', minute: '2-digit', second: '2-digit'})}`;
+            timeDisplay.textContent = displayTimeForZone.toLocaleTimeString(currentLanguage, { hour: '2-digit', minute: '2-digit', timeZone: 'UTC' });
+            dateDisplay.textContent = displayTimeForZone.toLocaleDateString(currentLanguage, { year: 'numeric', month: 'numeric', day: 'numeric', timeZone: 'UTC' });
+
+            popupDatetime.textContent = `${displayTimeForZone.toLocaleDateString(currentLanguage, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' })} ${displayTimeForZone.toLocaleTimeString(currentLanguage, {hour: '2-digit', minute: '2-digit', second: '2-digit', timeZone: 'UTC'})}`;
             popupRegion.textContent = currentRegion;
             popupLanguage.textContent = currentLanguage;
+        }
+
+        function populateTimezoneSelect(selectElementId) {
+            const selectElement = document.getElementById(selectElementId);
+            if (!selectElement) return;
+            selectElement.innerHTML = ''; 
+            const timezones = [
+                { value: '-12', label: 'UTC-12:00 (国際日付変更線 西側)' },
+                { value: '-11', label: 'UTC-11:00 (ミッドウェー島)' },
+                { value: '-10', label: 'UTC-10:00 (ハワイ)' },
+                { value: '-9.5', label: 'UTC-09:30 (マルキーズ諸島)' },
+                { value: '-9', label: 'UTC-09:00 (アラスカ)' },
+                { value: '-8', label: 'UTC-08:00 (太平洋標準時 - バンクーバー、ティフアナ)' },
+                { value: '-7', label: 'UTC-07:00 (山岳部標準時 - デンバー、フェニックス)' },
+                { value: '-6', label: 'UTC-06:00 (中部標準時 - シカゴ、メキシコシティ)' },
+                { value: '-5', label: 'UTC-05:00 (東部標準時 - ニューヨーク、リマ)' },
+                { value: '-4', label: 'UTC-04:00 (大西洋標準時 - ハリファックス、カラカス)' },
+                { value: '-3.5', label: 'UTC-03:30 (ニューファンドランド)' },
+                { value: '-3', label: 'UTC-03:00 (ブラジリア、ブエノスアイレス)' },
+                { value: '-2', label: 'UTC-02:00 (中央大西洋)' },
+                { value: '-1', label: 'UTC-01:00 (アゾレス諸島、カーボベルデ)' },
+                { value: '0', label: 'UTC±00:00 (グリニッジ標準時 - ロンドン、ダブリン)' },
+                { value: '1', label: 'UTC+01:00 (中央ヨーロッパ標準時 - パリ、ベルリン)' },
+                { value: '2', label: 'UTC+02:00 (東ヨーロッパ標準時 - アテネ、カイロ)' },
+                { value: '3', label: 'UTC+03:00 (モスクワ標準時、東アフリカ時間)' },
+                { value: '3.5', label: 'UTC+03:30 (イラン標準時)' },
+                { value: '4', label: 'UTC+04:00 (湾岸標準時 - ドバイ)' },
+                { value: '4.5', label: 'UTC+04:30 (アフガニスタン)' },
+                { value: '5', label: 'UTC+05:00 (パキスタン標準時)' },
+                { value: '5.5', label: 'UTC+05:30 (インド標準時)' },
+                { value: '5.75', label: 'UTC+05:45 (ネパール時間)' },
+                { value: '6', label: 'UTC+06:00 (バングラデシュ標準時)' },
+                { value: '6.5', label: 'UTC+06:30 (ミャンマー)' },
+                { value: '7', label: 'UTC+07:00 (インドシナ時間 - バンコク、ジャカルタ)' },
+                { value: '8', label: 'UTC+08:00 (中国標準時 - 北京、パース)' },
+                { value: '8.75', label: 'UTC+08:45 (オーストラリア中西部標準時)' },
+                { value: '9', label: 'UTC+09:00 (日本標準時、韓国標準時)' },
+                { value: '9.5', label: 'UTC+09:30 (オーストラリア中部標準時 - アデレード)' },
+                { value: '10', label: 'UTC+10:00 (オーストラリア東部標準時 - シドニー)' },
+                { value: '10.5', label: 'UTC+10:30 (ロード・ハウ島)' },
+                { value: '11', label: 'UTC+11:00 (ソロモン諸島、バヌアツ)' },
+                { value: '12', label: 'UTC+12:00 (ニュージーランド標準時)' },
+                { value: '12.75', label: 'UTC+12:45 (チャタム諸島)' },
+                { value: '13', label: 'UTC+13:00 (サモア時間帯、トンガ)' },
+                { value: '14', label: 'UTC+14:00 (キリバス)' }
+            ];
+            timezones.forEach(tz => {
+                const option = document.createElement('option');
+                option.value = tz.value;
+                option.textContent = tz.label;
+                selectElement.appendChild(option);
+            });
         }
         function updateBatteryStatus() {
              batteryLevelDisplay.textContent = `100%`;
@@ -2217,10 +2306,41 @@
                  showAnimatedElement(windowElement);
             }
             bringWindowToFront(windowElement);
+
+            const windowTitleElement = windowElement.querySelector('.window-title');
+            if (windowTitleElement && appInfo[appId] && appInfo[appId].icon) {
+                let headerIcon = windowTitleElement.querySelector('.header-app-icon');
+                if (!headerIcon) {
+                    headerIcon = document.createElement('span');
+                    headerIcon.className = 'header-app-icon';
+                    headerIcon.innerHTML = appInfo[appId].icon;
+                    const svgIcon = headerIcon.querySelector('svg');
+                    if (svgIcon) {
+                        svgIcon.style.width = '16px';
+                        svgIcon.style.height = '16px';
+                        svgIcon.style.marginRight = '8px';
+                        svgIcon.style.verticalAlign = 'middle'; 
+                    }
+                    windowTitleElement.prepend(headerIcon);
+                }
+            }
             
             // Reset specific apps on open
             if (appId === 'settings') {
-                settingsLanguage.value = currentLanguage; settingsRegion.value = currentRegion; settingsDate.value = currentDate; settingsTime.value = currentTime; settingsKeyboard.value = currentKeyboard; settingsMouseIcon.value = currentMouseIcon; settingsWallpaper.value = currentWallpaper; settingsUsernameInput.value = currentUsername; settingsPcNameInput.value = currentPcName; settingsPasswordInput.value = storedPassword;
+                populateTimezoneSelect('settings-timezone');
+                const settingsTimezone = document.getElementById('settings-timezone');
+                if(settingsTimezone) settingsTimezone.value = currentTimezone;
+                // settingsDate.value and settingsTime.value removed
+                settingsLanguage.value = currentLanguage; settingsRegion.value = currentRegion; settingsKeyboard.value = currentKeyboard; settingsMouseIcon.value = currentMouseIcon; settingsWallpaper.value = currentWallpaper; settingsUsernameInput.value = currentUsername; settingsPcNameInput.value = currentPcName; settingsPasswordInput.value = storedPassword; // Keep password for potential change
+
+                if(settingsTimezone && !settingsTimezone.dataset.listenerAttached) { // Prevent multiple listeners
+                    settingsTimezone.addEventListener('change', () => {
+                        currentTimezone = settingsTimezone.value;
+                        localStorage.setItem('timezone', currentTimezone);
+                        updateDateTime();
+                    });
+                    settingsTimezone.dataset.listenerAttached = 'true'; // Mark as attached
+                }
             }
              if (appId === 'click-game') {
                 clickCount = 0;
@@ -2228,6 +2348,18 @@
             }
             if (appId === 'calculator') {
                 resetCalculator();
+            }
+            if (appId === 'calendar') {
+                // Initialize or re-initialize calendar state every time it's opened
+                // This ensures it reflects the current date/month if not already set
+                // or if the user reopens it after some time.
+                if (!currentCalendarYear || !currentCalendarMonth) { // If never initialized
+                    const today = new Date();
+                    const todayLocalOffset = new Date(today.getTime() + parseFloat(currentTimezone) * 3600 * 1000);
+                    currentCalendarYear = todayLocalOffset.getUTCFullYear();
+                    currentCalendarMonth = todayLocalOffset.getUTCMonth();
+                }
+                 initializeCalendarState(); // This will also call updateCalendarDisplay -> renderCalendarGrid
             }
         }
         
@@ -2352,8 +2484,7 @@
         }
 
         // --- Settings Apply Logic ---
-        applyDateButton.addEventListener('click', () => { currentDate = settingsDate.value; localStorage.setItem('date', currentDate); updateDateTime(); });
-        applyTimeButton.addEventListener('click', () => { currentTime = settingsTime.value; localStorage.setItem('time', currentTime); updateDateTime(); });
+        // applyDateButton and applyTimeButton listeners are removed
         applyUsernameButton.addEventListener('click', () => { currentUsername = settingsUsernameInput.value || 'ユーザー'; localStorage.setItem('username', currentUsername); applySettingsToDesktop(); });
         applyPcNameButton.addEventListener('click', () => { currentPcName = settingsPcNameInput.value || 'MY-PC'; localStorage.setItem('pcName', currentPcName); });
         applyPasswordButton.addEventListener('click', () => { storedPassword = settingsPasswordInput.value; localStorage.setItem('password', storedPassword); alert('パスワードが設定されました。'); });
