@@ -47,6 +47,8 @@
             --calc-operator-hover-dark: #666;
             --calc-equals-bg: var(--accent-color);
             --calc-equals-hover: #005a9e;
+           --placeholder-color-light: #888; 
+           --placeholder-color-dark: #bbb;  
         }
 
         html {
@@ -63,6 +65,21 @@
             cursor: none;
             overflow: auto;
             min-height: 100%;
+        }
+
+        input, select, textarea, button {
+            font-family: 'Roboto', 'Segoe UI Variable', 'Segoe UI', sans-serif; /* Match body font stack */
+        }
+
+        input::placeholder, 
+        textarea::placeholder {
+            color: var(--placeholder-color-light);
+            opacity: 1; /* Ensure consistent opacity */
+        }
+
+        body.dark-mode input::placeholder,
+        body.dark-mode textarea::placeholder {
+            color: var(--placeholder-color-dark);
         }
 
         /* Dark Mode */
@@ -417,6 +434,59 @@
             box-sizing: border-box; padding: 5px; background-color: var(--input-bg-light); color: var(--text-color-light);
         }
         body.dark-mode .window-content textarea { background-color: var(--input-bg-dark); color: var(--text-color-dark); }
+
+     .google-play-button {
+         background-color: var(--button-bg-light);
+         color: var(--text-color-light);
+         border: 1px solid var(--button-hover-light);
+         padding: 10px 20px; 
+         border-radius: 4px;  
+         cursor: pointer;    
+         font-size: 1em;     
+         margin: 5px;        
+         transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease; 
+     }
+
+     .google-play-button:hover {
+         background-color: var(--button-hover-light);
+         border-color: var(--button-bg-light); 
+     }
+
+     body.dark-mode .google-play-button {
+         background-color: var(--button-bg-dark);
+         color: var(--text-color-dark);
+         border-color: var(--button-hover-dark);
+     }
+
+     body.dark-mode .google-play-button:hover {
+         background-color: var(--button-hover-dark);
+         border-color: var(--button-bg-dark); 
+     }
+     
+     /* General button styling within window content - apply if not already styled by more specific rules like .google-play-button or .settings-section button */
+     .window-content button:not(#click-button):not(.calculator-button):not(.settings-section button):not(.google-play-button) {
+        background-color: var(--button-bg-light);
+        color: var(--text-color-light);
+        border: 1px solid var(--button-hover-light);
+        padding: 8px 15px; 
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+     }
+     
+     .window-content button:not(#click-button):not(.calculator-button):not(.settings-section button):not(.google-play-button):hover {
+        background-color: var(--button-hover-light);
+     }
+
+     body.dark-mode .window-content button:not(#click-button):not(.calculator-button):not(.settings-section button):not(.google-play-button) {
+         background-color: var(--button-bg-dark);
+         color: var(--text-color-dark);
+         border-color: var(--button-hover-dark);
+     }
+
+     body.dark-mode .window-content button:not(#click-button):not(.calculator-button):not(.settings-section button):not(.google-play-button):hover {
+         background-color: var(--button-hover-dark);
+     }
 
         /* Click Game specific styles */
         #click-game-content { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; }
