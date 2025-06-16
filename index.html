@@ -307,9 +307,13 @@
         }
         #password-content button {
             padding: 10px 20px; background-color: var(--accent-color); color: white;
-            border: none; border-radius: 4px; cursor: pointer; font-size: 1em; transition: background-color 0.2s ease;
+            border: none; border-radius: 4px; cursor: pointer; font-size: 1em; transition: background-color 0.2s ease, transform 0.1s ease;
         }
         #password-content button:hover { background-color: #005a9e; }
+        #login-button:active {
+            transform: scale(0.95);
+            background-color: #004578; /* A slightly darker shade for pressed state */
+        }
         #password-error { color: red; margin-top: 10px; visibility: hidden; }
 
         /* Desktop Screen */
@@ -491,6 +495,7 @@
             opacity: 0; transform: translate(-50%, -50%) scale(0.95) translateY(20px);
             transition: background-color 0.3s, border-color 0.3s, opacity 0.25s ease-out, transform 0.25s ease-out,
                         width 0.2s ease-in-out, height 0.2s ease-in-out, top 0.2s ease-in-out, left 0.2s ease-in-out;
+            box-sizing: border-box; /* Ensures padding and border are included in width/height */
         }
         .window-header {
             padding: 10px; background-color: rgba(0, 0, 0, 0.05);
@@ -603,6 +608,13 @@
         #click-button:active { transform: scale(0.95); }
         #click-count { font-size: 2em; font-weight: bold; }
         body.dark-mode #click-button { /* No specific dark mode if accent is universal */ }
+
+        .mc-button { 
+            display: block; width: 80%; max-width: 250px; margin: 10px auto; padding: 10px 20px; 
+            background-color: rgba(0,0,0,0.5); color: white; border: 1px solid gray; 
+            border-radius: 4px; cursor: pointer; font-size: 1em;
+        }
+        .mc-button:hover { background-color: rgba(0,0,0,0.7); }
 
         /* Calculator App Styles */
         #calculator-window .window-content {
@@ -1168,10 +1180,20 @@
                     <button class="close-button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/></svg></button>
                 </div>
             </div>
-            <div class="window-content" style="text-align: center; background-image: url('https://placehold.co/800x600/2E8B57/fff?text=Minecraft+Bedrock'); background-size: cover; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-                <h1 style="color: var(--text-color-dark); text-shadow: 2px 2px #333;">Minecraft Bedrock Edition</h1>
-                <button style="margin-top: 20px; padding: 10px 20px; background-color: rgba(0,0,0,0.5); color: white; border: 1px solid gray; border-radius: 4px;">シングルプレイ</button>
-                 <button style="margin-top: 10px; padding: 10px 20px; background-color: rgba(0,0,0,0.5); color: white; border: 1px solid gray; border-radius: 4px;">マルチプレイ</button>
+            <div class="window-content" id="mc-bedrock-content" style="text-align: center; background-image: url('https://placehold.co/800x600/2E8B57/fff?text=Minecraft+Bedrock'); background-size: cover; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box;">
+                <div id="mc-bedrock-main-menu" style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; height: 100%;">
+                    <h1 style="color: var(--text-color-dark); text-shadow: 2px 2px #333;">Minecraft Bedrock Edition</h1>
+                    <p id="mc-bedrock-version" style="color: #ccc; text-shadow: 1px 1px #222; margin-top: -10px; margin-bottom: 20px;">V1.0.0</p>
+                    <button id="mc-bedrock-singleplayer" class="mc-button">シングルプレイ</button>
+                    <button id="mc-bedrock-multiplayer" class="mc-button">マルチプレイ</button>
+                    <button id="mc-bedrock-marketplace" class="mc-button">マーケットプレイス</button>
+                    <button id="mc-bedrock-realms" class="mc-button">Realms</button>
+                    <button id="mc-bedrock-skins" class="mc-button">スキン</button>
+                    <button id="mc-bedrock-settings" class="mc-button">設定</button>
+                </div>
+                <div id="mc-bedrock-dynamic-content" style="margin-top: 20px; background-color: rgba(0,0,0,0.7); padding: 15px; border-radius: 5px; display: none; min-width: 300px; color: white;">
+                    <!-- Messages or World Selection will appear here -->
+                </div>
             </div>
         </div>
         <div class="window" id="minecraft-java-window">
@@ -1183,10 +1205,20 @@
                     <button class="close-button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/></svg></button>
                 </div>
             </div>
-            <div class="window-content" style="text-align: center; background-image: url('https://placehold.co/800x600/A0522D/fff?text=Minecraft+Java'); background-size: cover; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-                <h1 style="color: var(--text-color-dark); text-shadow: 2px 2px #333;">Minecraft Java Edition</h1>
-                 <button style="margin-top: 20px; padding: 10px 20px; background-color: rgba(0,0,0,0.6); color: white; border: 1px solid #555; border-radius: 4px;">Play</button>
-                 <button style="margin-top: 10px; padding: 10px 20px; background-color: rgba(0,0,0,0.6); color: white; border: 1px solid #555; border-radius: 4px;">Installations</button>
+            <div class="window-content" id="mc-java-content" style="text-align: center; background-image: url('https://placehold.co/800x600/A0522D/fff?text=Minecraft+Java'); background-size: cover; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box;">
+                <div id="mc-java-main-menu" style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; height: 100%;">
+                    <h1 style="color: var(--text-color-dark); text-shadow: 2px 2px #333;">Minecraft Java Edition</h1>
+                    <p id="mc-java-version" style="color: #ccc; text-shadow: 1px 1px #222; margin-top: -10px; margin-bottom: 20px;">V1.0.0</p>
+                    <button id="mc-java-singleplayer" class="mc-button">Singleplayer</button>
+                    <button id="mc-java-multiplayer" class="mc-button">Multiplayer</button>
+                    <button id="mc-java-realms" class="mc-button">Minecraft Realms</button>
+                    <button id="mc-java-skins" class="mc-button">Skins</button>
+                    <button id="mc-java-settings" class="mc-button">Options...</button>
+                    <button id="mc-java-installations" class="mc-button">Installations</button>
+                </div>
+                <div id="mc-java-dynamic-content" style="margin-top: 20px; background-color: rgba(0,0,0,0.7); padding: 15px; border-radius: 5px; display: none; min-width: 300px; color: white;">
+                    <!-- Messages or World Selection will appear here -->
+                </div>
             </div>
         </div>
         <div class="window" id="amazon-window">
@@ -1533,6 +1565,11 @@
     <script>
         // State variables
         let isSetupComplete = localStorage.getItem('setupComplete') === 'true';
+
+        // Minecraft Bedrock App Logic (added here for proximity to other app logic)
+        // Note: Ensure mcBedrockContent is defined after the DOM is loaded, or this block is within window.onload / DOMContentLoaded
+        // For this subtask, we assume it will be correctly placed or handled by existing onload structure.
+        // The actual querySelector calls will be done post-load in the example.
         let storedPassword = localStorage.getItem('password') || '';
         let currentUsername = localStorage.getItem('username') || 'ユーザー';
         let currentPcName = localStorage.getItem('pcName') || 'MY-PC';
@@ -1613,6 +1650,7 @@
         const applyPasswordButton = document.getElementById('apply-password');
 
         const appIcons = document.querySelectorAll('.app-icon');
+        const taskbarClickState = {}; // Added for taskbar click state tracking
 
         // --- Calendar App Logic ---
         const prevMonthBtn = document.getElementById('calendar-prev-month-btn');
@@ -1876,6 +1914,125 @@
         // --- Initial Load and State Check ---
         window.onload = () => {
             applyTheme();
+
+            // Minecraft Bedrock App Specific Initialisation
+            const mcBedrockContent = document.getElementById('mc-bedrock-content');
+            if (mcBedrockContent) {
+                const mcBedrockMainMenu = mcBedrockContent.querySelector('#mc-bedrock-main-menu');
+                const mcBedrockDynamicContent = mcBedrockContent.querySelector('#mc-bedrock-dynamic-content');
+
+                function showBedrockMessage(message) {
+                    if (mcBedrockMainMenu) mcBedrockMainMenu.style.display = 'none';
+                    if (mcBedrockDynamicContent) {
+                        mcBedrockDynamicContent.innerHTML = `<p style="color: white;">${message}</p><button id="mc-bedrock-back" class="mc-button">戻る</button>`; // Ensure text is white
+                        mcBedrockDynamicContent.style.display = 'block';
+                        const backButton = mcBedrockDynamicContent.querySelector('#mc-bedrock-back');
+                        if (backButton) {
+                            backButton.onclick = () => {
+                                mcBedrockDynamicContent.style.display = 'none';
+                                if (mcBedrockMainMenu) mcBedrockMainMenu.style.display = 'flex';
+                            };
+                        }
+                    }
+                }
+
+                function showBedrockWorldSelect() {
+                    if (mcBedrockMainMenu) mcBedrockMainMenu.style.display = 'none';
+                    if (mcBedrockDynamicContent) {
+                        mcBedrockDynamicContent.innerHTML = `<h2 style="color: white;">ワールド選択</h2><p style="color: white;">ワールドを選択してください... (シュミレーション)</p><div style="height: 100px; background: #333; margin-bottom:10px; display:flex; align-items:center; justify-content:center; color: white;">仮のワールドリスト</div><button id="mc-bedrock-back-ws" class="mc-button">戻る</button>`; // Ensure text is white
+                        mcBedrockDynamicContent.style.display = 'block';
+                        const backButton = mcBedrockDynamicContent.querySelector('#mc-bedrock-back-ws');
+                        if (backButton) {
+                            backButton.onclick = () => {
+                                mcBedrockDynamicContent.style.display = 'none';
+                                if (mcBedrockMainMenu) mcBedrockMainMenu.style.display = 'flex'; 
+                            };
+                        }
+                    }
+                }
+                
+                // Ensure main menu style for flex children, if not already set by HTML.
+                // The HTML already has display: flex; flex-direction: column; align-items: center; justify-content: center;
+                // So this line might be redundant but ensures the state if HTML was different.
+                // if(mcBedrockMainMenu) mcBedrockMainMenu.style.flexDirection = 'column'; 
+
+
+                const mcBedrockSingleplayer = mcBedrockContent.querySelector('#mc-bedrock-singleplayer');
+                if (mcBedrockSingleplayer) mcBedrockSingleplayer.onclick = showBedrockWorldSelect;
+
+                const mcBedrockMultiplayer = mcBedrockContent.querySelector('#mc-bedrock-multiplayer');
+                if (mcBedrockMultiplayer) mcBedrockMultiplayer.onclick = () => showBedrockMessage("マルチプレイは現在使用できません(シュミレーション)");
+
+                const mcBedrockMarketplace = mcBedrockContent.querySelector('#mc-bedrock-marketplace');
+                if (mcBedrockMarketplace) mcBedrockMarketplace.onclick = () => showBedrockMessage("マーケットプレイスは現在使用できません(シュミレーション)");
+                
+                const mcBedrockRealms = mcBedrockContent.querySelector('#mc-bedrock-realms');
+                if (mcBedrockRealms) mcBedrockRealms.onclick = () => showBedrockMessage("Realmsは現在使用できません(シュミレーション)");
+
+                const mcBedrockSkins = mcBedrockContent.querySelector('#mc-bedrock-skins');
+                if (mcBedrockSkins) mcBedrockSkins.onclick = () => showBedrockMessage("スキンは現在使用できません(シュミレーション)");
+
+                const mcBedrockSettingsBtn = mcBedrockContent.querySelector('#mc-bedrock-settings');
+                if (mcBedrockSettingsBtn) mcBedrockSettingsBtn.onclick = () => showBedrockMessage("設定は現在使用できません(シュミレーション)");
+            }
+            // End of Minecraft Bedrock App Specific Initialisation
+
+            // Minecraft Java App Specific Initialisation
+            const mcJavaContent = document.getElementById('mc-java-content');
+            if (mcJavaContent) {
+                const mcJavaMainMenu = mcJavaContent.querySelector('#mc-java-main-menu');
+                const mcJavaDynamicContent = mcJavaContent.querySelector('#mc-java-dynamic-content');
+
+                function showJavaMessage(message) {
+                    if (mcJavaMainMenu) mcJavaMainMenu.style.display = 'none';
+                    if (mcJavaDynamicContent) {
+                        mcJavaDynamicContent.innerHTML = `<p style="color: white;">${message}</p><button id="mc-java-back" class="mc-button">戻る</button>`;
+                        mcJavaDynamicContent.style.display = 'block';
+                        const backButton = mcJavaDynamicContent.querySelector('#mc-java-back');
+                        if (backButton) {
+                            backButton.onclick = () => {
+                                mcJavaDynamicContent.style.display = 'none';
+                                if (mcJavaMainMenu) mcJavaMainMenu.style.display = 'flex';
+                            };
+                        }
+                    }
+                }
+
+                function showJavaWorldSelect() {
+                    if (mcJavaMainMenu) mcJavaMainMenu.style.display = 'none';
+                    if (mcJavaDynamicContent) {
+                        mcJavaDynamicContent.innerHTML = `<h2 style="color: white;">Select World</h2><p style="color: white;">Please select a world... (Simulation)</p><div style="height: 100px; background: #333; margin-bottom:10px; display:flex; align-items:center; justify-content:center; color:white;">Placeholder World List</div><button id="mc-java-back-ws" class="mc-button">Back</button>`;
+                        mcJavaDynamicContent.style.display = 'block';
+                        const backButton = mcJavaDynamicContent.querySelector('#mc-java-back-ws');
+                        if (backButton) {
+                            backButton.onclick = () => {
+                                mcJavaDynamicContent.style.display = 'none';
+                                if (mcJavaMainMenu) mcJavaMainMenu.style.display = 'flex';
+                            };
+                        }
+                    }
+                }
+
+                const mcJavaSingleplayer = mcJavaContent.querySelector('#mc-java-singleplayer');
+                if (mcJavaSingleplayer) mcJavaSingleplayer.onclick = showJavaWorldSelect;
+
+                const mcJavaMultiplayer = mcJavaContent.querySelector('#mc-java-multiplayer');
+                if (mcJavaMultiplayer) mcJavaMultiplayer.onclick = () => showJavaMessage("マルチプレイは現在使用できません(シュミレーション)");
+
+                const mcJavaRealms = mcJavaContent.querySelector('#mc-java-realms');
+                if (mcJavaRealms) mcJavaRealms.onclick = () => showJavaMessage("Realmsは現在使用できません(シュミレーション)");
+                
+                const mcJavaSkins = mcJavaContent.querySelector('#mc-java-skins');
+                if (mcJavaSkins) mcJavaSkins.onclick = () => showJavaMessage("スキンは現在使用できません(シュミレーション)");
+
+                const mcJavaSettingsBtn = mcJavaContent.querySelector('#mc-java-settings');
+                if (mcJavaSettingsBtn) mcJavaSettingsBtn.onclick = () => showJavaMessage("設定は現在使用できません(シュミレーション)");
+
+                const mcJavaInstallationsBtn = mcJavaContent.querySelector('#mc-java-installations');
+                if (mcJavaInstallationsBtn) mcJavaInstallationsBtn.onclick = () => showJavaMessage("Installations are not configurable in this simulation.");
+            }
+            // End of Minecraft Java App Specific Initialisation
+
             if (!isSetupComplete) {
                 showSetupScreen();
             } else {
@@ -2361,6 +2518,18 @@
                 }
                  initializeCalendarState(); // This will also call updateCalendarDisplay -> renderCalendarGrid
             }
+            if (appId === 'minecraft-bedrock') {
+                const bedrockMainMenu = document.querySelector('#mc-bedrock-window #mc-bedrock-main-menu');
+                const bedrockDynamicContent = document.querySelector('#mc-bedrock-window #mc-bedrock-dynamic-content');
+                if (bedrockMainMenu) bedrockMainMenu.style.display = 'flex'; // Ensure main menu is visible
+                if (bedrockDynamicContent) bedrockDynamicContent.style.display = 'none'; // Ensure dynamic content is hidden
+            }
+            if (appId === 'minecraft-java') {
+                const javaMainMenu = document.querySelector('#mc-java-window #mc-java-main-menu');
+                const javaDynamicContent = document.querySelector('#mc-java-window #mc-java-dynamic-content');
+                if (javaMainMenu) javaMainMenu.style.display = 'flex'; 
+                if (javaDynamicContent) javaDynamicContent.style.display = 'none';
+            }
         }
         
         function updateTaskbarActiveState(activeAppId) {
@@ -2375,17 +2544,44 @@
                 const appId = taskbarIcon.dataset.app;
                 const windowElement = appWindows[appId];
                 if (windowElement) {
-                    if (windowElement.style.display === 'none') {
-                        showAnimatedElement(windowElement);
-                        bringWindowToFront(windowElement);
-                    } else {
-                        if (!taskbarIcon.classList.contains('active')) {
-                             bringWindowToFront(windowElement);
+                    const now = Date.now();
+                    const appState = taskbarClickState[appId] || { lastClickTime: 0, wasHiddenByFirstClick: false };
+
+                    if (now - appState.lastClickTime < 400) { // Double-click
+                        if (appState.wasHiddenByFirstClick) {
+                            // Reset window position and show
+                            windowElement.style.top = '50%';
+                            windowElement.style.left = '50%';
+                            windowElement.dataset.offsetX = "0";
+                            windowElement.dataset.offsetY = "0";
+                            // Ensure the transform is reset for the animation by showAnimatedElement
+                            showAnimatedElement(windowElement);
+                            bringWindowToFront(windowElement);
+                            appState.wasHiddenByFirstClick = false;
                         } else {
-                            hideAnimatedElement(windowElement);
-                            taskbarIcon.classList.remove('active');
+                            // Standard behavior for quick focus or if already visible
+                            showAnimatedElement(windowElement); // Ensures it's visible if somehow hidden without the flag
+                            bringWindowToFront(windowElement);
+                            appState.wasHiddenByFirstClick = false; // Reset flag
+                        }
+                    } else { // Single-click or first click of a potential double-click
+                        if (windowElement.style.display === 'none') {
+                            showAnimatedElement(windowElement);
+                            bringWindowToFront(windowElement);
+                            appState.wasHiddenByFirstClick = false;
+                        } else {
+                            if (!taskbarIcon.classList.contains('active')) { // Window is visible but not active
+                                bringWindowToFront(windowElement);
+                                appState.wasHiddenByFirstClick = false;
+                            } else { // Window is visible and active, so hide it
+                                hideAnimatedElement(windowElement);
+                                // taskbarIcon.classList.remove('active'); // Active state is managed by bringWindowToFront
+                                appState.wasHiddenByFirstClick = true;
+                            }
                         }
                     }
+                    appState.lastClickTime = now;
+                    taskbarClickState[appId] = appState;
                 }
             }
         });
@@ -2410,7 +2606,7 @@
                         const currentOffsetX = parseFloat(windowElement.dataset.offsetX);
                         const currentOffsetY = parseFloat(windowElement.dataset.offsetY);
                         const dx = clientX - dragStartMouseX; const dy = clientY - dragStartMouseY;
-                        windowElement.style.transform = `translate(-50%, -50%) translate3d(${currentOffsetX + dx}px, ${currentOffsetY}px, 0) scale(1)`;
+                        windowElement.style.transform = `translate(-50%, -50%) translate3d(${currentOffsetX + dx}px, ${currentOffsetY + dy}px, 0) scale(1)`;
                     };
                     const onDragEnd = (clientX, clientY) => {
                         if (!isDragging) return; isDragging = false;
@@ -2497,7 +2693,15 @@
 
         // --- Calculator Logic ---
         function updateCalculatorDisplay() {
-            calculatorDisplay.textContent = calcCurrentInput;
+            if (calcCurrentInput === 'Error' || calcCurrentInput === '-Infinity' || calcCurrentInput === 'Infinity' || isNaN(parseFloat(calcCurrentInput))) {
+                calculatorDisplay.textContent = calcCurrentInput;
+            } else {
+                const parts = calcCurrentInput.split('.');
+                const integerPart = parts[0];
+                const decimalPart = parts.length > 1 ? '.' + parts[1] : '';
+                const formattedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                calculatorDisplay.textContent = formattedInteger + decimalPart;
+            }
         }
 
         function resetCalculator() {
