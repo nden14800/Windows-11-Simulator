@@ -1166,8 +1166,26 @@
                     <button class="close-button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/></svg></button>
                 </div>
             </div>
-            <div class="window-content" style="padding: 0; overflow: hidden;">
-                <iframe src="https://google.com" style="width: 100%; height: 100%; border: none;" title="Google Chrome"></iframe>
+            <div class="window-content" id="chrome-app-content" style="padding: 0; overflow-y: auto;">
+                <div id="chrome-app-main" style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; padding: 20px; box-sizing: border-box;">
+                    <h1 style="font-size: 3em; font-weight: bold; color: #4285F4;">G<span style="color: #EA4335;">o</span><span style="color: #FBBC05;">o</span><span style="color: #4285F4;">g</span><span style="color: #34A853;">l</span><span style="color: #EA4335;">e</span></h1>
+                    <input type="text" id="chrome-app-search-input" style="width: 80%; max-width: 500px; padding: 10px; margin-top: 20px; border-radius: 20px; border: 1px solid #ccc;">
+                    <button id="chrome-app-search-button" class="mc-button" style="margin-top: 15px;">Google Search</button>
+                </div>
+                <div id="chrome-app-results" style="display: none; padding: 20px; text-align: left;">
+                    <h3 style="border-bottom: 1px solid #eee; padding-bottom: 5px;">Search Results (Simulation)</h3>
+                    <div>
+                        <h4>Result 1: Welcome to Simulated Chrome</h4>
+                        <p>You've searched in the simulated Chrome app. These are placeholder results.</p>
+                        <span style="color: green; font-size: 0.9em;">chrome/simulated/search-result-1</span>
+                    </div>
+                    <div style="margin-top:15px;">
+                        <h4>Result 2: Tips for Using This Simulator</h4>
+                        <p>Explore different apps and features! Enjoy the simulation.</p>
+                        <span style="color: green; font-size: 0.9em;">chrome/simulated/search-result-2</span>
+                    </div>
+                    <button id="chrome-app-back-button" class="mc-button" style="margin-top: 20px;">Back to Search</button>
+                </div>
             </div>
         </div>
 
@@ -1497,8 +1515,26 @@
                     <button class="close-button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/></svg></button>
                 </div>
             </div>
-            <div class="window-content" style="padding: 0; overflow: hidden;">
-                <iframe src="https://google.com" style="width: 100%; height: 100%; border: none;" title="Google"></iframe>
+            <div class="window-content" id="google-app-content" style="padding: 0; overflow-y: auto;">
+                <div id="google-app-main" style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; padding: 20px; box-sizing: border-box;">
+                    <h1 style="font-size: 3em; font-weight: bold; color: #4285F4;">G<span style="color: #EA4335;">o</span><span style="color: #FBBC05;">o</span><span style="color: #4285F4;">g</span><span style="color: #34A853;">l</span><span style="color: #EA4335;">e</span></h1>
+                    <input type="text" id="google-app-search-input" style="width: 80%; max-width: 500px; padding: 10px; margin-top: 20px; border-radius: 20px; border: 1px solid #ccc;">
+                    <button id="google-app-search-button" class="mc-button" style="margin-top: 15px;">Google Search</button>
+                </div>
+                <div id="google-app-results" style="display: none; padding: 20px; text-align: left;">
+                    <h3 style="border-bottom: 1px solid #eee; padding-bottom: 5px;">Search Results (Simulation)</h3>
+                    <div>
+                        <h4>Result 1: About This Simulation</h4>
+                        <p>This is a simulated search result. Full web functionality is not available.</p>
+                        <span style="color: green; font-size: 0.9em;">path/to/simulation-info</span>
+                    </div>
+                    <div style="margin-top:15px;">
+                        <h4>Result 2: Fun Facts About Coding</h4>
+                        <p>Coding can be fun and challenging! This is another placeholder result.</p>
+                        <span style="color: green; font-size: 0.9em;">path/to/coding-facts</span>
+                    </div>
+                    <button id="google-app-back-button" class="mc-button" style="margin-top: 20px;">Back to Search</button>
+                </div>
             </div>
         </div>
         <div class="window" id="google-play-window">
@@ -2033,6 +2069,51 @@
             }
             // End of Minecraft Java App Specific Initialisation
 
+            // Google App JS Logic
+            const googleAppContent = document.getElementById('google-window')?.querySelector('.window-content');
+            if (googleAppContent) {
+                const googleAppMain = googleAppContent.querySelector('#google-app-main');
+                const googleAppResults = googleAppContent.querySelector('#google-app-results');
+                const googleAppSearchButton = googleAppContent.querySelector('#google-app-search-button');
+                const googleAppBackButton = googleAppContent.querySelector('#google-app-back-button');
+
+                if (googleAppSearchButton) {
+                    googleAppSearchButton.onclick = () => {
+                        if (googleAppMain) googleAppMain.style.display = 'none';
+                        if (googleAppResults) googleAppResults.style.display = 'block';
+                    };
+                }
+                if (googleAppBackButton) {
+                    googleAppBackButton.onclick = () => {
+                        if (googleAppResults) googleAppResults.style.display = 'none';
+                        if (googleAppMain) googleAppMain.style.display = 'flex';
+                    };
+                }
+            }
+
+            // Chrome App JS Logic
+            const chromeAppContent = document.getElementById('chrome-window')?.querySelector('.window-content');
+            if (chromeAppContent) {
+                const chromeAppMain = chromeAppContent.querySelector('#chrome-app-main');
+                const chromeAppResults = chromeAppContent.querySelector('#chrome-app-results');
+                const chromeAppSearchButton = chromeAppContent.querySelector('#chrome-app-search-button');
+                const chromeAppBackButton = chromeAppContent.querySelector('#chrome-app-back-button');
+
+                if (chromeAppSearchButton) {
+                    chromeAppSearchButton.onclick = () => {
+                        if (chromeAppMain) chromeAppMain.style.display = 'none';
+                        if (chromeAppResults) chromeAppResults.style.display = 'block';
+                    };
+                }
+                if (chromeAppBackButton) {
+                    chromeAppBackButton.onclick = () => {
+                        if (chromeAppResults) chromeAppResults.style.display = 'none';
+                        if (chromeAppMain) chromeAppMain.style.display = 'flex';
+                    };
+                }
+            }
+
+
             if (!isSetupComplete) {
                 showSetupScreen();
             } else {
@@ -2529,6 +2610,16 @@
                 const javaDynamicContent = document.querySelector('#mc-java-window #mc-java-dynamic-content');
                 if (javaMainMenu) javaMainMenu.style.display = 'flex'; 
                 if (javaDynamicContent) javaDynamicContent.style.display = 'none';
+            } else if (appId === 'google') {
+                const googleAppMain = document.querySelector('#google-window #google-app-main');
+                const googleAppResults = document.querySelector('#google-window #google-app-results');
+                if (googleAppMain) googleAppMain.style.display = 'flex';
+                if (googleAppResults) googleAppResults.style.display = 'none';
+            } else if (appId === 'chrome') {
+                const chromeAppMain = document.querySelector('#chrome-window #chrome-app-main');
+                const chromeAppResults = document.querySelector('#chrome-window #chrome-app-results');
+                if (chromeAppMain) chromeAppMain.style.display = 'flex';
+                if (chromeAppResults) chromeAppResults.style.display = 'none';
             }
         }
         
