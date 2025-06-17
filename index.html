@@ -53,6 +53,11 @@
 
         html {
             height: 100%;
+            overflow: hidden; /* Prevent scrollbars on the html element */
+            box-sizing: border-box;
+        }
+        *, *:before, *:after {
+            box-sizing: inherit; /* Apply border-box to all elements */
         }
 
         body {
@@ -63,8 +68,10 @@
             background-color: var(--bg-color-light);
             transition: background-color 0.3s, color 0.3s;
             cursor: none;
-            overflow: auto;
-            min-height: 100%;
+            height: 100%; /* Ensure body takes full viewport height */
+            overflow: hidden; /* Prevent scrollbars on the body element */
+            display: flex; /* Use flex to make sure content fills body */
+            flex-direction: column; /* Stack children vertically */
         }
 
         input, select, textarea, button {
@@ -318,10 +325,16 @@
 
         /* Desktop Screen */
         #desktop-screen {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-size: cover; background-position: center;
-            display: none; flex-direction: column; justify-content: space-between;
-            z-index: 1; overflow: hidden;
+            /* position: fixed; top: 0; left: 0; width: 100%; height: 100%; */ /* Old */
+            position: relative; /* Changed from fixed */
+            flex-grow: 1; /* To fill space in flex body */
+            width: 100%; /* Still take full width */
+            background-size: cover;
+            background-position: center;
+            display: none; /* Initial state, shown by JS */
+            flex-direction: column;
+            justify-content: space-between; /* Pushes taskbar to bottom */
+            overflow: hidden; /* Important: desktop itself should not scroll */
         }
 
         /* Taskbar */
@@ -761,6 +774,1924 @@
             .calculator-display { font-size: 2em; padding: 15px; }
             .calculator-button { font-size: 1.2em; padding: 15px;}
         }
+
+    @media (max-width: 420px) { /* More specific for small phones */
+        #calculator-window .calculator-display {
+            font-size: 1.8em; /* Further reduce font size */
+            padding: 12px;
+            min-height: 40px;
+        }
+        #calculator-window .calculator-button {
+            font-size: 1.1em; /* Further reduce font size */
+            padding: 12px; /* Adjust padding if necessary */
+        }
+    }
+
+    @media (max-width: 480px) { /* Targeting smaller phone screens */
+        .amazon-header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .amazon-search-bar {
+            width: 100%;
+            margin-top: 8px;
+            margin-right: 0;
+        }
+        .amazon-nav-icons {
+            margin-top: 8px;
+            align-self: flex-end;
+        }
+        .amazon-nav-icons .nav-icon {
+            margin-left: 10px; /* Slightly reduce margin */
+        }
+        .amazon-product-grid {
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); /* Smaller items, or 1fr for single column */
+            gap: 10px;
+        }
+        /* If a single column is preferred for very small screens: */
+        /*
+        .amazon-product-grid {
+            grid-template-columns: 1fr;
+        }
+        */
+        .amazon-main-content h2 {
+            font-size: 1.1em;
+        }
+
+        .roblox-header {
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 10px;
+        }
+        .roblox-nav {
+            margin-top: 10px;
+            flex-wrap: wrap; /* Allow nav items to wrap */
+            gap: 8px;
+        }
+        .roblox-nav a {
+            font-size: 0.85em;
+        }
+        .roblox-search-user {
+            width: 100%;
+            margin-top: 10px;
+            justify-content: space-between;
+        }
+        .roblox-search-input {
+            flex-grow: 1; /* Allow search input to take more space */
+            margin-right: 10px;
+        }
+        .roblox-main-content h2 {
+            font-size: 1.2em;
+        }
+        .roblox-games-grid {
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); /* Smaller items, or 1fr for single column */
+            gap: 10px;
+        }
+        /* If a single column is preferred for very small screens: */
+        /*
+        .roblox-games-grid {
+            grid-template-columns: 1fr;
+        }
+        */
+
+        #settings-content h3 {
+            font-size: 1.1em; /* Slightly smaller section titles */
+        }
+        .settings-section label {
+            font-size: 0.9em;
+        }
+        .settings-section input[type="text"], 
+        .settings-section input[type="password"],
+        .settings-section input[type="number"], 
+        .settings-section input[type="time"],
+        .settings-section input[type="date"], 
+        .settings-section select {
+            padding: 8px;
+            font-size: 0.9em;
+            /* width: 100%; Ensure box-sizing is border-box if not already global */
+        }
+        .settings-section button {
+            padding: 8px 12px;
+            font-size: 0.85em;
+        }
+        /* Ensure the select elements in settings are not too wide */
+        #settings-language, #settings-region, #settings-timezone, #settings-keyboard, #settings-mouse-icon, #settings-wallpaper {
+             width: calc(100% - 0px); /* Override wider calc from desktop if it was problematic */
+        }
+
+        #calendar-app-content h2 {
+            font-size: 1.2em; /* Smaller title */
+            margin-bottom: 10px;
+        }
+        #calendar-month-year-display {
+            font-size: 1em; /* Smaller month/year display */
+        }
+        #calendar-prev-month-btn, #calendar-next-month-btn {
+            font-size: 1.2em; /* Smaller navigation buttons */
+        }
+        #calendar-day-headers div {
+            font-size: 0.8em; /* Smaller day headers */
+            font-weight: normal;
+        }
+        #calendar-days-body div {
+            font-size: 0.8em; /* Smaller day numbers */
+            min-height: 24px; /* Adjust cell height */
+            padding: 3px 0;
+        }
+        #calendar-days-body div[style*="backgroundColor"] { /* For 'today' highlight */
+            width: 22px !important; /* Ensure it fits */
+            height: 22px !important;
+        }
+
+        .meet-main-content {
+            flex-direction: column;
+            padding: 20px; /* Adjust padding for stacked layout */
+            justify-content: flex-start; /* Align items to the top */
+        }
+        .meet-actions-panel {
+            text-align: center; /* Center content when stacked */
+            margin-bottom: 30px; /* Space between panels */
+            max-width: 100%; /* Allow full width */
+        }
+        .meet-actions-panel h1 {
+            font-size: 1.8rem; /* Smaller headline */
+        }
+        .meet-new-meeting-btn {
+            margin-right: 0;
+            margin-bottom: 15px; /* Space below button */
+            display: flex; /* Ensure icon and text align */
+            justify-content: center;
+        }
+        .meet-join-meeting {
+            flex-direction: column; /* Stack input and button */
+            align-items: stretch; /* Make input/button full width of container */
+        }
+        .meet-code-input {
+            width: auto; /* Remove fixed width, rely on flex stretch */
+            margin-bottom: 10px;
+        }
+        .meet-join-btn {
+            margin-left: 0;
+        }
+        .meet-schedule-panel-placeholder {
+            max-width: 100%;
+        }
+        .meet-header .meet-logo-text {
+            font-size: 1.1rem; /* Smaller logo text */
+        }
+        .meet-user-actions .meet-action-icon {
+            padding: 6px; /* Slightly smaller padding */
+        }
+
+        .drive-header {
+            padding: 8px 10px; /* Reduce padding */
+            flex-wrap: wrap; /* Allow items to wrap */
+        }
+        .drive-logo-text {
+            font-size: 1.1rem; /* Smaller logo text */
+        }
+        .drive-search-container {
+            order: 3; /* Move search to new line if header wraps */
+            width: 100%;
+            margin: 8px 0 0 0;
+            max-width: none;
+        }
+        .drive-user-actions {
+            margin-top: 5px; /* Add space if header wraps */
+        }
+        .drive-body-content {
+            flex-direction: column; /* Stack sidebar and main area */
+        }
+        .drive-sidebar {
+            width: 100%;
+            border-right: none;
+            border-bottom: 1px solid var(--window-border-light);
+            padding: 10px;
+            max-height: 200px; /* Limit height, enable scroll */
+        }
+        body.dark-mode .drive-sidebar {
+            border-bottom-color: #3c4043;
+        }
+        .drive-new-button {
+            padding: 10px 18px;
+            font-size: 0.85rem;
+            width: 100%; /* Make button full width in sidebar */
+        }
+        .drive-nav-item {
+            padding: 8px 10px;
+            font-size: 0.85em;
+        }
+        .drive-main-area {
+            padding: 15px;
+        }
+        .drive-main-area h3 {
+            font-size: 1rem;
+        }
+        .drive-file-grid {
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); /* Smaller items */
+            gap: 10px;
+        }
+        .drive-file-item svg {
+            width: 40px;
+            height: 40px;
+        }
+        .drive-file-item span {
+            font-size: 0.8em;
+        }
+
+        .bing-header-placeholder {
+            padding: 8px 10px;
+            flex-wrap: wrap;
+        }
+        .bing-logo-text {
+            font-size: 1.2em;
+        }
+        .bing-search-input-header {
+            width: 100%;
+            margin: 8px 0 0 0;
+            order: 3; /* Move to new line */
+        }
+        .bing-header-menu-icon {
+            margin-left: 10px;
+        }
+        .bing-search-tabs-container {
+            padding: 0 5px; /* Reduce padding for tabs container */
+        }
+        .bing-search-tab-button {
+            padding: 10px 12px; /* Adjust tab button padding */
+            font-size: 0.85em;
+            margin-right: 4px;
+        }
+        .bing-main-content-area {
+            padding: 10px;
+        }
+        .bing-result-item h4 {
+            font-size: 1em;
+        }
+        .bing-result-item p, .bing-result-item a {
+            font-size: 0.85em;
+        }
+
+        .x-app-content {
+            flex-direction: column; /* Stack main areas */
+        }
+        .x-header {
+            /* Consider simplifying or allowing wrapping if too many items */
+        }
+        .x-main-nav-placeholder, .x-user-actions-placeholder {
+            font-size: 0.8em; /* Smaller text for placeholders */
+            padding: 5px;
+        }
+        .x-main-content-area {
+            border-right: none; /* Remove border when stacked */
+            padding: 10px; /* Adjust padding */
+        }
+        .x-whats-happening textarea {
+            font-size: 1em;
+        }
+        .x-whats-happening button {
+            padding: 6px 12px;
+            font-size: 0.9em;
+        }
+        .x-post {
+            padding: 10px; /* Adjust padding */
+        }
+        .x-post-avatar {
+            width: 40px;
+            height: 40px;
+            margin-right: 8px;
+        }
+        .x-sidebar-right {
+            width: 100%; /* Full width when stacked */
+            border-left: none; /* Remove border when stacked */
+            border-top: 1px solid var(--window-border-light);
+            padding: 10px;
+        }
+        body.dark-mode .x-sidebar-right {
+            border-top-color: #38444d;
+        }
+        .x-sidebar-right h4 {
+            font-size: 1em;
+        }
+
+        .youtube-header {
+            padding: 0 8px; /* Reduce padding */
+            height: auto; /* Allow wrapping */
+            flex-wrap: wrap; /* Allow items to wrap */
+        }
+        .youtube-logo-burger {
+            min-width: 120px; /* Ensure logo and text have some space */
+        }
+        .youtube-logo-text-header {
+            font-size: 1rem; /* Slightly smaller */
+        }
+        .youtube-search-container {
+            order: 3; /* Move search to a new line if header wraps */
+            width: 100%;
+            margin: 8px 0 0 0; /* Adjust margin for wrapped state */
+            max-width: none;
+        }
+        .youtube-user-actions {
+            /* May need to adjust margins or simplify if still too crowded */
+        }
+        .youtube-body-content {
+            flex-direction: column; /* Stack sidebar and main feed */
+        }
+        .youtube-sidebar {
+            width: 100%;
+            border-right: none;
+            border-bottom: 1px solid var(--window-border-light);
+            padding: 8px;
+            max-height: 150px; /* Limit height when stacked, enable scroll */
+            overflow-y: auto;
+        }
+        body.dark-mode .youtube-sidebar {
+            border-bottom-color: #383838;
+        }
+        .youtube-sidebar-item {
+            padding: 8px;
+            font-size: 0.85em;
+        }
+        .youtube-sidebar-item .icon svg {
+            width: 18px;
+            height: 18px;
+            margin-right: 10px;
+        }
+        .youtube-main-feed {
+            padding: 15px;
+        }
+        .youtube-video-grid {
+            grid-template-columns: 1fr; /* Single column for videos */
+            gap: 15px;
+        }
+        .youtube-video-text h4 {
+            font-size: 0.9em;
+        }
+        .youtube-video-text p {
+            font-size: 0.75em;
+        }
+    }
+
+        /* Amazon App Simulation Styles */
+        .amazon-app-content {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            background-color: var(--window-bg-light);
+            color: var(--text-color-light);
+        }
+        body.dark-mode .amazon-app-content {
+            background-color: var(--window-bg-dark);
+            color: var(--text-color-dark);
+        }
+        .amazon-header {
+            display: flex;
+            align-items: center;
+            padding: 8px 10px;
+            background-color: #232f3e; /* Amazon's dark header color */
+            color: white;
+            flex-shrink: 0; 
+        }
+        .amazon-header .logo-text {
+            font-size: 1.6em;
+            font-weight: bold;
+            margin-right: 15px;
+            font-family: Arial, sans-serif; 
+        }
+        .amazon-search-bar {
+            display: flex;
+            flex-grow: 1;
+            background-color: white;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-right: 10px;
+        }
+        .amazon-search-bar input {
+            flex-grow: 1;
+            padding: 8px 10px;
+            border: none; /* Changed from border-width: 0px; etc. */
+            outline: none;
+            font-size: 0.9em;
+            color: #111; 
+        }
+        .amazon-search-bar button {
+            background-color: #febd69; 
+            border: none; /* Changed from border-width: 0px; etc. */
+            padding: 0 12px;
+            cursor: pointer;
+        }
+        .amazon-search-bar button svg {
+            fill: #111;
+            width: 18px;
+            height: 18px;
+            vertical-align: middle;
+        }
+        .amazon-nav-icons {
+            display: flex;
+            align-items: center;
+        }
+        .amazon-nav-icons .nav-icon {
+            margin-left: 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            flex-direction: column; 
+            font-size: 0.7em; 
+            line-height: 1.2;
+        }
+        .amazon-nav-icons .nav-icon svg {
+            fill: white;
+            width: 22px; 
+            height: 22px;
+            margin-bottom: 2px; 
+        }
+        .amazon-main-content {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 15px;
+        }
+        .amazon-main-content h2 {
+            font-size: 1.2em;
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        .amazon-product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+        }
+        .amazon-product-item {
+            background-color: var(--button-bg-light);
+            border-width: 1px;
+            border-style: solid;
+            border-color: var(--window-border-light);
+            border-radius: 4px;
+            padding: 10px;
+            text-align: center;
+        }
+        body.dark-mode .amazon-product-item {
+            background-color: var(--button-bg-dark);
+            border-color: var(--window-border-dark);
+        }
+        .amazon-product-item img {
+            width: 100%;
+            max-width: 120px;
+            height: 110px; 
+            object-fit: contain; 
+            margin-bottom: 8px;
+            border-radius: 2px;
+            background-color: white; 
+        }
+        .amazon-product-item h4 {
+            font-size: 0.85em; 
+            margin: 8px 0 5px 0;
+            height: 2.6em; 
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+        .amazon-product-item p.price {
+            font-size: 1em;
+            font-weight: bold;
+            color: #B12704;
+            margin: 5px 0;
+        }
+        body.dark-mode .amazon-product-item p.price {
+            color: #ff8c66; 
+        }
+        .amazon-footer {
+            padding: 15px;
+            text-align: center;
+            font-size: 0.8em;
+            background-color: #f0f2f5;
+            border-top-width: 1px;
+            border-top-style: solid;
+            border-top-color: var(--window-border-light);
+            flex-shrink: 0;
+        }
+        body.dark-mode .amazon-footer {
+            background-color: #2a2a2a;
+            border-top-color: var(--window-border-dark);
+        }
+        .amazon-footer a {
+            color: var(--accent-color);
+            margin: 0 5px;
+            text-decoration: none;
+        }
+        .amazon-footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Roblox App Simulation Styles */
+        .roblox-app-content {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            background-color: var(--window-bg-light); /* Adapts to dark/light */
+            color: var(--text-color-light); /* Adapts to dark/light */
+        }
+        body.dark-mode .roblox-app-content {
+            background-color: #1c2127; /* Roblox dark theme background */
+            color: var(--text-color-dark);
+        }
+        .roblox-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 20px;
+            background-color: #393b3d; /* Roblox header dark color */
+            color: white;
+            flex-shrink: 0;
+        }
+        .roblox-logo {
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        .roblox-logo svg {
+            width: 28px;
+            height: 28px;
+            margin-right: 8px;
+            fill: white; /* Ensure Roblox logo is white */
+        }
+        .roblox-nav {
+            display: flex;
+            gap: 20px;
+        }
+        .roblox-nav a {
+            color: #c7c9ca; /* Lighter gray for nav links */
+            text-decoration: none;
+            font-size: 0.9em;
+            font-weight: 500;
+        }
+        .roblox-nav a:hover {
+            color: white;
+        }
+        .roblox-search-user {
+            display: flex;
+            align-items: center;
+        }
+        .roblox-search-input {
+            padding: 6px 10px;
+            border-radius: 15px;
+            border: 1px solid #545658; /* Darker border for input */
+            background-color: #232527; /* Dark input background */
+            color: white;
+            font-size: 0.9em;
+            width: 150px; /* Adjust as needed */
+            margin-right: 15px;
+        }
+        body.dark-mode .roblox-search-input {
+            /* Styles already target dark theme */
+        }
+        .roblox-search-input::placeholder {
+            color: #8a8d90;
+        }
+        .roblox-user-profile img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        .roblox-main-content {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 20px;
+            background-color: var(--bg-color-light); /* Default background */
+        }
+        body.dark-mode .roblox-main-content {
+            background-color: #1c2127; /* Roblox dark theme background */
+        }
+        .roblox-main-content h2 {
+            font-size: 1.4em;
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-weight: 600;
+            color: var(--text-color-light);
+        }
+        body.dark-mode .roblox-main-content h2 {
+            color: var(--text-color-dark);
+        }
+        .roblox-games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 20px;
+        }
+        .roblox-game-tile {
+            background-color: var(--button-bg-light);
+            border: 1px solid var(--window-border-light);
+            border-radius: 8px;
+            overflow: hidden; /* To clip image if needed */
+            text-align: center;
+            padding-bottom: 10px; /* Space for title below image */
+        }
+        body.dark-mode .roblox-game-tile {
+            background-color: #2b2e32; /* Darker tile background */
+            border-color: #404347;
+        }
+        .roblox-game-tile img {
+            width: 100%;
+            height: 150px; /* Fixed height for game tiles */
+            object-fit: cover; /* Cover the area */
+            display: block; /* Remove extra space below image */
+        }
+        .roblox-game-tile h4 {
+            font-size: 0.9em;
+            margin: 10px 5px 5px 5px;
+            font-weight: 500;
+            color: var(--text-color-light);
+        }
+        body.dark-mode .roblox-game-tile h4 {
+            color: var(--text-color-dark);
+        }
+        .roblox-footer {
+            padding: 10px;
+            text-align: center;
+            font-size: 0.75em;
+            background-color: #e3e3e3; /* Lighter footer for light mode */
+            border-top: 1px solid var(--window-border-light);
+            flex-shrink: 0;
+            color: #555;
+        }
+        body.dark-mode .roblox-footer {
+            background-color: #393b3d; /* Roblox header dark color for footer */
+            border-top-color: #545658;
+            color: #c7c9ca;
+        }
+
+/* X App Simulation Styles */
+.x-app-content {
+    display: flex;
+    /* Default to a three-column layout: nav | main | sidebar */
+    /* This might be simplified to nav | main for smaller window sizes via media queries if needed */
+    height: 100%;
+    background-color: var(--window-bg-light);
+    color: var(--text-color-light);
+}
+body.dark-mode .x-app-content {
+    background-color: #000; /* X often uses a very dark or black background */
+    color: var(--text-color-dark);
+}
+
+.x-header {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    border-bottom: 1px solid var(--window-border-light);
+    background-color: var(--window-bg-light); /* Header might have same bg as content or slightly different */
+    flex-shrink: 0;
+}
+body.dark-mode .x-header {
+    border-bottom-color: #38444d; /* X's dark mode border color */
+    background-color: #000;
+}
+.x-logo svg {
+    width: 28px;
+    height: 28px;
+    fill: var(--text-color-light); /* Adapts with dark mode */
+}
+body.dark-mode .x-logo svg {
+    fill: var(--text-color-dark);
+}
+
+/* Simplified placeholders for nav and user actions in header */
+.x-main-nav-placeholder, .x-user-actions-placeholder {
+    padding: 5px 10px;
+    font-size: 0.9em;
+    color: var(--text-color-light);
+}
+body.dark-mode .x-main-nav-placeholder, body.dark-mode .x-user-actions-placeholder {
+    color: var(--text-color-dark);
+}
+.x-main-nav-placeholder { flex-grow: 1; text-align: center; }
+
+
+.x-main-content-area {
+    flex-grow: 1;
+    overflow-y: auto;
+    border-right: 1px solid var(--window-border-light);
+    padding-top: 10px;
+}
+body.dark-mode .x-main-content-area {
+    border-right-color: #38444d;
+}
+
+.x-whats-happening {
+    padding: 10px 15px;
+    border-bottom: 1px solid var(--window-border-light);
+}
+body.dark-mode .x-whats-happening {
+    border-bottom-color: #38444d;
+}
+.x-whats-happening textarea {
+    width: 100%;
+    min-height: 50px;
+    border: none;
+    background-color: transparent;
+    color: var(--text-color-light);
+    font-size: 1.1em;
+    resize: none;
+    margin-bottom: 10px;
+    padding: 5px;
+}
+body.dark-mode .x-whats-happening textarea {
+    color: var(--text-color-dark);
+}
+.x-whats-happening textarea::placeholder {
+    color: var(--placeholder-color-light);
+}
+body.dark-mode .x-whats-happening textarea::placeholder {
+    color: var(--placeholder-color-dark);
+}
+.x-whats-happening button {
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    float: right; /* Or use flex for layout */
+}
+.x-whats-happening button:hover {
+    background-color: #005a9e; /* Darker accent */
+}
+
+.x-feed {
+    /* Feed items will be added here */
+}
+.x-post {
+    display: flex;
+    padding: 10px 15px;
+    border-bottom: 1px solid var(--window-border-light);
+}
+body.dark-mode .x-post {
+    border-bottom-color: #38444d;
+}
+.x-post:last-child {
+    border-bottom: none;
+}
+.x-post-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    margin-right: 10px;
+    flex-shrink: 0;
+}
+.x-post-content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+.x-post-header {
+    margin-bottom: 5px;
+    font-size: 0.9em;
+}
+.x-post-username {
+    font-weight: bold;
+    color: var(--text-color-light);
+}
+body.dark-mode .x-post-username {
+    color: var(--text-color-dark);
+}
+.x-post-handle, .x-post-time {
+    color: #536471; /* X's gray for handle/time */
+}
+body.dark-mode .x-post-handle, body.dark-mode .x-post-time {
+    color: #71767b;
+}
+.x-post-text {
+    font-size: 0.95em;
+    line-height: 1.4;
+    margin-bottom: 10px;
+    white-space: pre-wrap; /* To respect newlines in example text */
+    /* color is inherited */
+}
+.x-post-actions {
+    display: flex;
+    justify-content: space-around; /* Or space-between */
+    color: #536471;
+    font-size: 0.8em;
+}
+body.dark-mode .x-post-actions {
+    color: #71767b;
+}
+.x-post-actions span {
+    cursor: pointer;
+}
+.x-post-actions span:hover {
+    color: var(--accent-color);
+}
+
+.x-sidebar-right {
+    width: 250px; /* Example width */
+    padding: 15px;
+    border-left: 1px solid var(--window-border-light);
+    overflow-y: auto;
+    font-size: 0.9em;
+    flex-shrink: 0;
+}
+body.dark-mode .x-sidebar-right {
+    border-left-color: #38444d;
+    background-color: #000; /* Match main content for X dark theme */
+}
+.x-sidebar-right h4 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 1.1em;
+    font-weight: bold;
+}
+.x-sidebar-right p {
+    margin-bottom: 8px;
+    color: var(--accent-color);
+    cursor: pointer;
+}
+.x-sidebar-right p:hover {
+    text-decoration: underline;
+}
+
+/* Adjust main content area if sidebar is present */
+.x-app-content.has-sidebar .x-main-content-area {
+    /* If sidebar is fixed width, main content can take remaining space */
+}
+
+/* YouTube App Simulation Styles */
+.youtube-app-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background-color: var(--window-bg-light);
+    color: var(--text-color-light);
+}
+body.dark-mode .youtube-app-content {
+    background-color: #0f0f0f; /* YouTube's dark theme background */
+    color: var(--text-color-dark);
+}
+
+.youtube-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    height: 56px;
+    background-color: var(--window-bg-light);
+    border-bottom: 1px solid var(--window-border-light);
+    flex-shrink: 0;
+}
+body.dark-mode .youtube-header {
+    background-color: #212121; /* YouTube dark header */
+    border-bottom-color: #383838;
+}
+
+.youtube-logo-burger {
+    display: flex;
+    align-items: center;
+}
+.youtube-burger-icon {
+    font-size: 20px; /* Simple text burger */
+    padding: 8px;
+    cursor: pointer;
+    margin-right: 16px;
+    color: var(--text-color-light);
+}
+body.dark-mode .youtube-burger-icon {
+    color: var(--text-color-dark);
+}
+.youtube-logo-svg {
+    width: 90px;
+    height: 20px;
+}
+.youtube-logo-svg g:nth-child(1) path { fill: #FF0000; } /* Red play button */
+.youtube-logo-svg g:nth-child(n+2) path { fill: var(--text-color-light); } /* Text part */
+body.dark-mode .youtube-logo-svg g:nth-child(n+2) path { fill: var(--text-color-dark); }
+
+
+.youtube-search-container {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    max-width: 600px; /* Limit search bar width */
+    margin: 0 20px;
+}
+.youtube-search-input {
+    flex-grow: 1;
+    padding: 8px 12px;
+    border: 1px solid var(--input-border-light);
+    border-right: none;
+    border-radius: 20px 0 0 20px; /* Pill shape part 1 */
+    background-color: var(--input-bg-light);
+    color: var(--text-color-light);
+    font-size: 1em;
+    outline: none;
+}
+body.dark-mode .youtube-search-input {
+    background-color: #121212; /* Darker input for YT dark */
+    border-color: #303030;
+    color: var(--text-color-dark);
+}
+.youtube-search-button {
+    padding: 8px 18px;
+    border: 1px solid var(--input-border-light);
+    border-radius: 0 20px 20px 0; /* Pill shape part 2 */
+    background-color: var(--button-bg-light);
+    cursor: pointer;
+    margin-left: -1px; /* Overlap border for seamless look */
+}
+body.dark-mode .youtube-search-button {
+    background-color: #303030;
+    border-color: #303030;
+}
+.youtube-search-button svg {
+    fill: var(--text-color-light);
+    width: 16px;
+    height: 16px;
+    vertical-align: middle;
+}
+body.dark-mode .youtube-search-button svg {
+    fill: var(--text-color-dark);
+}
+
+.youtube-user-actions {
+    display: flex;
+    align-items: center;
+}
+.youtube-user-actions .youtube-action-icon {
+    padding: 8px;
+    cursor: pointer;
+    margin-left: 8px;
+}
+.youtube-user-actions .youtube-action-icon svg {
+    fill: var(--text-color-light);
+    width: 24px;
+    height: 24px;
+}
+body.dark-mode .youtube-user-actions .youtube-action-icon svg {
+    fill: var(--text-color-dark);
+}
+.youtube-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin-left: 16px;
+    cursor: pointer;
+}
+
+.youtube-body-content {
+    display: flex;
+    flex-grow: 1;
+    overflow-y: hidden; /* Prevent double scrollbars, main handles it */
+}
+.youtube-sidebar {
+    width: 200px; /* Fixed width sidebar */
+    padding: 12px;
+    border-right: 1px solid var(--window-border-light);
+    background-color: var(--window-bg-light);
+    overflow-y: auto;
+    flex-shrink: 0;
+}
+body.dark-mode .youtube-sidebar {
+    background-color: #212121;
+    border-right-color: #383838;
+}
+.youtube-sidebar-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 0.9em;
+    color: var(--text-color-light);
+    margin-bottom: 2px;
+}
+body.dark-mode .youtube-sidebar-item {
+    color: var(--text-color-dark);
+}
+.youtube-sidebar-item:hover {
+    background-color: var(--button-bg-light);
+}
+body.dark-mode .youtube-sidebar-item:hover {
+    background-color: #383838;
+}
+.youtube-sidebar-item.active {
+    background-color: var(--button-hover-light); /* Slightly different for active */
+    font-weight: 500;
+}
+body.dark-mode .youtube-sidebar-item.active {
+    background-color: #505050;
+}
+.youtube-sidebar-item .icon {
+    margin-right: 15px;
+    font-size: 1.2em; /* For emoji icons */
+}
+.youtube-sidebar hr {
+    border: none;
+    border-top: 1px solid var(--window-border-light);
+    margin: 10px 0;
+}
+body.dark-mode .youtube-sidebar hr {
+    border-top-color: #383838;
+}
+
+.youtube-main-feed {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 24px;
+}
+.youtube-video-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 16px;
+}
+.youtube-video-item {
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+}
+.youtube-video-item img {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: 8px;
+    background-color: #e0e0e0; /* Placeholder bg */
+    margin-bottom: 8px;
+}
+body.dark-mode .youtube-video-item img {
+    background-color: #303030;
+}
+.youtube-video-info {
+    display: flex;
+}
+.youtube-channel-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    margin-right: 12px;
+    background-color: #ccc; /* Placeholder bg */
+}
+.youtube-video-text h4 {
+    font-size: 0.95em;
+    font-weight: 500;
+    margin: 0 0 4px 0;
+    line-height: 1.3;
+    max-height: 2.6em; /* Two lines */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    color: var(--text-color-light);
+}
+.youtube-video-text p {
+    font-size: 0.8em;
+    color: #606060;
+    margin: 0;
+    line-height: 1.2;
+}
+body.dark-mode .youtube-video-text h4 {
+    color: var(--text-color-dark);
+}
+body.dark-mode .youtube-video-text p {
+    color: #aaaaaa;
+}
+
+.youtube-logo-text-header {
+    font-size: 1.25rem; /* Match typical YouTube logo text size */
+    font-weight: bold;
+    margin-left: 4px; /* Space from SVG logo */
+    letter-spacing: -1px; /* Common YouTube logo styling */
+    color: var(--text-color-light);
+}
+body.dark-mode .youtube-logo-text-header {
+    color: var(--text-color-dark);
+}
+
+.youtube-sidebar-item .icon svg {
+    width: 20px; /* Standardized size */
+    height: 20px;
+    fill: currentColor; /* To inherit color from .youtube-sidebar-item */
+}
+/* Ensure the icon color matches text color, especially for dark mode */
+.youtube-sidebar-item {
+    /* Existing styles should handle color, this is a reminder */
+     color: var(--text-color-light);
+}
+body.dark-mode .youtube-sidebar-item {
+    color: var(--text-color-dark);
+}
+
+/* Google Meet App Simulation Styles */
+.meet-app-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background-color: var(--window-bg-light);
+    color: var(--text-color-light);
+}
+body.dark-mode .meet-app-content {
+    background-color: #202124; /* Google Meet dark background */
+    color: var(--text-color-dark);
+}
+
+.meet-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 16px;
+    border-bottom: 1px solid var(--window-border-light);
+    flex-shrink: 0;
+}
+body.dark-mode .meet-header {
+    border-bottom-color: #3c4043;
+}
+
+.meet-logo {
+    display: flex;
+    align-items: center;
+}
+.meet-logo .app-icon-svg { /* Class for the Meet logo SVG */
+    width: 24px;
+    height: 24px;
+    fill: var(--text-color-light); /* Default, adjust if specific color needed */
+    margin-right: 8px;
+}
+body.dark-mode .meet-logo .app-icon-svg {
+    fill: var(--text-color-dark);
+}
+.meet-logo-text {
+    font-size: 1.375rem; /* 22px */
+    color: #5f6368;
+    font-weight: 500; /* Usually a bit lighter than bold */
+}
+body.dark-mode .meet-logo-text {
+    color: #dadce0;
+}
+
+.meet-user-actions {
+    display: flex;
+    align-items: center;
+}
+.meet-user-actions .meet-action-icon {
+    padding: 8px;
+    cursor: pointer;
+    margin-left: 8px;
+    color: var(--text-color-light);
+}
+body.dark-mode .meet-user-actions .meet-action-icon {
+    color: var(--text-color-dark);
+}
+.meet-user-actions .meet-action-icon svg {
+    fill: currentColor; /* Inherits color from parent .meet-action-icon */
+    width: 24px;
+    height: 24px;
+}
+.meet-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin-left: 16px;
+    cursor: pointer;
+}
+
+.meet-main-content {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-around; /* Space out the two main panels */
+    padding: 40px 20px;
+    overflow-y: auto;
+}
+.meet-actions-panel {
+    max-width: 450px;
+    text-align: left;
+}
+.meet-actions-panel h1 {
+    font-size: 2.5rem; /* Large headline */
+    font-weight: 500;
+    line-height: 1.2;
+    margin-bottom: 16px;
+    color: var(--text-color-light);
+}
+body.dark-mode .meet-actions-panel h1 {
+    color: var(--text-color-dark);
+}
+.meet-actions-panel p {
+    font-size: 1rem;
+    margin-bottom: 30px;
+    color: #5f6368;
+}
+body.dark-mode .meet-actions-panel p {
+    color: #9aa0a6;
+}
+
+.meet-new-meeting-btn {
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: 24px; /* More rounded */
+    padding: 10px 24px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    margin-right: 15px; /* Space from join input */
+    transition: background-color 0.2s ease;
+}
+.meet-new-meeting-btn:hover {
+    background-color: #005a9e; /* Darker accent */
+}
+.meet-new-meeting-btn svg {
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+}
+
+.meet-join-meeting {
+    display: inline-flex; /* Align input and button */
+    align-items: center;
+    margin-top: 10px; /* Or adjust as needed if on same line */
+}
+.meet-code-input {
+    padding: 10px 15px;
+    border: 1px solid var(--input-border-light);
+    border-radius: 4px;
+    font-size: 1rem;
+    width: 200px; /* Example width */
+    background-color: var(--input-bg-light);
+    color: var(--text-color-light);
+}
+body.dark-mode .meet-code-input {
+    border-color: #5f6368;
+    background-color: #3c4043;
+    color: var(--text-color-dark);
+}
+.meet-join-btn {
+    padding: 10px 15px;
+    margin-left: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--accent-color);
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+body.dark-mode .meet-join-btn {
+    color: #8ab4f8; /* Lighter blue for dark mode */
+}
+.meet-join-btn:hover {
+    background-color: rgba(0,120,212,0.1); /* Light accent hover */
+}
+body.dark-mode .meet-join-btn:hover {
+    background-color: rgba(138,180,248,0.1);
+}
+
+
+.meet-schedule-panel-placeholder {
+    text-align: center;
+    max-width: 300px;
+}
+.meet-schedule-panel-placeholder img {
+    display: block; /* Make image block to control margins */
+    margin: 0 auto 15px auto;
+}
+.meet-schedule-panel-placeholder p {
+    font-size: 0.9rem;
+    color: #5f6368;
+}
+body.dark-mode .meet-schedule-panel-placeholder p {
+    color: #9aa0a6;
+}
+
+.meet-footer {
+    padding: 10px 20px;
+    text-align: center;
+    font-size: 0.75em;
+    border-top: 1px solid var(--window-border-light);
+    color: #5f6368;
+    flex-shrink: 0;
+}
+body.dark-mode .meet-footer {
+    border-top-color: #3c4043;
+    color: #9aa0a6;
+}
+.meet-footer a {
+    color: #5f6368;
+    margin: 0 8px;
+    text-decoration: none;
+}
+body.dark-mode .meet-footer a {
+    color: #9aa0a6;
+}
+.meet-footer a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive adjustments for Meet */
+@media (max-width: 700px) { /* Example breakpoint */
+    .meet-main-content {
+        flex-direction: column;
+        justify-content: center;
+        padding: 20px;
+    }
+    .meet-actions-panel {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    .meet-new-meeting-btn {
+        margin-right: 0;
+        margin-bottom: 15px;
+    }
+    .meet-join-meeting {
+        justify-content: center;
+    }
+}
+
+/* Bing App Simulation Styles */
+.bing-app-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background-color: var(--window-bg-light);
+    color: var(--text-color-light);
+}
+body.dark-mode .bing-app-content {
+    background-color: #1b1b1b; /* Bing's dark theme is often very dark */
+    color: var(--text-color-dark);
+}
+
+.bing-header-placeholder {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    background-color: #0078d4; /* Bing's blue */
+    color: white;
+    flex-shrink: 0;
+}
+.bing-logo-text {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-right: 15px;
+}
+.bing-search-input-header {
+    flex-grow: 1;
+    padding: 8px 10px;
+    border-radius: 4px;
+    border: 1px solid #005a9e; /* Darker blue border */
+    background-color: white;
+    color: #333;
+    font-size: 0.9em;
+}
+.bing-header-menu-icon {
+    margin-left: 15px;
+    font-size: 1.5em;
+    cursor: pointer;
+}
+
+.bing-search-tabs-container {
+    display: flex;
+    flex-wrap: wrap;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: var(--input-border-light);
+    margin-bottom: 15px;
+    padding: 0 10px; /* Padding for the container itself */
+    background-color: var(--window-bg-light);
+    flex-shrink: 0;
+}
+body.dark-mode .bing-search-tabs-container {
+    border-bottom-color: #3c3c3c; /* Darker border */
+    background-color: #2b2b2b; /* Slightly different dark for tab bar */
+}
+.bing-search-tab-button {
+    padding: 12px 18px; /* Slightly larger padding */
+    cursor: pointer;
+    border: none;
+    background-color: transparent;
+    color: var(--text-color-light);
+    font-size: 0.9em;
+    border-bottom: 3px solid transparent; /* Thicker indicator */
+    transition: color 0.2s ease, border-bottom-color 0.2s ease;
+    margin-right: 8px;
+}
+body.dark-mode .bing-search-tab-button {
+    color: var(--text-color-dark);
+}
+.bing-search-tab-button:hover {
+    color: #0078d4; /* Bing blue for hover */
+}
+.bing-search-tab-button.active {
+    color: #0078d4; /* Bing blue for active */
+    border-bottom-color: #0078d4;
+    font-weight: 600;
+}
+
+.bing-main-content-area {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 15px 20px; /* Consistent padding */
+}
+.bing-search-tab-content {
+    display: none;
+    animation: fadeIn 0.3s ease-in-out; /* Reusing fadeIn from other tabs */
+}
+.bing-search-tab-content.active {
+    display: block;
+}
+.bing-search-tab-content h3 {
+    font-size: 1.2em;
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-weight: 600;
+    color: var(--text-color-light);
+}
+body.dark-mode .bing-search-tab-content h3 {
+    color: var(--text-color-dark);
+}
+.bing-result-item {
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--input-border-light);
+}
+body.dark-mode .bing-result-item {
+    border-bottom-color: #3c3c3c;
+}
+.bing-result-item:last-child {
+    border-bottom: none;
+}
+.bing-result-item h4 {
+    font-size: 1.1em;
+    color: #004578; /* Bing's link color */
+    margin: 0 0 5px 0;
+    font-weight: normal;
+}
+body.dark-mode .bing-result-item h4 {
+    color: #55a9dc; /* Lighter blue for dark mode links */
+}
+.bing-result-item p {
+    font-size: 0.9em;
+    margin: 0 0 5px 0;
+    /* Text color inherited */
+}
+.bing-result-item a { /* For URL display */
+    font-size: 0.85em;
+    color: green;
+    text-decoration: none;
+}
+body.dark-mode .bing-result-item a {
+    color: #3ddc84; /* Lighter green for dark mode */
+}
+
+.bing-footer-placeholder {
+    padding: 10px 15px;
+    text-align: center;
+    font-size: 0.8em;
+    background-color: #f0f2f5;
+    border-top: 1px solid var(--window-border-light);
+    flex-shrink: 0;
+    color: #5f6368;
+}
+body.dark-mode .bing-footer-placeholder {
+    background-color: #2b2b2b;
+    border-top-color: #3c3c3c;
+    color: #9aa0a6;
+}
+.bing-footer-placeholder a {
+    color: #0078d4;
+    margin: 0 5px;
+}
+body.dark-mode .bing-footer-placeholder a {
+    color: #55a9dc;
+}
+
+/* Google Drive App Simulation Styles */
+.drive-app-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background-color: var(--window-bg-light);
+    color: var(--text-color-light);
+}
+body.dark-mode .drive-app-content {
+    background-color: #1f1f1f; /* Drive's dark theme slightly off-black */
+    color: var(--text-color-dark);
+}
+
+.drive-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 16px;
+    border-bottom: 1px solid var(--window-border-light);
+    flex-shrink: 0;
+}
+body.dark-mode .drive-header {
+    border-bottom-color: #3c4043;
+}
+
+.drive-logo {
+    display: flex;
+    align-items: center;
+    color: var(--text-color-light);
+}
+body.dark-mode .drive-logo {
+    color: var(--text-color-dark);
+}
+.drive-logo svg { /* Official Drive logo colors are complex, using currentColor here */
+    width: 24px;
+    height: 24px;
+    fill: #5f6368; /* Google's grey for icons */
+    margin-right: 8px;
+}
+body.dark-mode .drive-logo svg {
+    fill: #9aa0a6; /* Lighter grey for dark mode */
+}
+.drive-logo-text {
+    font-size: 1.375rem; /* 22px */
+    color: #5f6368;
+}
+body.dark-mode .drive-logo-text {
+    color: #dadce0;
+}
+
+.drive-search-container {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    max-width: 720px;
+    margin: 0 20px;
+    background-color: var(--input-bg-light); /* Slightly different background for search */
+    border-radius: 8px;
+    padding: 0 8px;
+}
+body.dark-mode .drive-search-container {
+    background-color: #303134; /* Darker search bar background */
+}
+.drive-search-button-icon {
+    background: none;
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+    color: #5f6368;
+}
+body.dark-mode .drive-search-button-icon {
+    color: #9aa0a6;
+}
+.drive-search-input {
+    flex-grow: 1;
+    padding: 10px 8px;
+    border: none;
+    background-color: transparent;
+    color: var(--text-color-light);
+    font-size: 1em;
+    outline: none;
+}
+body.dark-mode .drive-search-input {
+    color: var(--text-color-dark);
+}
+.drive-search-input::placeholder {
+    color: #5f6368;
+}
+body.dark-mode .drive-search-input::placeholder {
+    color: #9aa0a6;
+}
+
+.drive-user-actions {
+    display: flex;
+    align-items: center;
+}
+.drive-user-actions .drive-action-icon {
+    padding: 8px;
+    cursor: pointer;
+    margin-left: 8px;
+    color: #5f6368;
+}
+body.dark-mode .drive-user-actions .drive-action-icon {
+    color: #9aa0a6;
+}
+.drive-user-actions .drive-action-icon svg {
+    fill: currentColor;
+    width: 24px;
+    height: 24px;
+}
+.drive-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin-left: 16px;
+    cursor: pointer;
+}
+
+.drive-body-content {
+    display: flex;
+    flex-grow: 1;
+    overflow: hidden; /* Main area will have its own scroll */
+}
+.drive-sidebar {
+    width: 230px;
+    padding: 16px 8px 16px 16px;
+    border-right: 1px solid var(--window-border-light);
+    background-color: var(--window-bg-light);
+    overflow-y: auto;
+    flex-shrink: 0;
+}
+body.dark-mode .drive-sidebar {
+    background-color: #202124; /* Same as app background */
+    border-right-color: #3c4043;
+}
+.drive-new-button {
+    background-color: var(--window-bg-light);
+    color: #3c4043;
+    border: 1px solid var(--window-border-light);
+    box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+    border-radius: 24px;
+    padding: 12px 24px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    margin-bottom: 16px;
+    transition: background-color 0.2s, box-shadow 0.2s;
+}
+body.dark-mode .drive-new-button {
+    background-color: #202124;
+    color: #e8eaed;
+    border-color: #5f6368;
+    box-shadow: 0 1px 2px 0 rgba(0,0,0,0.3), 0 1px 3px 1px rgba(0,0,0,0.15);
+}
+.drive-new-button:hover {
+    background-color: #f1f3f4; /* Lighter hover for light mode */
+    box-shadow: 0 1px 3px 0 rgba(60,64,67,0.3), 0 4px 8px 3px rgba(60,64,67,0.15);
+}
+body.dark-mode .drive-new-button:hover {
+    background-color: #282a2d; /* Slightly lighter dark for hover */
+}
+.drive-new-button svg { /* If an SVG was used in button */
+    margin-right: 8px;
+}
+
+.drive-nav {
+    display: flex;
+    flex-direction: column;
+}
+.drive-nav-item {
+    padding: 8px 16px;
+    border-radius: 0 16px 16px 0; /* Rounded on one side */
+    text-decoration: none;
+    font-size: 0.9em;
+    color: var(--text-color-light);
+    margin-bottom: 2px;
+}
+body.dark-mode .drive-nav-item {
+    color: #e8eaed;
+}
+.drive-nav-item:hover {
+    background-color: var(--button-bg-light);
+}
+body.dark-mode .drive-nav-item:hover {
+    background-color: #282a2d;
+}
+.drive-nav-item.active {
+    background-color: var(--accent-color-light, #e8f0fe); /* Google's light blue selection */
+    color: var(--accent-color, #1967d2);
+    font-weight: 500;
+}
+body.dark-mode .drive-nav-item.active {
+    background-color: #28354B; /* Google's dark blue selection */
+    color: #8ab4f8;
+}
+.drive-sidebar hr {
+    border: none;
+    border-top: 1px solid var(--window-border-light);
+    margin: 10px 0;
+}
+body.dark-mode .drive-sidebar hr {
+    border-top-color: #3c4043;
+}
+.drive-storage-indicator {
+    font-size: 0.8em;
+    color: #5f6368;
+    padding: 8px 16px;
+}
+body.dark-mode .drive-storage-indicator {
+    color: #9aa0a6;
+}
+
+.drive-main-area {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 20px;
+}
+.drive-main-area h3 {
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin-top: 0;
+    margin-bottom: 16px;
+    color: var(--text-color-light);
+}
+body.dark-mode .drive-main-area h3 {
+    color: var(--text-color-dark);
+}
+.drive-file-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 16px;
+}
+.drive-file-item {
+    border: 1px solid var(--window-border-light);
+    border-radius: 8px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    cursor: pointer;
+    background-color: var(--window-bg-light);
+}
+body.dark-mode .drive-file-item {
+    border-color: #3c4043;
+    background-color: #2a2a2d; /* Slightly different from main dark bg */
+}
+.drive-file-item:hover {
+    background-color: var(--button-bg-light);
+}
+body.dark-mode .drive-file-item:hover {
+    background-color: #303134;
+}
+.drive-file-item svg {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 8px;
+}
+.drive-file-item span {
+    font-size: 0.85em;
+    word-break: break-all; /* Prevent long names from breaking layout */
+    max-height: 2.6em; /* Approx 2 lines */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    color: var(--text-color-light);
+}
+body.dark-mode .drive-file-item span {
+    color: var(--text-color-dark);
+}
+
+/* Xbox App Simulation Styles */
+.xbox-app-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background-color: #101010; /* Xbox dark theme */
+    color: #ffffff;
+}
+/* No specific body.dark-mode .xbox-app-content needed if base is already dark */
+
+.xbox-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background-color: #107c10; /* Xbox green */
+    color: white;
+    flex-shrink: 0;
+}
+.xbox-logo-container {
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+}
+.xbox-logo-svg {
+    width: 24px;
+    height: 24px;
+    fill: white;
+    margin-right: 8px;
+}
+.xbox-logo-text {
+    font-size: 1.2em;
+    text-transform: uppercase;
+}
+.xbox-search-header {
+    flex-grow: 1;
+    margin: 0 20px;
+    padding: 8px 12px;
+    border-radius: 4px;
+    border: 1px solid #0a5c0a; /* Darker green border */
+    background-color: #1e1e1e; /* Dark input field */
+    color: white;
+    font-size: 0.9em;
+}
+.xbox-search-header::placeholder {
+    color: #a0a0a0;
+}
+.xbox-user-profile-header img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid white;
+}
+
+.xbox-main-area {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 20px;
+}
+.xbox-hero-section {
+    margin-bottom: 30px;
+    text-align: center;
+}
+.xbox-hero-section h2 {
+    font-size: 1.5em;
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: white;
+}
+.xbox-hero-section img {
+    width: 100%;
+    max-height: 250px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 2px solid #107c10;
+}
+
+.xbox-games-showcase h3 {
+    font-size: 1.3em;
+    margin-bottom: 15px;
+    color: white;
+    border-bottom: 1px solid #107c10;
+    padding-bottom: 5px;
+}
+.xbox-games-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 20px;
+}
+.xbox-game-card {
+    background-color: #202020; /* Dark card background */
+    border-radius: 4px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.2s ease-out;
+}
+.xbox-game-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(16, 124, 16, 0.5);
+}
+.xbox-game-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+}
+.xbox-game-card span {
+    display: block;
+    padding: 10px;
+    font-size: 0.9em;
+    text-align: center;
+    color: #e0e0e0;
+    background-color: rgba(0,0,0,0.3); /* Slight overlay for text readability */
+}
+
+.xbox-footer-placeholder {
+    padding: 10px;
+    text-align: center;
+    font-size: 0.8em;
+    background-color: #0a5c0a; /* Darker green for footer */
+    color: white;
+    flex-shrink: 0;
+    border-top: 1px solid #107c10;
+}
+
+/* AI Summary Placeholder Styles */
+.ai-summary-placeholder {
+    padding: 15px;
+    margin-bottom: 15px;
+    border: 1px dashed var(--input-border-light);
+    border-radius: 8px;
+    background-color: rgba(0, 120, 212, 0.05); /* Light accent background */
+}
+body.dark-mode .ai-summary-placeholder {
+    border-color: var(--input-border-dark);
+    background-color: rgba(0, 120, 212, 0.1); /* Slightly more visible accent in dark mode */
+}
+.ai-summary-placeholder h4 {
+    margin-top: 0;
+    margin-bottom: 8px;
+    font-size: 1em;
+    font-weight: 600;
+    color: var(--accent-color);
+}
+.ai-summary-placeholder p {
+    font-size: 0.9em;
+    margin-bottom: 0;
+    /* Text color will be inherited from .search-tab-content */
+}
     </style>
 </head>
 <body>
@@ -934,7 +2865,7 @@
                           <path d="M8.186 1.113a.5.5 0 0 0-.372 0L1.846 3.5 8 5.961 14.154 3.5zM15 4.239l-6.5 2.6v7.922l6.5-2.6V4.24zM7.5 14.762V6.838L1 4.239v7.923zM7.443.184a1.5 1.5 0 0 1 1.114 0l7.129 2.852A.5.5 0 0 1 16 3.5v8.662a1 1 0 0 1-.629.928l-7.185 2.874a.5.5 0 0 1-.372 0L.63 13.09a1 1 0 0 1-.63-.928V3.5a.5.5 0 0 1 .314-.464z"/>
                         </svg>
                     </div>
-                    <span>Minecraft Bedrock</span>
+                    <span>Minecraft Bedrock版</span>
                 </div>
                 <div class="app-icon" data-app="minecraft-java">
                     <div class="icon">
@@ -942,7 +2873,7 @@
                           <path d="M8.186 1.113a.5.5 0 0 0-.372 0L1.846 3.5 8 5.961 14.154 3.5zM15 4.239l-6.5 2.6v7.922l6.5-2.6V4.24zM7.5 14.762V6.838L1 4.239v7.923zM7.443.184a1.5 1.5 0 0 1 1.114 0l7.129 2.852A.5.5 0 0 1 16 3.5v8.662a1 1 0 0 1-.629.928l-7.185 2.874a.5.5 0 0 1-.372 0L.63 13.09a1 1 0 0 1-.63-.928V3.5a.5.5 0 0 1 .314-.464z"/>
                         </svg>
                     </div>
-                    <span>Minecraft Java</span>
+                    <span>Minecraft Java版</span>
                 </div>
                 <div class="app-icon" data-app="amazon">
                     <div class="icon">
@@ -1169,22 +3100,56 @@
             <div class="window-content" id="chrome-app-content" style="padding: 0; overflow-y: auto;">
                 <div id="chrome-app-main" style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; padding: 20px; box-sizing: border-box;">
                     <h1 style="font-size: 3em; font-weight: bold; color: #4285F4;">G<span style="color: #EA4335;">o</span><span style="color: #FBBC05;">o</span><span style="color: #4285F4;">g</span><span style="color: #34A853;">l</span><span style="color: #EA4335;">e</span></h1>
-                    <input type="text" id="chrome-app-search-input" style="width: 80%; max-width: 500px; padding: 10px; margin-top: 20px; border-radius: 20px; border: 1px solid #ccc;">
+                    <div style="display: flex; align-items: center; width: 80%; max-width: 500px; border: 1px solid var(--input-border-light); border-radius: 20px; padding-left: 10px; margin-top: 20px; color: var(--text-color-light);">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16" style="margin-right: 8px; flex-shrink: 0;"> <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/> </svg>
+                        <input type="text" id="chrome-app-search-input" placeholder="Googleで検索またはURLを入力" style="flex-grow: 1; padding: 10px; border-radius: 0 20px 20px 0; border: none; outline: none; background-color: transparent; color: inherit; font-size: 1em;">
+                    </div>
                     <button id="chrome-app-search-button" class="mc-button" style="margin-top: 15px;">Google Search</button>
                 </div>
                 <div id="chrome-app-results" style="display: none; padding: 20px; text-align: left;">
-                    <h3 style="border-bottom: 1px solid #eee; padding-bottom: 5px;">Search Results (Simulation)</h3>
-                    <div>
-                        <h4>Result 1: Welcome to Simulated Chrome</h4>
-                        <p>You've searched in the simulated Chrome app. These are placeholder results.</p>
-                        <span style="color: green; font-size: 0.9em;">chrome/simulated/search-result-1</span>
+                    <div class="search-tabs-container" id="chrome-search-tabs">
+                        <button class="search-tab-button active" data-tab-target="#chrome-tab-all">すべて</button>
+                        <button class="search-tab-button" data-tab-target="#chrome-tab-ai">AI Mode</button>
+                        <button class="search-tab-button" data-tab-target="#chrome-tab-images">画像</button>
+                        <button class="search-tab-button" data-tab-target="#chrome-tab-videos">動画</button>
+                        <button class="search-tab-button" data-tab-target="#chrome-tab-news">ニュース</button>
+                        <button class="search-tab-button" data-tab-target="#chrome-tab-shorts">ショート動画</button>
+                        <button class="search-tab-button" data-tab-target="#chrome-tab-shopping">ショッピング</button>
+                        <button class="search-tab-button" data-tab-target="#chrome-tab-web">ウェブ</button>
                     </div>
-                    <div style="margin-top:15px;">
-                        <h4>Result 2: Tips for Using This Simulator</h4>
-                        <p>Explore different apps and features! Enjoy the simulation.</p>
-                        <span style="color: green; font-size: 0.9em;">chrome/simulated/search-result-2</span>
+
+                    <div class="search-tab-content active" id="chrome-tab-all">
+                        <div class="ai-summary-placeholder">
+                            <h4>AIによる概要 (シミュレーション)</h4>
+                            <p>この検索クエリに基づいて、AIが生成した簡潔な要約がここに表示されます。重要な情報やキーポイントを素早く把握できます。</p>
+                        </div>
+                        <h3 style="border-bottom: 1px solid #eee; padding-bottom: 5px;">検索結果 (シミュレーション)</h3>
+                        <div>
+                            <h4>結果 1: シミュレートされたChromeへようこそ</h4>
+                            <p>シミュレートされたChromeアプリで検索しました。これらはプレースホルダーの結果です。</p>
+                            <span style="color: green; font-size: 0.9em;">chrome/simulated/search-result-1</span>
+                        </div>
+                        <div style="margin-top:15px;">
+                            <h4>結果 2: このシミュレーターを使用するためのヒント</h4>
+                            <p>さまざまなアプリや機能を探索してください！シミュレーションをお楽しみください。</p>
+                            <span style="color: green; font-size: 0.9em;">chrome/simulated/search-result-2</span>
+                        </div>
                     </div>
-                    <button id="chrome-app-back-button" class="mc-button" style="margin-top: 20px;">Back to Search</button>
+                    <div class="search-tab-content" id="chrome-tab-ai"><h3>AI Mode</h3><p>AIによる要約と洞察 (シミュレーション)</p></div>
+                    <div class="search-tab-content" id="chrome-tab-images"><h3>画像</h3><p>画像検索結果 (シミュレーション)。<br><img src="https://placehold.co/100x100/aabbcc/ffffff?text=画像1" alt="simulated image 1"><img src="https://placehold.co/100x100/ccaabb/ffffff?text=画像2" alt="simulated image 2"></p></div>
+                    <div class="search-tab-content" id="chrome-tab-videos"><h3>動画</h3><p>動画検索結果 (シミュレーション)。<br><a href="#">シミュレーション動画タイトル1</a><br><a href="#">シミュレーション動画タイトル2</a></p></div>
+                    <div class="search-tab-content" id="chrome-tab-news"><h3>ニュース</h3><p>ニュース検索結果 (シミュレーション)。<br><b>ヘッドライン1:</b> これはサンプルニュースです。<br><b>ヘッドライン2:</b> 別のサンプルニュース記事。</p></div>
+                    <div class="search-tab-content" id="chrome-tab-shorts"><h3>ショート動画</h3><p>ショート動画検索結果 (シミュレーション)。</p></div>
+                    <div class="search-tab-content" id="chrome-tab-shopping"><h3>ショッピング</h3><p>ショッピング検索結果 (シミュレーション)。</p></div>
+                    <div class="search-tab-content" id="chrome-tab-web">
+                        <h3>ウェブ検索結果 (シミュレーション)</h3>
+                        <div>
+                            <h4>ウェブ結果 1: シミュレートされたChromeへようこそ</h4>
+                            <p>シミュレートされたChromeアプリで検索しました。これらはプレースホルダーの結果です。</p>
+                            <span style="color: green; font-size: 0.9em;">chrome/simulated/search-result-1-web</span>
+                        </div>
+                    </div>
+                    <button id="chrome-app-back-button" class="mc-button" style="margin-top: 20px;">検索に戻る</button>
                 </div>
             </div>
         </div>
@@ -1227,12 +3192,12 @@
                 <div id="mc-java-main-menu" style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; height: 100%;">
                     <h1 style="color: var(--text-color-dark); text-shadow: 2px 2px #333;">Minecraft Java Edition</h1>
                     <p id="mc-java-version" style="color: #ccc; text-shadow: 1px 1px #222; margin-top: -10px; margin-bottom: 20px;">V1.0.0</p>
-                    <button id="mc-java-singleplayer" class="mc-button">Singleplayer</button>
-                    <button id="mc-java-multiplayer" class="mc-button">Multiplayer</button>
+                    <button id="mc-java-singleplayer" class="mc-button">シングルプレイ</button>
+                    <button id="mc-java-multiplayer" class="mc-button">マルチプレイ</button>
                     <button id="mc-java-realms" class="mc-button">Minecraft Realms</button>
-                    <button id="mc-java-skins" class="mc-button">Skins</button>
-                    <button id="mc-java-settings" class="mc-button">Options...</button>
-                    <button id="mc-java-installations" class="mc-button">Installations</button>
+                    <button id="mc-java-skins" class="mc-button">スキン</button>
+                    <button id="mc-java-settings" class="mc-button">設定...</button>
+                    <button id="mc-java-installations" class="mc-button">インストール</button>
                 </div>
                 <div id="mc-java-dynamic-content" style="margin-top: 20px; background-color: rgba(0,0,0,0.7); padding: 15px; border-radius: 5px; display: none; min-width: 300px; color: white;">
                     <!-- Messages or World Selection will appear here -->
@@ -1248,8 +3213,70 @@
                     <button class="close-button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/></svg></button>
                 </div>
             </div>
-            <div class="window-content" style="padding: 0; overflow: hidden;">
-                <iframe src="https://www.amazon.co.jp/ref=nav_logo" style="width: 100%; height: 100%; border: none;" title="Amazon"></iframe>
+            <div class="window-content" style="padding: 0; overflow-y: auto; display: flex; flex-direction: column;">
+                <div class="amazon-app-content">
+                    <header class="amazon-header">
+                        <span class="logo-text">amazon</span>
+                        <div class="amazon-search-bar">
+                            <input type="text" placeholder="Amazon.co.jp を検索">
+                            <button aria-label="検索">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/></svg>
+                            </button>
+                        </div>
+                        <div class="amazon-nav-icons">
+                            <div class="nav-icon" title="アカウントと言語">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/></svg>
+                                <span>アカウント</span>
+                            </div>
+                            <div class="nav-icon" title="返品もこちら注文履歴">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16"><path d="M2 2.5A2.5 2.5 0 0 1 4.5 0h8.75a.75.75 0 0 1 0 1.5H4.5A1 1 0 0 0 3.5 3V11H1.75a.75.75 0 0 1 0-1.5H2V2.5z"/><path d="M11.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-1 0V1.5a.5.5 0 0 1 .5-.5M10.5 12.5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-1 0v-1a.5.5 0 0 1 .5-.5m3-6.764a.5.5 0 0 1 .447.276l.316.632a.5.5 0 0 1-.447.724l-1.032-.018a.5.5 0 0 0-.447.276l-.316.632a.5.5 0 0 1-.447.276h-1.5a.5.5 0 0 1-.447-.276l-.316-.632a.5.5 0 0 0-.447-.276L8.03 7.5h-.06l-1.03.018a.5.5 0 0 0-.447.276l-.316.632a.5.5 0 0 1-.447.276h-1.5a.5.5 0 0 1-.447-.276l-.316-.632a.5.5 0 0 0-.447-.276L2.03 7.5h-.06L.938 7.518a.5.5 0 0 1-.447-.724l.316-.632A.5.5 0 0 1 1.253 6H14.5a.5.5 0 0 1 .447.276L15 6.5l.03.06Z"/><path d="M4 11.5A1.5 1.5 0 0 1 5.5 10h5A1.5 1.5 0 0 1 12 11.5v1h2.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H4v-1z"/></svg>
+                                <span>注文履歴</span>
+                            </div>
+                            <div class="nav-icon" title="カート">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0m7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/></svg>
+                                <span>カート</span>
+                            </div>
+                        </div>
+                    </header>
+                    <main class="amazon-main-content">
+                        <h2>おすすめ商品 (シミュレーション)</h2>
+                        <div class="amazon-product-grid">
+                            <div class="amazon-product-item">
+                                <img src="https://placehold.co/120x110/efefef/333?text=商品1" alt="商品 1">
+                                <h4>高品質ワイヤレスヘッドフォン 重低音モデル</h4>
+                                <p class="price">￥7,980</p>
+                            </div>
+                            <div class="amazon-product-item">
+                                <img src="https://placehold.co/120x110/efefef/333?text=商品2" alt="商品 2">
+                                <h4>スマートウォッチXYZ 最新型 健康管理機能付き</h4>
+                                <p class="price">￥15,500</p>
+                            </div>
+                            <div class="amazon-product-item">
+                                <img src="https://placehold.co/120x110/efefef/333?text=商品3" alt="商品 3">
+                                <h4>エルゴノミックキーボード 静音設計 (日本語配列)</h4>
+                                <p class="price">￥9,200</p>
+                            </div>
+                            <div class="amazon-product-item">
+                                <img src="https://placehold.co/120x110/efefef/333?text=商品4" alt="商品 4">
+                                <h4>USB-C 急速充電ハブ 65W PD対応 4ポート</h4>
+                                <p class="price">￥3,480</p>
+                            </div>
+                             <div class="amazon-product-item">
+                                <img src="https://placehold.co/120x110/efefef/333?text=商品5" alt="商品 5">
+                                <h4>ポータブルSSD 1TB 高速データ転送対応 耐衝撃</h4>
+                                <p class="price">￥12,800</p>
+                            </div>
+                             <div class="amazon-product-item">
+                                <img src="https://placehold.co/120x110/efefef/333?text=商品6" alt="商品 6">
+                                <h4>電動コーヒーミル コンパクト 水洗い可能</h4>
+                                <p class="price">￥4,990</p>
+                            </div>
+                        </div>
+                    </main>
+                    <footer class="amazon-footer">
+                        <a href="#">利用規約</a> | <a href="#">プライバシー規約</a> | &copy; Amazon.com, Inc. or its affiliates (シミュレーション)
+                    </footer>
+                </div>
             </div>
         </div>
         <div class="window" id="click-game-window">
@@ -1303,8 +3330,61 @@
                     <button class="close-button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/></svg></button>
                 </div>
             </div>
-            <div class="window-content" style="padding: 0; overflow: hidden;">
-                <iframe src="https://www.roblox.com/" style="width: 100%; height: 100%; border: none;" title="Roblox"></iframe>
+            <div class="window-content" style="padding: 0; overflow-y: auto; display: flex; flex-direction: column;">
+                <div class="roblox-app-content">
+                    <header class="roblox-header">
+                        <div class="roblox-logo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" viewBox="0 0 16 16">
+                                <path d="M7.752.066a.5.5 0 0 1 .496 0l3.75 2.143a.5.5 0 0 1 .252.434v3.995l3.498 2A.5.5 0 0 1 16 9.07v4.286a.5.5 0 0 1-.252.434l-3.75 2.143a.5.5 0 0 1-.496 0l-3.502-2-3.502 2.001a.5.5 0 0 1-.496 0l-3.75-2.143A.5.5 0 0 1 0 13.357V9.071a.5.5 0 0 1 .252-.434L3.75 6.638V2.643a.5.5 0 0 1 .252-.434zM4.25 7.504 1.508 9.071l2.742 1.567 2.742-1.567zM7.5 9.933l-2.75 1.571v3.134l2.75-1.571zm1 3.134 2.75 1.571v-3.134L8.5 9.933zm.508-3.996 2.742 1.567 2.742-1.567-2.742-1.567zm2.242-2.433V3.504L8.5 5.076V8.21zM7.5 8.21V5.076L4.75 3.504v3.134zM5.258 2.643 8 4.21l2.742-1.567L8 1.076zM15 9.933l-2.75 1.571v3.134L15 13.067zM3.75 14.638v-3.134L1 9.933v3.134z"/>
+                            </svg>
+                            <span>ROBLOX</span>
+                        </div>
+                        <nav class="roblox-nav">
+                            <a href="#">発見</a>
+                            <a href="#">アバターショップ</a>
+                            <a href="#">作成</a>
+                            <a href="#">Robux</a>
+                        </nav>
+                        <div class="roblox-search-user">
+                            <input type="text" placeholder="検索..." class="roblox-search-input">
+                            <div class="roblox-user-profile" title="プロフィール (シミュレーション)">
+                                <img src="https://placehold.co/32x32/cccccc/000?text=U" alt="User">
+                            </div>
+                        </div>
+                    </header>
+                    <main class="roblox-main-content">
+                        <section class="roblox-games-grid">
+                            <h2>おすすめの体験</h2>
+                            <div class="roblox-game-tile">
+                                <img src="https://placehold.co/150x150/787ff6/fff?text=ゲーム1" alt="ゲーム 1">
+                                <h4>人気のアドベンチャー</h4>
+                            </div>
+                            <div class="roblox-game-tile">
+                                <img src="https://placehold.co/150x150/ff7f7f/fff?text=ゲーム2" alt="ゲーム 2">
+                                <h4>町のロールプレイ</h4>
+                            </div>
+                            <div class="roblox-game-tile">
+                                <img src="https://placehold.co/150x150/7fffd4/333?text=ゲーム3" alt="ゲーム 3">
+                                <h4>タワーディフェンス</h4>
+                            </div>
+                            <div class="roblox-game-tile">
+                                <img src="https://placehold.co/150x150/f0e68c/333?text=ゲーム4" alt="ゲーム 4">
+                                <h4>シミュレーターワールド</h4>
+                            </div>
+                            <div class="roblox-game-tile">
+                                <img src="https://placehold.co/150x150/ffa07a/fff?text=ゲーム5" alt="ゲーム 5">
+                                <h4>脱出ゲーム！</h4>
+                            </div>
+                            <div class="roblox-game-tile">
+                                <img src="https://placehold.co/150x150/add8e6/333?text=ゲーム6" alt="ゲーム 6">
+                                <h4>ペットコレクション</h4>
+                            </div>
+                        </section>
+                    </main>
+                    <footer class="roblox-footer">
+                        <p>&copy; 2024 Roblox Corporation. Roblox, the Roblox logo and Powering Imagination are among our registered and unregistered trademarks in the U.S. and other countries. (シミュレーション)</p>
+                    </footer>
+                </div>
             </div>
         </div>
 
@@ -1317,8 +3397,59 @@
                     <button class="close-button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/></svg></button>
                 </div>
             </div>
-            <div class="window-content" style="padding: 0; overflow: hidden;">
-                <iframe src="https://x.com/" style="width: 100%; height: 100%; border: none;" title="X"></iframe>
+            <div class="window-content" style="padding: 0; overflow-y: auto; display: flex; flex-direction: column;">
+                <div class="x-app-content">
+                    <header class="x-header">
+                        <div class="x-logo">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" viewBox="0 0 16 16">
+                                <path d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865z"/>
+                            </svg>
+                        </div>
+                        <div class="x-main-nav-placeholder">
+                            <span>ナビゲーション項目 (例: ホーム, 検索)</span>
+                        </div>
+                        <div class="x-user-actions-placeholder">
+                            <span>ユーザーアクション (例: 通知, メッセージ)</span>
+                        </div>
+                    </header>
+                    <main class="x-main-content-area">
+                        <div class="x-whats-happening">
+                            <textarea placeholder="いまどうしてる？"></textarea>
+                            <button>ポストする</button>
+                        </div>
+                        <div class="x-feed">
+                            <div class="x-post">
+                                <img src="https://placehold.co/48x48/cccccc/000?text=U1" alt="User Avatar" class="x-post-avatar">
+                                <div class="x-post-content">
+                                    <div class="x-post-header">
+                                        <span class="x-post-username">ユーザー名1</span> <span class="x-post-handle">@username1</span> <span class="x-post-time">・ 10分</span>
+                                    </div>
+                                    <p class="x-post-text">これはXアプリのシミュレーション投稿です。#Windows11シミュレーター</p>
+                                    <div class="x-post-actions">
+                                        <span>返信</span> <span>リポスト</span> <span>いいね</span> <span>表示</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="x-post">
+                                <img src="https://placehold.co/48x48/aabbcc/000?text=U2" alt="User Avatar" class="x-post-avatar">
+                                <div class="x-post-content">
+                                    <div class="x-post-header">
+                                        <span class="x-post-username">別のユーザー</span> <span class="x-post-handle">@anotheruser</span> <span class="x-post-time">・ 30分</span>
+                                    </div>
+                                    <p class="x-post-text">静的なHTMLとCSSで再現されたUIのサンプルです。</p>
+                                    <div class="x-post-actions">
+                                        <span>返信</span> <span>リポスト</span> <span>いいね</span> <span>表示</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </main>
+                    <aside class="x-sidebar-right">
+                        <h4>おすすめトレンド (シミュレーション)</h4>
+                        <p>#トレンド1</p>
+                        <p>#トレンド2</p>
+                    </aside>
+                </div>
             </div>
         </div>
 
@@ -1331,8 +3462,100 @@
                     <button class="close-button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/></svg></button>
                 </div>
             </div>
-            <div class="window-content" style="padding: 0; overflow: hidden;">
-                <iframe src="https://www.youtube.com/" style="width: 100%; height: 100%; border: none;" title="YouTube"></iframe>
+            <div class="window-content" style="padding: 0; overflow-y: auto; display: flex; flex-direction: column;">
+                <div class="youtube-app-content">
+                    <header class="youtube-header">
+                        <div class="youtube-logo-burger">
+                            <span class="youtube-burger-icon" title="メニュー">&#9776;</span>
+                            <svg class="youtube-logo-svg" viewBox="0 0 90 20" preserveAspectRatio="xMidYMid meet" focusable="false">
+                                <g><path d="M27.9727,19.6992l-2.9268-12.3437c-0.1934-0.8682-0.9609-1.4834-1.8809-1.4834H19.398c-0.92,0-1.6875,0.6152-1.8809,1.4834L14.5903,19.6992c-0.0625,0.2901,0.0488,0.5957,0.2617,0.7998c0.2129,0.2041,0.5098,0.3008,0.8018,0.3008h2.2588c0.4053,0,0.7715-0.208,0.9912-0.5371l0.74-1.1192h4.2207l0.74,1.1192c0.2197,0.3291,0.5859,0.5371,0.9912,0.5371h2.2588c0.292,0,0.5889-0.0967,0.8018-0.3008C27.9238,20.2949,28.0352,19.9893,27.9727,19.6992z M20.1357,15.0195l1.0898-4.6328l1.0898,4.6328H20.1357z" fill="#FF0000"></path></g>
+                                <g><path d="M33.59,4.9805C31.8135,4.9805,30.3,6.1133,30.3,8.5078v2.9375c0,2.3945,1.5135,3.5273,3.29,3.5273c1.7764,0,3.2898-1.1328,3.2898-3.5273V8.5078C36.8799,6.1133,35.3662,4.9805,33.59,4.9805z M33.59,13.0195c-0.792,0-1.3203-0.6309-1.3203-1.5742V7.5117c0-0.9434,0.5283-1.5742,1.3203-1.5742c0.792,0,1.3203,0.6309,1.3203,1.5742v3.9336C34.9102,12.3887,34.382,13.0195,33.59,13.0195z" fill="#282828"></path></g>
+                                <g><path d="M40.2773,13.9609V5.2207h1.6797v8.4902c0,0.9062,0.0703,1.3066,0.8711,1.3066c0.7207,0,0.8711-0.3301,0.8711-1.3066V5.2207h1.6797v8.7402c0,1.7207-0.6797,2.5293-2.5508,2.5293C40.9971,16.4902,40.2773,15.7207,40.2773,13.9609z" fill="#282828"></path></g>
+                                <g><path d="M46.6162,14.7402V9.0293c0-0.9297-0.3008-1.4297-0.9805-1.4297c-0.4707,0-0.8008,0.2402-1.0117,0.6094l-0.0703,0.2109V14.7402h-1.6797V5.2207h1.6797v2.9805c0.2793-0.3691,0.6797-0.6299,1.1797-0.6299c1.0801,0,1.8809,0.7793,1.8809,2.3594v4.8096H46.6162z" fill="#282828"></path></g>
+                                <g><path d="M54.5674,12.8008c-0.7099,0.6191-1.75,0.9805-2.8105,0.9805c-1.7109,0-2.9297-1.2-2.9297-3.75v-0.1504c0-2.3398,1.0195-3.6289,2.9297-3.6289c0.9707,0,1.8301,0.3008,2.5996,0.8711l-0.8203,1.2793c-0.5195-0.3809-1.1797-0.6094-1.7793-0.6094c-0.9902,0-1.4707,0.6895-1.4707,2.1504v0.2188c0,1.5508,0.5098,2.2402,1.5,2.2402c0.6094,0,1.2891-0.2793,1.8105-0.6895L54.5674,12.8008z" fill="#282828"></path></g>
+                                <g><path d="M57.9521,14.7402V2.75h1.6797v11.9902H57.9521z" fill="#282828"></path></g>
+                                <g><path d="M64.3193,14.7402V9.0293c0-0.9297-0.3008-1.4297-0.9805-1.4297c-0.4707,0-0.8008,0.2402-1.0117,0.6094l-0.0703,0.2109V14.7402h-1.6797V5.2207h1.6797v2.9805c0.2793-0.3691,0.6797-0.6299,1.1797-0.6299c1.0801,0,1.8809,0.7793,1.8809,2.3594v4.8096H64.3193z" fill="#282828"></path></g>
+                                <g><path d="M71.917,14.9297c-1.5898,0-2.3496-0.9502-2.3496-2.34v-0.9902c0-1.0801,0.4395-1.77,1.2891-2.0996c0.9902-0.3906,2.2402-0.5703,3.0703-0.5703v-0.041c0-0.7109-0.3008-1.1191-1.2012-1.1191c-0.6191,0-1.0898,0.1895-1.6211,0.4395l-0.3906-1.4004C71.0879,6.2402,71.9277,6,72.9473,6c1.9199,0,2.8789,0.8496,2.8789,2.5508v3.3203c0,1.0508,0.1504,1.8008,0.2793,2.3691h-1.6797c-0.0703-0.3008-0.1504-0.7109-0.2109-0.9805c-0.4395,0.75-1.2891,1.1406-2.2402,1.1406Zm0.9297-1.5c0.6797,0,1.2891-0.3008,1.2891-0.8711v-0.4395c-0.75,0.0703-1.5801,0.1895-2.2402,0.4395C70.7578,12.75,70.9277,13.25,70.9277,13.4297C70.9277,13.4297,71.8867,13.4297,72.8467,13.4297Z" fill="#282828"></path></g>
+                            </svg>
+                            <span class="youtube-logo-text-header">YouTube</span>
+                        </div>
+                        <div class="youtube-search-container">
+                            <input type="text" placeholder="検索" class="youtube-search-input">
+                            <button class="youtube-search-button" aria-label="検索">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/></svg>
+                            </button>
+                        </div>
+                        <div class="youtube-user-actions">
+                            <span class="youtube-action-icon" title="作成 (シミュレーション)">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M14 13h-3v3H9v-3H6v-2h3V8h2v3h3v2zm3-7H3v12h14v-6.39l4 4V7.39l-4 4V6zm-1-2c.55 0 1 .45 1 1v10c0 .55-.45 1-1 1H3c-.55 0-1-.45-1-1V5c0-.55.45-1 1-1h14z"/></svg>
+                            </span>
+                            <span class="youtube-action-icon" title="通知 (シミュレーション)">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
+                            </span>
+                            <img src="https://placehold.co/32x32/cccccc/000?text=U" alt="User Avatar" class="youtube-avatar" title="アカウント (シミュレーション)">
+                        </div>
+                    </header>
+                    <div class="youtube-body-content">
+                        <aside class="youtube-sidebar">
+                            <a href="#" class="youtube-sidebar-item active"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-door" viewBox="0 0 16 16"> <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4z"/> </svg></span> ホーム</a>
+                            <a href="#" class="youtube-sidebar-item"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-lightning" viewBox="0 0 16 16"> <path d="M5.52.359A.5.5 0 0 1 6 0h4a.5.5 0 0 1 .474.658L8.694 6H12.5a.5.5 0 0 1 .395.807l-7 9a.5.5 0 0 1-.873-.454L6.823 9.5H3.5a.5.5 0 0 1-.48-.641zM6.374 1 4.168 8.5H7.5a.5.5 0 0 1 .478.647L6.78 13.04 11.478 7H8a.5.5 0 0 1-.474-.658L9.306 1z"/> </svg></span> ショート</a>
+                            <a href="#" class="youtube-sidebar-item"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16"> <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"/> </svg></span> 登録チャンネル</a>
+                            <hr>
+                            <a href="#" class="youtube-sidebar-item"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-book" viewBox="0 0 16 16"> <path d="M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.063 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811zm7.5-.141c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783"/> </svg></span> ライブラリ</a>
+                            <a href="#" class="youtube-sidebar-item"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clock" viewBox="0 0 16 16"> <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z"/> <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0"/> </svg></span> 履歴</a>
+                        </aside>
+                        <main class="youtube-main-feed">
+                            <div class="youtube-video-grid">
+                                <!-- Repeat this block for several placeholder videos -->
+                                <div class="youtube-video-item">
+                                    <img src="https://placehold.co/246x138/777/fff?text=動画サムネイル1" alt="動画サムネイル 1">
+                                    <div class="youtube-video-info">
+                                        <img src="https://placehold.co/36x36/ccc/000?text=C1" alt="チャンネルアイコン" class="youtube-channel-avatar">
+                                        <div class="youtube-video-text">
+                                            <h4>サンプル動画のタイトルがここに表示されます</h4>
+                                            <p>チャンネル名1</p>
+                                            <p>123万 回視聴・1日前</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="youtube-video-item">
+                                    <img src="https://placehold.co/246x138/888/fff?text=動画サムネイル2" alt="動画サムネイル 2">
+                                    <div class="youtube-video-info">
+                                        <img src="https://placehold.co/36x36/bbb/000?text=C2" alt="チャンネルアイコン" class="youtube-channel-avatar">
+                                        <div class="youtube-video-text">
+                                            <h4>もう一つの素晴らしい動画タイトル</h4>
+                                            <p>チャンネル名2</p>
+                                            <p>45.6万 回視聴・2日前</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Add 6-8 more placeholder video items -->
+                                <div class="youtube-video-item">
+                                    <img src="https://placehold.co/246x138/999/fff?text=動画サムネイル3" alt="動画サムネイル 3">
+                                    <div class="youtube-video-info">
+                                        <img src="https://placehold.co/36x36/aaa/000?text=C3" alt="チャンネルアイコン" class="youtube-channel-avatar">
+                                        <div class="youtube-video-text">
+                                            <h4>シミュレーターのコンテンツ</h4>
+                                            <p>チャンネル名3</p>
+                                            <p>78.9万 回視聴・3日前</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="youtube-video-item">
+                                    <img src="https://placehold.co/246x138/aaa/fff?text=動画サムネイル4" alt="動画サムネイル 4">
+                                    <div class="youtube-video-info">
+                                        <img src="https://placehold.co/36x36/999/000?text=C4" alt="チャンネルアイコン" class="youtube-channel-avatar">
+                                        <div class="youtube-video-text">
+                                            <h4>プレースホルダー動画4</h4>
+                                            <p>チャンネル名4</p>
+                                            <p>100万 回視聴・5日前</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </main>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -1345,8 +3568,44 @@
                     <button class="close-button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/></svg></button>
                 </div>
             </div>
-            <div class="window-content" style="padding: 0; overflow: hidden;">
-                <iframe src="https://meet.google.com/landing" style="width: 100%; height: 100%; border: none;" title="Google Meet"></iframe>
+            <div class="window-content" style="padding: 0; overflow-y: auto; display: flex; flex-direction: column;">
+                <div class="meet-app-content">
+                    <header class="meet-header">
+                        <div class="meet-logo">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" focusable="false" class="app-icon-svg">
+                                <path d="M12 7.63c0-2.05-.81-3.9-2.13-5.24L8.22 4.04C9.08 4.9 9.5 6.11 9.5 7.63c0 .7-.1 1.38-.29 2.03L12 11.01V7.63zm7.87-5.24C18.54 1.09 16.7 0.28 14.65 0.28c-2.73 0-5.22 1.21-6.95 3.15l1.65 1.65C10.42 4.01 12.38 3.5 14.65 3.5c1.73 0 3.25.61 4.41 1.62l1.68-1.67c.01-.01.01-.01 0 0zM7.63 12c-2.05 0-3.9.81-5.24 2.13L4.04 15.78c.9-.86 2.11-1.35 3.59-1.35c.7 0 1.38.1 2.03.29L11.01 12H7.63zm5.24-7.87C11.09 2.79 10.28 1.94 10.28 0H5.03C2.21 0 .28 2.21.28 5.03v5.25h4.03L2.96 11.63c-1.34 1.33-2.15 3.18-2.15 5.24c0 4.09 3.32 7.41 7.41 7.41s7.41-3.32 7.41-7.41c0-.7-.1-1.38-.29-2.03L12 12.99V7.63L14.37 10l1.65-1.65C17.08 9.42 17.6 7.46 17.6 5.2c0-1.73-.61-3.25-1.62-4.41L14.31.13c.01.01.01.01 0 0zM7.41 21.87C4.56 21.87 2.2 19.5 2.2 16.65s2.36-5.22 5.21-5.22s5.22 2.36 5.22 5.22c0 2.85-2.37 5.22-5.22 5.22zm9.24-15.22c-1.34 0-2.43.94-2.43 2.1s1.09 2.1 2.43 2.1c1.33 0 2.43-.94 2.43-2.1s-1.09-2.1-2.43-2.1z"></path>
+                            </svg>
+                            <span class="meet-logo-text">Meet</span>
+                        </div>
+                        <div class="meet-user-actions">
+                            <span class="meet-action-icon" title="設定 (シミュレーション)">
+                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"/></svg>
+                            </span>
+                            <img src="https://placehold.co/32x32/cccccc/000?text=U" alt="User Avatar" class="meet-avatar" title="アカウント (シミュレーション)">
+                        </div>
+                    </header>
+                    <main class="meet-main-content">
+                        <div class="meet-actions-panel">
+                            <h1>ビデオ会議を今すぐ開始</h1>
+                            <p>高品質なビデオ会議を誰とでも、どこからでも。</p>
+                            <button class="meet-new-meeting-btn">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4zM15 16H5V8h10v8zm-6-1h2v-2h2v-2h-2V9H9v2H7v2h2z"/></svg>
+                                新しい会議を作成
+                            </button>
+                            <div class="meet-join-meeting">
+                                <input type="text" placeholder="会議コードまたはニックネームを入力" class="meet-code-input">
+                                <button class="meet-join-btn">参加</button>
+                            </div>
+                        </div>
+                        <div class="meet-schedule-panel-placeholder">
+                            <img src="https://placehold.co/300x200/e0e0e0/888?text=会議のスケジュール+(イラスト)" alt="スケジュールイラスト" style="width: 100%; max-width: 300px; margin-bottom: 15px;">
+                            <p>今日の予定はありません</p>
+                        </div>
+                    </main>
+                    <footer class="meet-footer">
+                        <a href="#">詳細</a> | <a href="#">ヘルプ</a> | <a href="#">フィードバック</a>
+                    </footer>
+                </div>
             </div>
         </div>
 
@@ -1359,8 +3618,69 @@
                     <button class="close-button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/></svg></button>
                 </div>
             </div>
-            <div class="window-content" style="padding: 0; overflow: hidden;">
-                <iframe src="https://drive.google.com/drive/home" style="width: 100%; height: 100%; border: none;" title="Google Drive"></iframe>
+            <div class="window-content" style="padding: 0; overflow-y: auto; display: flex; flex-direction: column;">
+                <div class="drive-app-content">
+                    <header class="drive-header">
+                        <div class="drive-logo">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" focusable="false">
+                                <path d="M19.227 8.09H4.773L2.386 12.5l2.387 4.41h14.453l2.387-4.41-2.386-4.41zM8.69 14.773L6.586 11l2.103-3.773h6.627L17.414 11l-2.104 3.773H8.69z"></path>
+                                <path d="M0 0h24v24H0z" fill="none"></path>
+                            </svg>
+                            <span class="drive-logo-text">Drive</span>
+                        </div>
+                        <div class="drive-search-container">
+                            <button class="drive-search-button-icon" aria-label="検索">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/></svg>
+                            </button>
+                            <input type="text" placeholder="ドライブで検索" class="drive-search-input">
+                        </div>
+                        <div class="drive-user-actions">
+                            <span class="drive-action-icon" title="サポート (シミュレーション)">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-.9.6-1.6 1.07-2.07l1.27-1.27c.44-.44.66-1.03.66-1.66 0-1.11-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/></svg>
+                            </span>
+                            <span class="drive-action-icon" title="設定 (シミュレーション)">
+                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"/></svg>
+                            </span>
+                            <img src="https://placehold.co/32x32/cccccc/000?text=U" alt="User Avatar" class="drive-avatar" title="アカウント (シミュレーション)">
+                        </div>
+                    </header>
+                    <div class="drive-body-content">
+                        <aside class="drive-sidebar">
+                            <button class="drive-new-button">+ 新規</button>
+                            <nav class="drive-nav">
+                                <a href="#" class="drive-nav-item active">マイドライブ</a>
+                                <a href="#" class="drive-nav-item">共有アイテム</a>
+                                <a href="#" class="drive-nav-item">最近使用したアイテム</a>
+                                <a href="#" class="drive-nav-item">スター付き</a>
+                                <a href="#" class="drive-nav-item">ゴミ箱</a>
+                                <hr>
+                                <a href="#" class="drive-nav-item">ストレージ</a>
+                                <div class="drive-storage-indicator">（シミュレーション: 5GB / 15GB 使用）</div>
+                            </nav>
+                        </aside>
+                        <main class="drive-main-area">
+                            <h3>マイドライブ (シミュレーション)</h3>
+                            <div class="drive-file-grid">
+                                <div class="drive-file-item">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="#5f6368" viewBox="0 0 24 24"><path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"></path></svg>
+                                    <span>ドキュメント</span>
+                                </div>
+                                <div class="drive-file-item">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="#5f6368" viewBox="0 0 24 24"><path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"></path></svg>
+                                    <span>写真</span>
+                                </div>
+                                <div class="drive-file-item">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="#4285f4" viewBox="0 0 24 24"><path d="M14.17 6l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-5.17l-2-2zM16 18H8v-4h8v4zm0-5h-8V9h8v4z"></path></svg>
+                                    <span>レポート.gdoc</span>
+                                </div>
+                                <div class="drive-file-item">
+                                     <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="#34a853" viewBox="0 0 24 24"><path d="M14.17 6l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-5.17l-2-2zM16 18H8v-4h8v4zm0-5h-8V9h8v4z"></path></svg>
+                                    <span>予算.gsheet</span>
+                                </div>
+                            </div>
+                        </main>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -1459,8 +3779,62 @@
                     <button class="close-button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/></svg></button>
                 </div>
             </div>
-            <div class="window-content" style="padding: 0; overflow: hidden;">
-                <iframe src="https://www.bing.com/" style="width: 100%; height: 100%; border: none;" title="Bing"></iframe>
+            <div class="window-content" style="padding: 0; overflow-y: auto; display: flex; flex-direction: column;">
+                <div class="bing-app-content">
+                    <header class="bing-header-placeholder">
+                        <!-- Simplified Bing header: logo, search bar -->
+                        <span class="bing-logo-text">Bing</span>
+                        <input type="text" class="bing-search-input-header" placeholder="検索...">
+                        <span class="bing-header-menu-icon" title="メニュー (シミュレーション)">&#9776;</span>
+                    </header>
+                    <div class="bing-search-tabs-container" id="bing-search-tabs">
+                        <button class="bing-search-tab-button active" data-tab-target="#bing-tab-all">すべて</button>
+                        <button class="bing-search-tab-button" data-tab-target="#bing-tab-images">画像</button>
+                        <button class="bing-search-tab-button" data-tab-target="#bing-tab-videos">動画</button>
+                        <button class="bing-search-tab-button" data-tab-target="#bing-tab-maps">地図</button>
+                        <button class="bing-search-tab-button" data-tab-target="#bing-tab-news">ニュース</button>
+                        <button class="bing-search-tab-button" data-tab-target="#bing-tab-shopping">ショッピング</button>
+                    </div>
+                    <main class="bing-main-content-area">
+                        <div class="bing-search-tab-content active" id="bing-tab-all">
+                            <h3>すべての検索結果 (シミュレーション)</h3>
+                            <p>Bingの「すべて」の検索結果がここに表示されます。</p>
+                            <!-- Placeholder for general results -->
+                            <div class="bing-result-item"><h4>結果タイトル 1</h4><p>これは最初の汎用検索結果のプレースホルダーです...</p><a href="#">example.com</a></div>
+                            <div class="bing-result-item"><h4>結果タイトル 2</h4><p>これは2番目の汎用検索結果のプレースホルダーです...</p><a href="#">another-example.com</a></div>
+                        </div>
+                        <div class="bing-search-tab-content" id="bing-tab-images">
+                            <h3>画像検索結果 (シミュレーション)</h3>
+                            <p>Bingの画像検索結果がここに表示されます。</p>
+                            <img src="https://placehold.co/100x100/ffc107/000?text=画像1" alt="サンプル画像1" style="margin:5px;">
+                            <img src="https://placehold.co/100x100/007bff/fff?text=画像2" alt="サンプル画像2" style="margin:5px;">
+                        </div>
+                        <div class="bing-search-tab-content" id="bing-tab-videos">
+                            <h3>動画検索結果 (シミュレーション)</h3>
+                            <p>Bingの動画検索結果がここに表示されます。</p>
+                            <a href="#">動画タイトル 1 (プレースホルダー)</a><br>
+                            <a href="#">動画タイトル 2 (プレースホルダー)</a>
+                        </div>
+                        <div class="bing-search-tab-content" id="bing-tab-maps">
+                            <h3>地図検索結果 (シミュレーション)</h3>
+                            <p>Bingの地図結果がここに表示されます (例: 地図画像)。</p>
+                            <img src="https://placehold.co/300x200/33AA33/fff?text=地図プレースホルダー" alt="地図プレースホルダー" style="width:100%;max-width:300px;">
+                        </div>
+                        <div class="bing-search-tab-content" id="bing-tab-news">
+                            <h3>ニュース検索結果 (シミュレーション)</h3>
+                            <p>Bingのニュース記事がここに表示されます。</p>
+                            <h4>ニュースヘッドライン 1</h4><p>これはニュース記事の概要プレースホルダーです...</p>
+                        </div>
+                        <div class="bing-search-tab-content" id="bing-tab-shopping">
+                            <h3>ショッピング検索結果 (シミュレーション)</h3>
+                            <p>Bingのショッピング結果がここに表示されます。</p>
+                            <h4>商品名 1</h4><p>価格: ￥XXX</p>
+                        </div>
+                    </main>
+                    <footer class="bing-footer-placeholder">
+                        <span>&copy; Microsoft Bing (シミュレーション)</span> <a href="#">プライバシー</a> <a href="#">規約</a>
+                    </footer>
+                </div>
               </div>
             </div>
         </div>
@@ -1473,8 +3847,39 @@
                     <button class="close-button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/></svg></button>
                 </div>
             </div>
-            <div class="window-content" style="padding: 0; overflow: hidden;">
-                <iframe src="https://www.xbox.com/ja-JP" style="width: 100%; height: 100%; border: none;" title="Xbox"></iframe>
+            <div class="window-content" style="padding: 0; overflow-y: auto; display: flex; flex-direction: column;">
+                <div class="xbox-app-content">
+                    <header class="xbox-header">
+                        <div class="xbox-logo-container">
+                            <svg class="xbox-logo-svg" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+                                <path d="M7.202 15.967a8 8 0 0 1-3.552-1.26c-.898-.585-1.101-.826-1.101-1.306 0-.965 1.062-2.656 2.879-4.583C6.459 7.723 7.897 6.44 8.052 6.475c.302.068 2.718 2.423 3.622 3.531 1.43 1.753 2.088 3.189 1.754 3.829-.254.486-1.83 1.437-2.987 1.802-.954.301-2.207.429-3.239.33m-5.866-3.57C.589 11.253.212 10.127.03 8.497c-.06-.539-.038-.846.137-1.95.218-1.377 1.002-2.97 1.945-3.95.401-.417.437-.427.926-.263.595.2 1.23.638 2.213 1.528l.574.519-.313.385C4.056 6.553 2.52 9.086 1.94 10.653c-.315.852-.442 1.707-.306 2.063.091.24.007.15-.3-.319Zm13.101.195c.074-.36-.019-1.02-.238-1.687-.473-1.443-2.055-4.128-3.508-5.953l-.457-.575.494-.454c.646-.593 1.095-.948 1.58-1.25.381-.237.927-.448 1.161-.448.145 0 .654.528 1.065 1.104a8.4 8.4 0 0 1 1.343 3.102c.153.728.166 2.286.024 3.012a9.5 9.5 0 0 1-.6 1.893c-.179.393-.624 1.156-.82 1.404-.1.128-.1.127-.043-.148ZM7.335 1.952c-.67-.34-1.704-.705-2.276-.803a4 4 0 0 0-.759-.043c-.471.024-.45 0 .306-.358A7.8 7.8 0 0 1 6.47.128c.8-.169 2.306-.17 3.094-.005.85.18 1.853.552 2.418.9l.168.103-.385-.02c-.766-.038-1.88.27-3.078.853-.361.176-.676.316-.699.312a12 12 0 0 1-.654-.319Z"/>
+                            </svg>
+                            <span class="xbox-logo-text">XBOX</span>
+                        </div>
+                        <input type="text" class="xbox-search-header" placeholder="ゲーム、追加コンテンツなどを検索">
+                        <div class="xbox-user-profile-header" title="ゲーマータグ (シミュレーション)">
+                            <img src="https://placehold.co/32x32/107c10/fff?text=P" alt="User Profile">
+                        </div>
+                    </header>
+                    <main class="xbox-main-area">
+                        <section class="xbox-hero-section">
+                            <h2>ただいまプレイ可能 (シミュレーション)</h2>
+                            <img src="https://placehold.co/700x250/0e7a0e/ffffff?text=大人気ゲームのバナー" alt="Featured Game Banner">
+                        </section>
+                        <section class="xbox-games-showcase">
+                            <h3>おすすめゲーム</h3>
+                            <div class="xbox-games-grid">
+                                <div class="xbox-game-card"><img src="https://placehold.co/150x200/555/fff?text=ゲームA" alt="Game A"><span>ゲームタイトル A</span></div>
+                                <div class="xbox-game-card"><img src="https://placehold.co/150x200/666/fff?text=ゲームB" alt="Game B"><span>アドベンチャーX</span></div>
+                                <div class="xbox-game-card"><img src="https://placehold.co/150x200/777/fff?text=ゲームC" alt="Game C"><span>レーシングプロ</span></div>
+                                <div class="xbox-game-card"><img src="https://placehold.co/150x200/888/fff?text=ゲームD" alt="Game D"><span>宇宙探検</span></div>
+                            </div>
+                        </section>
+                    </main>
+                    <footer class="xbox-footer-placeholder">
+                        <span>&copy; Microsoft Xbox (シミュレーション)</span>
+                    </footer>
+                </div>
               </div>
             </div>
         </div>
@@ -1518,22 +3923,56 @@
             <div class="window-content" id="google-app-content" style="padding: 0; overflow-y: auto;">
                 <div id="google-app-main" style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; padding: 20px; box-sizing: border-box;">
                     <h1 style="font-size: 3em; font-weight: bold; color: #4285F4;">G<span style="color: #EA4335;">o</span><span style="color: #FBBC05;">o</span><span style="color: #4285F4;">g</span><span style="color: #34A853;">l</span><span style="color: #EA4335;">e</span></h1>
-                    <input type="text" id="google-app-search-input" style="width: 80%; max-width: 500px; padding: 10px; margin-top: 20px; border-radius: 20px; border: 1px solid #ccc;">
-                    <button id="google-app-search-button" class="mc-button" style="margin-top: 15px;">Google Search</button>
+                    <div style="display: flex; align-items: center; width: 80%; max-width: 500px; border: 1px solid var(--input-border-light); border-radius: 20px; padding-left: 10px; margin-top: 20px; color: var(--text-color-light);">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16" style="margin-right: 8px; flex-shrink: 0;"> <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/> </svg>
+                        <input type="text" id="google-app-search-input" placeholder="Googleで検索またはURLを入力" style="flex-grow: 1; padding: 10px; border-radius: 0 20px 20px 0; border: none; outline: none; background-color: transparent; color: inherit; font-size: 1em;">
+                    </div>
+                    <button id="google-app-search-button" class="mc-button" style="margin-top: 15px;">Google検索</button>
                 </div>
                 <div id="google-app-results" style="display: none; padding: 20px; text-align: left;">
-                    <h3 style="border-bottom: 1px solid #eee; padding-bottom: 5px;">Search Results (Simulation)</h3>
-                    <div>
-                        <h4>Result 1: About This Simulation</h4>
-                        <p>This is a simulated search result. Full web functionality is not available.</p>
-                        <span style="color: green; font-size: 0.9em;">path/to/simulation-info</span>
+                    <div class="search-tabs-container" id="google-search-tabs">
+                        <button class="search-tab-button active" data-tab-target="#google-tab-all">すべて</button>
+                        <button class="search-tab-button" data-tab-target="#google-tab-ai">AI Mode</button>
+                        <button class="search-tab-button" data-tab-target="#google-tab-images">画像</button>
+                        <button class="search-tab-button" data-tab-target="#google-tab-videos">動画</button>
+                        <button class="search-tab-button" data-tab-target="#google-tab-news">ニュース</button>
+                        <button class="search-tab-button" data-tab-target="#google-tab-shorts">ショート動画</button>
+                        <button class="search-tab-button" data-tab-target="#google-tab-shopping">ショッピング</button>
+                        <button class="search-tab-button" data-tab-target="#google-tab-web">ウェブ</button>
                     </div>
-                    <div style="margin-top:15px;">
-                        <h4>Result 2: Fun Facts About Coding</h4>
-                        <p>Coding can be fun and challenging! This is another placeholder result.</p>
-                        <span style="color: green; font-size: 0.9em;">path/to/coding-facts</span>
+
+                    <div class="search-tab-content active" id="google-tab-all">
+                        <div class="ai-summary-placeholder">
+                            <h4>AIによる概要 (シミュレーション)</h4>
+                            <p>この検索クエリに基づいて、AIが生成した簡潔な要約がここに表示されます。重要な情報やキーポイントを素早く把握できます。</p>
+                        </div>
+                        <h3 style="border-bottom: 1px solid #eee; padding-bottom: 5px;">検索結果 (シミュレーション)</h3>
+                        <div>
+                            <h4>結果 1: このシミュレーションについて</h4>
+                            <p>これはシミュレートされた検索結果です。完全なウェブ機能は利用できません。</p>
+                            <span style="color: green; font-size: 0.9em;">path/to/simulation-info</span>
+                        </div>
+                        <div style="margin-top:15px;">
+                            <h4>結果 2: コーディングに関する楽しい事実</h4>
+                            <p>コーディングは楽しくてやりがいがあります！これもプレースホルダーの結果です。</p>
+                            <span style="color: green; font-size: 0.9em;">path/to/coding-facts</span>
+                        </div>
                     </div>
-                    <button id="google-app-back-button" class="mc-button" style="margin-top: 20px;">Back to Search</button>
+                    <div class="search-tab-content" id="google-tab-ai"><h3>AI Mode</h3><p>AIによる要約と洞察 (シミュレーション)</p></div>
+                    <div class="search-tab-content" id="google-tab-images"><h3>画像</h3><p>画像検索結果 (シミュレーション)。<br><img src="https://placehold.co/100x100/aabbcc/ffffff?text=画像1" alt="simulated image 1"><img src="https://placehold.co/100x100/ccaabb/ffffff?text=画像2" alt="simulated image 2"></p></div>
+                    <div class="search-tab-content" id="google-tab-videos"><h3>動画</h3><p>動画検索結果 (シミュレーション)。<br><a href="#">シミュレーション動画タイトル1</a><br><a href="#">シミュレーション動画タイトル2</a></p></div>
+                    <div class="search-tab-content" id="google-tab-news"><h3>ニュース</h3><p>ニュース検索結果 (シミュレーション)。<br><b>ヘッドライン1:</b> これはサンプルニュースです。<br><b>ヘッドライン2:</b> 別のサンプルニュース記事。</p></div>
+                    <div class="search-tab-content" id="google-tab-shorts"><h3>ショート動画</h3><p>ショート動画検索結果 (シミュレーション)。</p></div>
+                    <div class="search-tab-content" id="google-tab-shopping"><h3>ショッピング</h3><p>ショッピング検索結果 (シミュレーション)。</p></div>
+                    <div class="search-tab-content" id="google-tab-web">
+                        <h3>ウェブ検索結果 (シミュレーション)</h3>
+                        <div>
+                            <h4>ウェブ結果 1: このシミュレーションについて</h4>
+                            <p>これはシミュレートされた検索結果です。完全なウェブ機能は利用できません。</p>
+                            <span style="color: green; font-size: 0.9em;">path/to/simulation-info-web</span>
+                        </div>
+                    </div>
+                    <button id="google-app-back-button" class="mc-button" style="margin-top: 20px;">検索に戻る</button>
                 </div>
             </div>
         </div>
@@ -1586,8 +4025,100 @@
                     <button class="close-button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/></svg></button>
                 </div>
             </div>
-            <div class="window-content" style="padding: 0; overflow: hidden;">
-                <iframe src="https://www.wikipedia.org/" style="width: 100%; height: 100%; border: none;" title="Wikipedia"></iframe>
+            <div class="window-content" style="padding: 0; overflow-y: auto; display: flex; flex-direction: column;">
+                <div class="youtube-app-content">
+                    <header class="youtube-header">
+                        <div class="youtube-logo-burger">
+                            <span class="youtube-burger-icon" title="メニュー">&#9776;</span>
+                            <svg class="youtube-logo-svg" viewBox="0 0 90 20" preserveAspectRatio="xMidYMid meet" focusable="false">
+                                <g><path d="M27.9727,19.6992l-2.9268-12.3437c-0.1934-0.8682-0.9609-1.4834-1.8809-1.4834H19.398c-0.92,0-1.6875,0.6152-1.8809,1.4834L14.5903,19.6992c-0.0625,0.2901,0.0488,0.5957,0.2617,0.7998c0.2129,0.2041,0.5098,0.3008,0.8018,0.3008h2.2588c0.4053,0,0.7715-0.208,0.9912-0.5371l0.74-1.1192h4.2207l0.74,1.1192c0.2197,0.3291,0.5859,0.5371,0.9912,0.5371h2.2588c0.292,0,0.5889-0.0967,0.8018-0.3008C27.9238,20.2949,28.0352,19.9893,27.9727,19.6992z M20.1357,15.0195l1.0898-4.6328l1.0898,4.6328H20.1357z" fill="#FF0000"></path></g>
+                                <g><path d="M33.59,4.9805C31.8135,4.9805,30.3,6.1133,30.3,8.5078v2.9375c0,2.3945,1.5135,3.5273,3.29,3.5273c1.7764,0,3.2898-1.1328,3.2898-3.5273V8.5078C36.8799,6.1133,35.3662,4.9805,33.59,4.9805z M33.59,13.0195c-0.792,0-1.3203-0.6309-1.3203-1.5742V7.5117c0-0.9434,0.5283-1.5742,1.3203-1.5742c0.792,0,1.3203,0.6309,1.3203,1.5742v3.9336C34.9102,12.3887,34.382,13.0195,33.59,13.0195z" fill="#282828"></path></g>
+                                <g><path d="M40.2773,13.9609V5.2207h1.6797v8.4902c0,0.9062,0.0703,1.3066,0.8711,1.3066c0.7207,0,0.8711-0.3301,0.8711-1.3066V5.2207h1.6797v8.7402c0,1.7207-0.6797,2.5293-2.5508,2.5293C40.9971,16.4902,40.2773,15.7207,40.2773,13.9609z" fill="#282828"></path></g>
+                                <g><path d="M46.6162,14.7402V9.0293c0-0.9297-0.3008-1.4297-0.9805-1.4297c-0.4707,0-0.8008,0.2402-1.0117,0.6094l-0.0703,0.2109V14.7402h-1.6797V5.2207h1.6797v2.9805c0.2793-0.3691,0.6797-0.6299,1.1797-0.6299c1.0801,0,1.8809,0.7793,1.8809,2.3594v4.8096H46.6162z" fill="#282828"></path></g>
+                                <g><path d="M54.5674,12.8008c-0.7099,0.6191-1.75,0.9805-2.8105,0.9805c-1.7109,0-2.9297-1.2-2.9297-3.75v-0.1504c0-2.3398,1.0195-3.6289,2.9297-3.6289c0.9707,0,1.8301,0.3008,2.5996,0.8711l-0.8203,1.2793c-0.5195-0.3809-1.1797-0.6094-1.7793-0.6094c-0.9902,0-1.4707,0.6895-1.4707,2.1504v0.2188c0,1.5508,0.5098,2.2402,1.5,2.2402c0.6094,0,1.2891-0.2793,1.8105-0.6895L54.5674,12.8008z" fill="#282828"></path></g>
+                                <g><path d="M57.9521,14.7402V2.75h1.6797v11.9902H57.9521z" fill="#282828"></path></g>
+                                <g><path d="M64.3193,14.7402V9.0293c0-0.9297-0.3008-1.4297-0.9805-1.4297c-0.4707,0-0.8008,0.2402-1.0117,0.6094l-0.0703,0.2109V14.7402h-1.6797V5.2207h1.6797v2.9805c0.2793-0.3691,0.6797-0.6299,1.1797-0.6299c1.0801,0,1.8809,0.7793,1.8809,2.3594v4.8096H64.3193z" fill="#282828"></path></g>
+                                <g><path d="M71.917,14.9297c-1.5898,0-2.3496-0.9502-2.3496-2.34v-0.9902c0-1.0801,0.4395-1.77,1.2891-2.0996c0.9902-0.3906,2.2402-0.5703,3.0703-0.5703v-0.041c0-0.7109-0.3008-1.1191-1.2012-1.1191c-0.6191,0-1.0898,0.1895-1.6211,0.4395l-0.3906-1.4004C71.0879,6.2402,71.9277,6,72.9473,6c1.9199,0,2.8789,0.8496,2.8789,2.5508v3.3203c0,1.0508,0.1504,1.8008,0.2793,2.3691h-1.6797c-0.0703-0.3008-0.1504-0.7109-0.2109-0.9805c-0.4395,0.75-1.2891,1.1406-2.2402,1.1406Zm0.9297-1.5c0.6797,0,1.2891-0.3008,1.2891-0.8711v-0.4395c-0.75,0.0703-1.5801,0.1895-2.2402,0.4395C70.7578,12.75,70.9277,13.25,70.9277,13.4297C70.9277,13.4297,71.8867,13.4297,72.8467,13.4297Z" fill="#282828"></path></g>
+                            </svg>
+                            <span class="youtube-logo-text-header">YouTube</span>
+                        </div>
+                        <div class="youtube-search-container">
+                            <input type="text" placeholder="検索" class="youtube-search-input">
+                            <button class="youtube-search-button" aria-label="検索">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/></svg>
+                            </button>
+                        </div>
+                        <div class="youtube-user-actions">
+                            <span class="youtube-action-icon" title="作成 (シミュレーション)">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M14 13h-3v3H9v-3H6v-2h3V8h2v3h3v2zm3-7H3v12h14v-6.39l4 4V7.39l-4 4V6zm-1-2c.55 0 1 .45 1 1v10c0 .55-.45 1-1 1H3c-.55 0-1-.45-1-1V5c0-.55.45-1 1-1h14z"/></svg>
+                            </span>
+                            <span class="youtube-action-icon" title="通知 (シミュレーション)">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
+                            </span>
+                            <img src="https://placehold.co/32x32/cccccc/000?text=U" alt="User Avatar" class="youtube-avatar" title="アカウント (シミュレーション)">
+                        </div>
+                    </header>
+                    <div class="youtube-body-content">
+                        <aside class="youtube-sidebar">
+                            <a href="#" class="youtube-sidebar-item active"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-door" viewBox="0 0 16 16"> <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4z"/> </svg></span> ホーム</a>
+                            <a href="#" class="youtube-sidebar-item"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-lightning" viewBox="0 0 16 16"> <path d="M5.52.359A.5.5 0 0 1 6 0h4a.5.5 0 0 1 .474.658L8.694 6H12.5a.5.5 0 0 1 .395.807l-7 9a.5.5 0 0 1-.873-.454L6.823 9.5H3.5a.5.5 0 0 1-.48-.641zM6.374 1 4.168 8.5H7.5a.5.5 0 0 1 .478.647L6.78 13.04 11.478 7H8a.5.5 0 0 1-.474-.658L9.306 1z"/> </svg></span> ショート</a>
+                            <a href="#" class="youtube-sidebar-item"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16"> <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"/> </svg></span> 登録チャンネル</a>
+                            <hr>
+                            <a href="#" class="youtube-sidebar-item"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-book" viewBox="0 0 16 16"> <path d="M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.063 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811zm7.5-.141c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783"/> </svg></span> ライブラリ</a>
+                            <a href="#" class="youtube-sidebar-item"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clock" viewBox="0 0 16 16"> <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z"/> <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0"/> </svg></span> 履歴</a>
+                        </aside>
+                        <main class="youtube-main-feed">
+                            <div class="youtube-video-grid">
+                                <!-- Repeat this block for several placeholder videos -->
+                                <div class="youtube-video-item">
+                                    <img src="https://placehold.co/246x138/777/fff?text=動画サムネイル1" alt="動画サムネイル 1">
+                                    <div class="youtube-video-info">
+                                        <img src="https://placehold.co/36x36/ccc/000?text=C1" alt="チャンネルアイコン" class="youtube-channel-avatar">
+                                        <div class="youtube-video-text">
+                                            <h4>サンプル動画のタイトルがここに表示されます</h4>
+                                            <p>チャンネル名1</p>
+                                            <p>123万 回視聴・1日前</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="youtube-video-item">
+                                    <img src="https://placehold.co/246x138/888/fff?text=動画サムネイル2" alt="動画サムネイル 2">
+                                    <div class="youtube-video-info">
+                                        <img src="https://placehold.co/36x36/bbb/000?text=C2" alt="チャンネルアイコン" class="youtube-channel-avatar">
+                                        <div class="youtube-video-text">
+                                            <h4>もう一つの素晴らしい動画タイトル</h4>
+                                            <p>チャンネル名2</p>
+                                            <p>45.6万 回視聴・2日前</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Add 6-8 more placeholder video items -->
+                                <div class="youtube-video-item">
+                                    <img src="https://placehold.co/246x138/999/fff?text=動画サムネイル3" alt="動画サムネイル 3">
+                                    <div class="youtube-video-info">
+                                        <img src="https://placehold.co/36x36/aaa/000?text=C3" alt="チャンネルアイコン" class="youtube-channel-avatar">
+                                        <div class="youtube-video-text">
+                                            <h4>シミュレーターのコンテンツ</h4>
+                                            <p>チャンネル名3</p>
+                                            <p>78.9万 回視聴・3日前</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="youtube-video-item">
+                                    <img src="https://placehold.co/246x138/aaa/fff?text=動画サムネイル4" alt="動画サムネイル 4">
+                                    <div class="youtube-video-info">
+                                        <img src="https://placehold.co/36x36/999/000?text=C4" alt="チャンネルアイコン" class="youtube-channel-avatar">
+                                        <div class="youtube-video-text">
+                                            <h4>プレースホルダー動画4</h4>
+                                            <p>チャンネル名4</p>
+                                            <p>100万 回視聴・5日前</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </main>
+                    </div>
+                </div>
             </div>
         </div>
         <!-- NEW APP WINDOWS END HERE -->
@@ -1847,8 +4378,8 @@
         const appInfo = {
              'calculator': { name: "電卓", icon: document.querySelector('.app-icon[data-app="calculator"] .icon').innerHTML },
              'chrome': { name: "Google Chrome", icon: document.querySelector('.app-icon[data-app="chrome"] .icon').innerHTML },
-             'minecraft-bedrock': { name: "Minecraft Bedrock", icon: document.querySelector('.app-icon[data-app="minecraft-bedrock"] .icon').innerHTML },
-             'minecraft-java': { name: "Minecraft Java", icon: document.querySelector('.app-icon[data-app="minecraft-java"] .icon').innerHTML },
+             'minecraft-bedrock': { name: "Minecraft Bedrock版", icon: document.querySelector('.app-icon[data-app="minecraft-bedrock"] .icon').innerHTML },
+             'minecraft-java': { name: "Minecraft Java版", icon: document.querySelector('.app-icon[data-app="minecraft-java"] .icon').innerHTML },
              'amazon': { name: "Amazon", icon: document.querySelector('.app-icon[data-app="amazon"] .icon').innerHTML },
              'click-game': { name: "クリックゲーム", icon: document.querySelector('.app-icon[data-app="click-game"] .icon').innerHTML },
              'settings': { name: "設定", icon: document.querySelector('.app-icon[data-app="settings"] .icon').innerHTML },
@@ -2037,7 +4568,7 @@
                 function showJavaWorldSelect() {
                     if (mcJavaMainMenu) mcJavaMainMenu.style.display = 'none';
                     if (mcJavaDynamicContent) {
-                        mcJavaDynamicContent.innerHTML = `<h2 style="color: white;">Select World</h2><p style="color: white;">Please select a world... (Simulation)</p><div style="height: 100px; background: #333; margin-bottom:10px; display:flex; align-items:center; justify-content:center; color:white;">Placeholder World List</div><button id="mc-java-back-ws" class="mc-button">Back</button>`;
+                        mcJavaDynamicContent.innerHTML = `<h2 style="color: white;">ワールド選択</h2><p style="color: white;">ワールドを選択してください... (シュミレーション)</p><div style="height: 100px; background: #333; margin-bottom:10px; display:flex; align-items:center; justify-content:center; color:white;">仮のワールドリスト</div><button id="mc-java-back-ws" class="mc-button">戻る</button>`;
                         mcJavaDynamicContent.style.display = 'block';
                         const backButton = mcJavaDynamicContent.querySelector('#mc-java-back-ws');
                         if (backButton) {
@@ -2065,7 +4596,7 @@
                 if (mcJavaSettingsBtn) mcJavaSettingsBtn.onclick = () => showJavaMessage("設定は現在使用できません(シュミレーション)");
 
                 const mcJavaInstallationsBtn = mcJavaContent.querySelector('#mc-java-installations');
-                if (mcJavaInstallationsBtn) mcJavaInstallationsBtn.onclick = () => showJavaMessage("Installations are not configurable in this simulation.");
+                if (mcJavaInstallationsBtn) mcJavaInstallationsBtn.onclick = () => showJavaMessage("インストールはこのシミュレーションでは設定できません。");
             }
             // End of Minecraft Java App Specific Initialisation
 
@@ -2124,6 +4655,7 @@
             updateBatteryStatus();
             initializeWindowControls();
             initializeCalculator(); // Initialize calculator buttons
+            initializeBingTabs();
 
             [startMenu, searchBar, powerOptionsPopup, ...Object.values(appWindows)].forEach(el => {
                 if(el) {
@@ -2929,6 +5461,35 @@
                 });
             });
             resetCalculator();
+        }
+
+        function initializeBingTabs() {
+            const tabsContainer = document.getElementById('bing-search-tabs');
+            if (!tabsContainer) return;
+
+            // Query for tabContents within the bing-main-content-area
+            const mainContentArea = tabsContainer.nextElementSibling; // Assumes main content is immediately after tabs
+            if (!mainContentArea || !mainContentArea.classList.contains('bing-main-content-area')) {
+                // console.warn('Bing main content area not found immediately after tabs.');
+                return;
+            }
+
+            const tabButtons = tabsContainer.querySelectorAll('.bing-search-tab-button');
+            const tabContents = mainContentArea.querySelectorAll('.bing-search-tab-content');
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+
+                    button.classList.add('active');
+                    const targetContentId = button.dataset.tabTarget;
+                    const targetContent = mainContentArea.querySelector(targetContentId);
+                    if (targetContent) {
+                        targetContent.classList.add('active');
+                    }
+                });
+            });
         }
     </script>
 
